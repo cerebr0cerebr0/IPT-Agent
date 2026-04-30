@@ -26,8 +26,8 @@
     h1,h2,h3,h4{font-family:'Sora',sans-serif}
     .loader{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;gap:16px}
     .spinner{width:36px;height:36px;border:3px solid var(--p100);border-top-color:var(--p600);border-radius:50%;animation:spin .7s linear infinite}
-    @keyenames spin{to{transform:rotate(360deg)}}
-    .login-page{min-height:100vh;display:grid;grid-template-columns:1en 1en}
+    @keyframes spin{to{transform:rotate(360deg)}}
+    .login-page{min-height:100vh;display:grid;grid-template-columns:1fr 1fr}
     .login-brand{background:var(--p800);display:flex;flex-direction:column;justify-content:center;padding:60px;position:relative;overflow:hidden}
     .login-brand::before{content:'';position:absolute;top:-120px;right:-120px;width:440px;height:440px;background:var(--p700);border-radius:50%;opacity:.35}
     .login-brand::after{content:'';position:absolute;bottom:-100px;left:-80px;width:320px;height:320px;background:var(--p900);border-radius:50%}
@@ -66,7 +66,7 @@
     .alert-ok{background:var(--ok-bg);color:#065f46;border-left:3px solid var(--ok)}
     .alert-warn{background:var(--warn-bg);color:#92400e;border-left:3px solid var(--warn)}
     .alert-info{background:var(--p50);color:var(--p700);border-left:3px solid var(--p500)}
-    .portal{display:grid;grid-template-columns:248px 1en;min-height:100vh}
+    .portal{display:grid;grid-template-columns:248px 1fr;min-height:100vh}
     .sidebar{background:var(--p800);position:sticky;top:0;height:100vh;overflow-y:auto;display:flex;flex-direction:column}
     .sb-brand{padding:22px 20px;border-bottom:1px solid rgba(255,255,255,.08)}
     .sb-brand-name{color:var(--white);font-family:'Sora',sans-serif;font-size:15px;font-weight:700}
@@ -87,7 +87,7 @@
     .ph p{color:var(--text2);font-size:13.5px;margin-top:4px}
     .card{background:var(--white);border-radius:var(--r);box-shadow:var(--sh);padding:24px}
     .card-ttl{font-size:14px;font-weight:600;margin-bottom:18px;display:flex;align-items:center;justify-content:space-between}
-    .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1en));gap:14px;margin-bottom:24px}
+    .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px;margin-bottom:24px}
     .sc{background:var(--white);border-radius:var(--r);padding:20px;box-shadow:var(--sh);border-top:3px solid var(--p500)}
     .sc.gold{border-top-color:var(--gold)}.sc.green{border-top-color:var(--ok)}
     .sc.purple{border-top-color:var(--p700)}.sc.gray{border-top-color:var(--gray400)}
@@ -121,12 +121,12 @@
     .enroll-hdr p{color:var(--p200);font-size:13px;margin-top:6px;position:relative}
     .enroll-body{padding:32px}
     .agent-notice{background:var(--ok-bg);border:1px solid rgba(16,185,129,.25);border-radius:var(--r-sm);padding:10px 14px;font-size:13px;color:#065f46;margin-bottom:22px}
-    .link-section{display:grid;grid-template-columns:1en 1en;gap:20px}
+    .link-section{display:grid;grid-template-columns:1fr 1fr;gap:20px}
     #qr-wrap canvas,#qr-wrap img{border-radius:8px;border:4px solid var(--p50)}
     .empty{text-align:center;padding:52px 24px;color:var(--text2)}
     .empty-ico{font-size:44px;margin-bottom:14px}
     .empty p{font-size:14px;line-height:1.6}
-    .g2{display:grid;grid-template-columns:1en 1en;gap:16px}
+    .g2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
     .row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
     hr{border:none;border-top:1px solid var(--gray100);margin:20px 0}
     .mt8{margin-top:8px}.mt16{margin-top:16px}.mt24{margin-top:24px}
@@ -134,11 +134,12 @@
     .muted{color:var(--text2)}.sm{font-size:13px}.xs{font-size:11px}
     code{background:var(--p50);padding:2px 7px;border-radius:4px;font-size:12px;color:var(--p700);font-family:monospace}
     .fade{animation:fadeIn .25s ease}
-    @keyenames fadeIn{enom{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+    @keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+    .portal{display:grid;grid-template-columns:248px 1fr;min-height:100vh}.sidebar{width:248px}.main{min-width:0}
     @media(max-width:780px){
-      .login-brand{display:none}.login-page{grid-template-columns:1en}
-      .portal{grid-template-columns:1en}.sidebar{display:none}
-      .main{padding:20px}.g2,.link-section{grid-template-columns:1en}
+      .login-brand{display:none}.login-page{grid-template-columns:1fr}
+      .portal{grid-template-columns:1fr}.sidebar{display:none}
+      .main{padding:20px}.g2,.link-section{grid-template-columns:1fr}
     }
   </style>
 </head>
@@ -159,7 +160,7 @@ var FB_CONFIG = {
 };
 
 if(typeof firebase==='undefined'){
-  document.getElementById('app').innerHTML='<div class="loader"><p style="color:#EF4444;font-size:14px;text-align:center;padding:20px">Error: Firebase ne charge pas.<br>Vérifiez votre connexion internet et raenaîchissez.</p></div>';
+  document.getElementById('app').innerHTML='<div class="loader"><p style="color:#EF4444;font-size:14px;text-align:center;padding:20px">Error: Firebase did not load.<br>Check your internet connection and refresh.</p></div>';
   throw new Error('Firebase SDK not loaded');
 }
 
@@ -188,7 +189,7 @@ function $(id){return document.getElementById(id);}
 function el(){return $('app');}
 function genCode(){var c='ABCDEFGHJKLMNPQRSTUVWXYZ23456789',r='AGT-';for(var i=0;i<4;i++)r+=c[Math.floor(Math.random()*c.length)];return r;}
 function enrollUrl(code){return location.origin+location.pathname+'?ref='+code;}
-function fmt(ts){if(!ts)return'—';var d=ts.toDate?ts.toDate():new Date(ts);return d.toLocaleDateString('en-FR',{day:'2-digit',month:'short',year:'numeric'});}
+function fmt(ts){if(!ts)return'—';var d=ts.toDate?ts.toDate():new Date(ts);return d.toLocaleDateString('fr-FR',{day:'2-digit',month:'short',year:'numeric'});}
 function progName(id){var p=PROGRAMS.find(function(x){return x.id===id;});return p?p.name:id;}
 function initials(n){return(n||'?').split(' ').map(function(w){return w[0];}).slice(0,2).join('').toUpperCase();}
 var BC={pending:'bdg-pending',confirmed:'bdg-confirmed',cancelled:'bdg-cancelled',active:'bdg-active',suspended:'bdg-suspended',paid:'bdg-paid',due:'bdg-due',none:'bdg-none',link:'bdg-link',qr:'bdg-qr',direct:'bdg-direct'};
@@ -200,7 +201,15 @@ function bdg(s){return'<span class="bdg '+(BC[s]||'bdg-none')+'">'+(BL[s]||s)+'<
 // ══════════════════════════════════════
 function getAgents(){return db.collection('agents').get().then(function(s){return s.docs.map(function(d){return Object.assign({id:d.id},d.data());});});}
 function getAgentByCode(code){return db.collection('agents').where('code','==',code).limit(1).get().then(function(s){return s.empty?null:Object.assign({id:s.docs[0].id},s.docs[0].data());});}
-function getEnrollments(agentId){return db.collection('enrollments').orderBy('timestamp','desc').get().then(function(s){var all=s.docs.map(function(d){return Object.assign({id:d.id},d.data());});if(!agentId)return all;return all.filter(function(e){return e.agentId===agentId||(S.agent&&e.agentCode===S.agent.code);});});}
+function getEnrollments(agentId){
+  return db.collection('enrollments').orderBy('timestamp','desc').get().then(function(s){
+    var all=s.docs.map(function(d){return Object.assign({id:d.id},d.data());});
+    if(!agentId)return all;
+    return all.filter(function(e){
+      return e.agentId===agentId || (S.agent && e.agentCode===S.agent.code);
+    });
+  });
+}
 function updateEnrollment(id,u){return db.collection('enrollments').doc(id).update(u);}
 function updateAgentStatus(id,s){return db.collection('agents').doc(id).update({status:s});}
 function markCommPaid(eid,aid,amt){return db.collection('enrollments').doc(eid).update({commissionStatus:'paid'}).then(function(){if(aid&&amt>0)return db.collection('agents').doc(aid).update({totalCommission:firebase.firestore.FieldValue.increment(amt)});});}
@@ -216,41 +225,11 @@ function submitEnrollment(data){
 }
 
 function createAgentUser(email,pwd){
-  return fetch('https://identitytoolkit.googleapis.com/v1/accounts:signUp?key='+FB_CONFIG.apiKey,{
-    method:'POST',
-    headers:{'Content-Type':'application/json'},
-    body:JSON.stringify({email:email,password:pwd,returnSecureToken:true})
-  })
-  .then(function(r){return r.json();})
-  .then(function(d){
-    if(d.error){
-      var msg={
-        EMAIL_EXISTS:'This email already exists in Firebase Auth.',
-        WEAK_PASSWORD:'Password trop faible. Utilisez au moins 6 caractères.',
-        INVALID_EMAIL:'Invalid email.',
-        OPERATION_NOT_ALLOWED:'Enable Email/Password in Firebase Authentication.'
-      }[d.error.message]||d.error.message;
-      throw new Error(msg);
-    }
-    return d.localId;
-  });
+  return fetch('https://identitytoolkit.googleapis.com/v1/accounts:signUp?key='+FB_CONFIG.apiKey,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:email,password:pwd,returnSecureToken:true})}).then(function(r){return r.json();}).then(function(d){if(d.error)throw new Error(d.error.message);return d.localId;});
 }
 function createAgent(data){
   return createAgentUser(data.email,data.pwd).then(function(uid){
-    return db.collection('agents').doc(uid).set({
-      name:data.name,
-      email:data.email,
-      phone:data.phone||'',
-      code:data.code,
-      role:'agent',
-      status:'active',
-      commissionAmount:Number(data.commission)||0,
-      totalEnrollments:0,
-      totalCommission:0,
-      createdAt:firebase.firestore.FieldValue.serverTimestamp()
-    }).then(function(){
-      return {uid:uid,email:data.email,password:data.pwd,code:data.code,link:enrollUrl(data.code)};
-    });
+    return db.collection('agents').doc(uid).set({name:data.name,email:data.email,phone:data.phone||'',code:data.code,role:'agent',status:'active',commissionAmount:Number(data.commission)||0,totalEnrollments:0,totalCommission:0,createdAt:firebase.firestore.FieldValue.serverTimestamp()});
   });
 }
 
@@ -277,11 +256,11 @@ function viewLogin(errMsg){
     '<div class="login-brand"><div class="brand-content">'+
       '<div class="brand-badge">Agent Portal</div>'+
       '<h1 class="brand-title">Track your<br>referrals</h1>'+
-      '<p class="brand-sub">Manage your enrollments, track commissions, and generate your personal referral link.</p>'+
+      '<p class="brand-sub">Manage enrollments, track commissions and generate your personal referral link.</p>'+
       '<div class="brand-stats"><div><div class="stat-num">600+</div><div class="stat-lbl">Certified pros</div></div><div><div class="stat-num">14</div><div class="stat-lbl">Certifications</div></div><div><div class="stat-num">4</div><div class="stat-lbl">Countries</div></div></div>'+
     '</div></div>'+
     '<div class="login-form-wrap"><div class="login-card fade">'+
-      '<h2>Login</h2><p>Access your agent or admin workspace</p>'+
+      '<h2>Login</h2><p>Access your agent or admin space</p>'+
       '<div id="la">'+(errMsg?'<div class="alert alert-err">'+errMsg+'</div>':'')+'</div>'+
       '<div class="fg"><label>Email</label><input type="email" id="le" placeholder="vous@email.com" autocomplete="email"></div>'+
       '<div class="fg"><label>Password</label><input type="password" id="lp" placeholder="••••••••" autocomplete="current-password" onkeydown="if(event.key===\'Enter\')doLogin()"></div>'+
@@ -301,13 +280,13 @@ function viewEnroll(refCode){
     _agent=agent;_src=location.search.includes('qr=1')?'qr':'link';
     el().innerHTML=
     '<div class="enroll-page"><div class="enroll-card fade">'+
-      '<div class="enroll-hdr"><div class="enroll-hdr-badge">IMPROTECH Training Center</div><h1>Formulaire d\'inscription</h1><p>Our team will contact you within 24–48 hours</p></div>'+
+      '<div class="enroll-hdr"><div class="enroll-hdr-badge">IMPROTECH Training Center</div><h1>Enrollment Form</h1><p>Our team will contact you within 24–48h</p></div>'+
       '<div class="enroll-body">'+
       (agent?'<div class="agent-notice">✓ Enrollment via <strong>'+agent.name+'</strong></div>':'')+
       '<div id="ea"></div>'+
-      '<div class="g2"><div class="fg"><label>Full name *</label><input id="en" placeholder="John Doe"></div><div class="fg"><label>Email *</label><input type="email" id="ee" placeholder="vous@exemple.com"></div></div>'+
+      '<div class="g2"><div class="fg"><label>Full Name *</label><input id="en" placeholder="Jean Dupont"></div><div class="fg"><label>Email *</label><input type="email" id="ee" placeholder="vous@exemple.com"></div></div>'+
       '<div class="g2"><div class="fg"><label>Phone *</label><input id="ep" placeholder="+233 XX XXX XXXX"></div><div class="fg"><label>City</label><input id="ec" placeholder="Accra, Abidjan…"></div></div>'+
-      '<div class="fg"><label>Desired program *</label><select id="epr"><option value="">— Select —</option>'+PROGRAMS.map(function(p){return'<option value="'+p.id+'">'+p.name+'</option>';}).join('')+'</select></div>'+
+      '<div class="fg"><label>Desired Program *</label><select id="epr"><option value="">— Select —</option>'+PROGRAMS.map(function(p){return'<option value="'+p.id+'">'+p.name+'</option>';}).join('')+'</select></div>'+
       '<div class="fg"><label>Message</label><textarea id="em" rows="3" placeholder="Availability, questions…"></textarea></div>'+
       '<button type="button" class="btn btn-gold btn-full" id="eb" onclick="submitForm()">Submit my application →</button>'+
       '</div></div></div>';
@@ -320,11 +299,11 @@ function submitForm(){
   var email=($('ee')?$('ee').value:'').trim().toLowerCase();
   var phone=($('ep')?$('ep').value:'').trim();
   var pid=$('epr')?$('epr').value:'';
-  if(!name||!email||!phone||!pid){ale.innerHTML='<div class="alert alert-err">Fill in all required fields (*).</div>';return;}
-  btn.disabled=true;btn.textContent='Submitting…';ale.innerHTML='';
+  if(!name||!email||!phone||!pid){ale.innerHTML='<div class="alert alert-err">Please fill in all required fields (*).</div>';return;}
+  btn.disabled=true;btn.textContent='Sending…';ale.innerHTML='';
   submitEnrollment({studentName:name,studentEmail:email,studentPhone:phone,studentCity:($('ec')?$('ec').value:'').trim(),studentMessage:($('em')?$('em').value:'').trim(),programId:pid,programName:progName(pid),agentId:_agent?_agent.id:null,agentCode:_agent?_agent.code:null,agentName:_agent?_agent.name:null,source:_agent?_src:'direct'})
   .then(function(){
-    el().innerHTML='<div class="enroll-page"><div class="enroll-card fade" style="text-align:center"><div class="enroll-hdr"><div class="enroll-hdr-badge">IMPROTECH Training Center</div><h1>Application received ✓</h1></div><div class="enroll-body"><div style="font-size:56px;margin-bottom:18px">🎉</div><h2 style="font-size:20px;margin-bottom:10px">Thank you, '+name.split(' ')[0]+' !</h2><p class="muted" style="font-size:14px;line-height:1.8">Your request for <strong>'+progName(pid)+'</strong><br>has been recorded. An advisor will contact you within 24–48 hours.</p><div style="margin-top:28px;padding:16px;background:var(--p50);border-radius:12px"><p class="xs muted">Direct contact:</p><p class="sm" style="color:var(--p700);font-weight:500;margin-top:4px">info@improtech.edu.gh · 0266134658</p></div></div></div></div>';
+    el().innerHTML='<div class="enroll-page"><div class="enroll-card fade" style="text-align:center"><div class="enroll-hdr"><div class="enroll-hdr-badge">IMPROTECH Training Center</div><h1>Application received ✓</h1></div><div class="enroll-body"><div style="font-size:56px;margin-bottom:18px">🎉</div><h2 style="font-size:20px;margin-bottom:10px">Thank you, '+name.split(' ')[0]+' !</h2><p class="muted" style="font-size:14px;line-height:1.8">Your request for <strong>'+progName(pid)+'</strong><br>has been received. An advisor will contact you within 24–48h.</p><div style="margin-top:28px;padding:16px;background:var(--p50);border-radius:12px"><p class="xs muted">Direct contact:</p><p class="sm" style="color:var(--p700);font-weight:500;margin-top:4px">info@improtech.edu.gh · 0266134658</p></div></div></div></div>';
   }).catch(function(err){ale.innerHTML='<div class="alert alert-err">'+err.message+'</div>';btn.disabled=false;btn.textContent='Submit my application →';});
 }
 
@@ -347,7 +326,7 @@ function viewAdmin(){
 function goTab(t){
   S.tab=t;
   document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('active');});
-  var lbl={enrollments:'📋 Enrollments',agents:'👥 Agents',commissions:'💰 Commissions',dashboard:'📊 Dashboard',link:'🔗 My link',students:'🎓 My students'}[t];
+  var lbl={enrollments:'📋 Enrollments',agents:'👥 Agents',commissions:'💰 Commissions',dashboard:'📊 Dashboard',link:'🔗 My Link',students:'🎓 My Students'}[t];
   document.querySelectorAll('.nav-item').forEach(function(n){if(n.textContent.trim()===lbl)n.classList.add('active');});
   loadTab();
 }
@@ -364,7 +343,7 @@ function loadAdminTab(){
       area.innerHTML='<div class="fade"><div class="ph"><div><h1>Enrollments</h1><p>All received applications</p></div></div>'+
         '<div class="stats mb24"><div class="sc purple"><div class="sv">'+t+'</div><div class="sl">Total</div></div><div class="sc gray"><div class="sv">'+p+'</div><div class="sl">Pending</div></div><div class="sc green"><div class="sv">'+c+'</div><div class="sl">Confirmed</div></div><div class="sc gold"><div class="sv">'+v+'</div><div class="sl">Via agent</div></div></div>'+
         '<div class="card"><div class="card-ttl">Enrollment list</div><div class="tw">'+
-        (rows.length===0?'<div class="empty"><div class="empty-ico">📭</div><p>No enrollments.</p></div>':
+        (rows.length===0?'<div class="empty"><div class="empty-ico">📭</div><p>No enrollments yet.</p></div>':
           '<table><thead><tr><th>Student</th><th>Program</th><th>Agent</th><th>Source</th><th>Date</th><th>Status</th><th>Actions</th></tr></thead><tbody>'+
           rows.map(function(e){return'<tr><td class="td-name"><strong>'+e.studentName+'</strong><span>'+e.studentEmail+'</span></td><td>'+(e.programName||e.programId||'')+'</td><td>'+(e.agentName||'<span class="muted">—</span>')+'</td><td>'+bdg(e.source||'direct')+'</td><td>'+fmt(e.timestamp)+'</td><td>'+bdg(e.status)+'</td><td><div class="row">'+(e.status==='pending'?'<button class="btn btn-primary btn-sm" onclick="confE(\''+e.id+'\')">✓</button>':'')+(e.status!=='cancelled'?'<button class="btn btn-danger btn-sm" onclick="cancE(\''+e.id+'\')">✕</button>':'')+'</div></td></tr>';}).join('')+
           '</tbody></table>')+
@@ -388,7 +367,7 @@ function loadAdminTab(){
       var due=rows.filter(function(e){return e.commissionStatus==='due'&&e.status==='confirmed';});
       var paid=rows.filter(function(e){return e.commissionStatus==='paid';});
       area.innerHTML='<div class="fade"><div class="ph"><div><h1>Commissions</h1></div></div>'+
-        '<div class="stats mb24"><div class="sc"><div class="sv">'+due.length+'</div><div class="sl">Due</div></div><div class="sc green"><div class="sv">'+paid.length+'</div><div class="sl">Paids</div></div></div>'+
+        '<div class="stats mb24"><div class="sc"><div class="sv">'+due.length+'</div><div class="sl">Due</div></div><div class="sc green"><div class="sv">'+paid.length+'</div><div class="sl">Paid</div></div></div>'+
         '<div class="card"><div class="card-ttl">To pay</div><div class="tw">'+
         (due.length===0?'<div class="empty"><div class="empty-ico">✅</div><p>All commissions are up to date.</p></div>':
           '<table><thead><tr><th>Agent</th><th>Student</th><th>Program</th><th>Date</th><th>Amount</th><th>Action</th></tr></thead><tbody>'+
@@ -409,44 +388,27 @@ function showNewAgent(){
   var code=genCode();
   var pwd=Math.random().toString(36).slice(-6).toUpperCase()+Math.floor(Math.random()*9000+1000);
   var ov=document.createElement('div');ov.className='overlay';
-  ov.innerHTML='<div class="modal fade"><div class="modal-ttl">Create an agent <span class="modal-x" onclick="this.closest(\'.overlay\').remove()">✕</span></div><div id="ma"></div>'+ 
-    '<div class="fg"><label>Name *</label><input id="mn" placeholder="Prénom Name"></div>'+ 
-    '<div class="g2"><div class="fg"><label>Email *</label><input type="email" id="me" placeholder="agent@email.com"></div><div class="fg"><label>Phone</label><input id="mph" placeholder="+233…"></div></div>'+ 
-    '<div class="g2"><div class="fg"><label>Commission (GHS)</label><input type="number" id="mc" value="0"></div><div class="fg"><label>Agent code</label><input id="mco" value="'+code+'" readonly></div></div>'+ 
-    '<div class="alert alert-info"><strong>Credentials generated automatically</strong><br><span class="xs">The password will be displayed after creation. Copy it before closing the window.</span></div>'+ 
-    '<div class="row" style="justify-content:flex-end"><button class="btn btn-outline" onclick="this.closest(\'.overlay\').remove()">Cancel</button><button class="btn btn-primary" id="msb" onclick="saveAgent(\''+pwd+'\')">Create agent</button></div>'+ 
+  ov.innerHTML='<div class="modal fade"><div class="modal-ttl">Create an agent <span class="modal-x" onclick="this.closest(\'.overlay\').remove()">✕</span></div><div id="ma"></div>'+
+    '<div class="fg"><label>Name *</label><input id="mn" placeholder="Prénom Name"></div>'+
+    '<div class="g2"><div class="fg"><label>Email *</label><input type="email" id="me" placeholder="agent@email.com"></div><div class="fg"><label>Phone</label><input id="mph" placeholder="+233…"></div></div>'+
+    '<div class="g2"><div class="fg"><label>Commission (GHS)</label><input type="number" id="mc" value="0"></div><div class="fg"><label>Agent code</label><input id="mco" value="'+code+'" readonly></div></div>'+
+    '<div style="background:var(--p50);border-radius:8px;padding:14px;margin-bottom:16px">'+
+      '<p class="xs muted">Password temporaire :</p><p style="font-family:monospace;font-size:16px;font-weight:700;color:var(--p700);margin-top:6px">'+pwd+'</p>'+
+      '<p class="xs muted mt8">Referral link:</p><p class="xs" style="color:var(--p600);word-break:break-all;margin-top:4px">'+enrollUrl(code)+'</p>'+
+    '</div>'+
+    '<div class="row" style="justify-content:flex-end"><button class="btn btn-outline" onclick="this.closest(\'.overlay\').remove()">Cancel</button><button class="btn btn-primary" id="msb" onclick="saveAgent(\''+pwd+'\')">Create</button></div>'+
   '</div>';
   document.body.appendChild(ov);
 }
 
 function saveAgent(pwd){
   var btn=$('msb'),ma=$('ma');
-  var name=($('mn')?$('mn').value:'').trim();
-  var email=($('me')?$('me').value:'').trim().toLowerCase();
-  var phone=($('mph')?$('mph').value:'').trim();
-  var code=($('mco')?$('mco').value:'').trim();
-  var commission=($('mc')?$('mc').value:0);
+  var name=($('mn')?$('mn').value:'').trim(),email=($('me')?$('me').value:'').trim().toLowerCase();
   if(!name||!email){ma.innerHTML='<div class="alert alert-err">Name et email requis.</div>';return;}
-  if(!email.includes('@')){ma.innerHTML='<div class="alert alert-err">Invalid email.</div>';return;}
-  btn.disabled=true;btn.textContent='Creating…';ma.innerHTML='';
-  createAgent({name:name,email:email,phone:phone,pwd:pwd,code:code,commission:commission})
-  .then(function(c){
-    var msg='Bonjour '+name.split(' ')[0]+',\n\nYour IMPROTECH agent account has been created.\n\nEmail: '+c.email+'\nPassword temporaire: '+c.password+'\nAgent code: '+c.code+'\nLink de référencement: '+c.link+'\n\nLog in to the platform with your email and password.';
-    ma.innerHTML='<div class="alert alert-ok"><strong>Agent created successfully ✓</strong></div>'+ 
-      '<div class="code-box"><strong>Email:</strong> '+c.email+'<br><strong>Password temporaire:</strong> '+c.password+'<br><strong>Agent code:</strong> '+c.code+'<br><strong>Link:</strong><br>'+c.link+'</div>'+ 
-      '<div class="row mt16"><button class="btn btn-primary btn-sm" onclick="copyAgentCredentials(this)">Copy credentials</button><button class="btn btn-outline btn-sm" onclick="this.closest(\'.overlay\').remove();loadAdminTab();">Close</button></div>'+ 
-      '<textarea id="agentCredsText" style="position:absolute;left:-9999px">'+msg+'</textarea>';
-    btn.style.display='none';
-  })
-  .catch(function(err){ma.innerHTML='<div class="alert alert-err">'+err.message+'</div>';btn.disabled=false;btn.textContent='Create agent';});
-}
-
-function copyAgentCredentials(btn){
-  var t=$('agentCredsText');
-  if(!t)return;
-  navigator.clipboard.writeText(t.value).then(function(){
-    var old=btn.textContent;btn.textContent='✓ Copied';setTimeout(function(){btn.textContent=old;},2000);
-  });
+  btn.disabled=true;btn.textContent='Creating…';
+  createAgent({name:name,email:email,phone:$('mph')?$('mph').value:'',pwd:pwd,code:$('mco')?$('mco').value:'',commission:$('mc')?$('mc').value:0})
+  .then(function(){document.querySelector('.overlay').remove();loadAdminTab();})
+  .catch(function(err){ma.innerHTML='<div class="alert alert-err">'+err.message+'</div>';btn.disabled=false;btn.textContent='Create';});
 }
 
 // ══════════════════════════════════════
@@ -458,7 +420,7 @@ function viewAgent(){
     '<div class="sb-brand"><div class="sb-brand-name">IMPROTECH</div><div class="sb-brand-sub">Agent Portal</div></div>'+
     '<div class="sb-user"><div class="avatar">'+initials(S.agent&&S.agent.name)+'</div><div><div class="user-name">'+(S.agent&&S.agent.name||'')+'</div><div class="user-role">Agent · '+(S.agent&&S.agent.code||'')+'</div></div></div>'+
     '<div class="sb-nav"><div class="nav-lbl">Navigation</div>'+
-      ['dashboard','link','students'].map(function(k){var lbl={dashboard:'📊 Dashboard',link:'🔗 My link',students:'🎓 My students'}[k];return'<div class="nav-item'+(S.tab===k?' active':'')+'" onclick="goTab(\''+k+'\')">'+lbl+'</div>';}).join('')+
+      ['dashboard','link','students'].map(function(k){var lbl={dashboard:'📊 Dashboard',link:'🔗 My Link',students:'🎓 My Students'}[k];return'<div class="nav-item'+(S.tab===k?' active':'')+'" onclick="goTab(\''+k+'\')">'+lbl+'</div>';}).join('')+
     '</div>'+
     '<div class="sb-footer"><button class="btn btn-ghost btn-sm btn-full" onclick="auth.signOut()">Logout</button></div>'+
   '</div><div class="main" id="main"></div></div>';
@@ -494,12 +456,12 @@ function loadAgentTab(){
           '<button class="btn btn-gold btn-sm mt16" onclick="dlQR(\''+a.code+'\')">⬇ Download</button></div>'+
       '</div>'+
       '<div class="card" style="background:var(--p50);border:1.5px solid var(--p100)"><div class="card-ttl" style="color:var(--p700)">💡 Tips</div>'+
-        '<ul class="sm" style="color:var(--text2);line-height:2.2;padding-left:20px"><li>Share your link on WhatsApp, email, and social media</li><li>Do not share the IMPROTECH number directly</li><li>Every enrollment through your link is automatically credited</li></ul>'+
+        '<ul class="sm" style="color:var(--text2);line-height:2.2;padding-left:20px"><li>Share your link on WhatsApp, email and social media</li><li>Do not share the IMPROTECH number directly</li><li>Every enrollment through your link is automatically credited</li></ul>'+
       '</div></div>';
     setTimeout(function(){var w=$('qr-wrap');if(w&&typeof QRCode!=='undefined')new QRCode(w,{text:urlQR,width:180,height:180,colorDark:'#251560',colorLight:'#ffffff'});},200);
   } else if(S.tab==='students'){
     getEnrollments(S.user.uid).then(function(rows){
-      area.innerHTML='<div class="fade"><div class="ph"><div><h1>My students</h1><p>'+rows.length+' enrollment(s)</p></div></div>'+
+      area.innerHTML='<div class="fade"><div class="ph"><div><h1>My Students</h1><p>'+rows.length+' enrollment(s)</p></div></div>'+
         '<div class="card"><div class="tw">'+
         (rows.length===0?'<div class="empty"><div class="empty-ico">🎓</div><p>No students yet.<br>Share your link!</p></div>':
           '<table><thead><tr><th>Student</th><th>Program</th><th>Phone</th><th>City</th><th>Date</th><th>Status</th><th>Commission</th></tr></thead><tbody>'+
