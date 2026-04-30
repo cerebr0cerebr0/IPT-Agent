@@ -533,6 +533,44 @@ async function viewEnroll(refCode) {
 // ════════════════════════════════════════════
 //  VIEW: LOGIN
 // ════════════════════════════════════════════
+window._doLogin = async () => {
+  const btn   = $('lb');
+  const ale   = $('la');
+  if (!btn || !ale) { console.error('Login elements not found'); return; }
+
+  const email = ($('le')?.value || '').trim();
+  const pwd   = ($('lp')?.value || '');
+
+  if (!email || !pwd) {
+    ale.innerHTML = '<div class="alert alert-err">Veuillez saisir votre email et mot de passe.</div>';
+    return;
+  }
+
+  btn.disabled = true; btn.textContent = 'Connexion…';
+  ale.innerHTML = '';
+
+  try {
+    console.log('Tentative de connexion:', email);
+    await signInWithEmailAndPassword(auth, email, pwd);
+    console.log('Connexion réussie');
+  } catch(err) {
+    console.error('Erreur login:', err.code, err.message);
+    const m = {
+      'auth/wrong-password':         'Mot de passe incorrect.',
+      'auth/user-not-found':         'Aucun compte trouvé avec cet email.',
+      'auth/invalid-email':          'Adresse email invalide.',
+      'auth/invalid-credential':     'Email ou mot de passe incorrect.',
+      'auth/too-many-requests':      'Trop de tentatives. Réessayez plus tard.',
+      'auth/network-request-failed': 'Erreur réseau. Vérifiez votre connexion.',
+      'auth/operation-not-allowed':  'Email/Password non activé dans Firebase Console.',
+      'auth/user-disabled':          'Ce compte a été désactivé.',
+    };
+    ale.innerHTML = `<div class="alert alert-err">${m[err.code] || '(' + err.code + ') ' + err.message}</div>`;
+    btn.disabled = false;
+    btn.textContent = 'Se connecter';
+  }
+};
+
 function viewLogin(errMsg='') {
   el().innerHTML = `
   <div class="login-page">
@@ -552,42 +590,15 @@ function viewLogin(errMsg='') {
       <div class="login-card fade">
         <h2>Connexion</h2>
         <p>Accédez à votre espace agent ou administration</p>
-        ${errMsg ? `<div class="alert alert-err">${errMsg}</div>` : ''}
-        <div id="la"></div>
-        <form id="lf" novalidate>
-          <div class="fg"><label>Email</label><input type="email" id="le" placeholder="vous@email.com" required autocomplete="email"></div>
-          <div class="fg"><label>Mot de passe</label><input type="password" id="lp" placeholder="••••••••" required autocomplete="current-password"></div>
-          <button type="submit" class="btn btn-primary btn-full" id="lb">Se connecter</button>
-        </form>
+        <div id="la">${errMsg ? `<div class="alert alert-err">${errMsg}</div>` : ''}</div>
+        <div class="fg"><label>Email</label><input type="email" id="le" placeholder="vous@email.com" autocomplete="email"></div>
+        <div class="fg"><label>Mot de passe</label><input type="password" id="lp" placeholder="••••••••" autocomplete="current-password" onkeydown="if(event.key==='Enter') window._doLogin()"></div>
+        <button type="button" class="btn btn-primary btn-full" id="lb" onclick="window._doLogin()">
+          Se connecter
+        </button>
       </div>
     </div>
   </div>`;
-
-  $('lf').addEventListener('submit', async e => {
-    e.preventDefault();
-    const btn  = $('lb');
-    const ale  = $('la');
-    ale.innerHTML = '';
-    btn.disabled = true; btn.textContent = 'Connexion…';
-    try {
-      await signInWithEmailAndPassword(auth, $('le').value.trim(), $('lp').value);
-    } catch(err) {
-      console.error('Login error:', err.code, err.message);
-      const m = {
-        'auth/wrong-password':          'Mot de passe incorrect.',
-        'auth/user-not-found':          'Aucun compte trouvé avec cet email.',
-        'auth/invalid-email':           'Adresse email invalide.',
-        'auth/invalid-credential':      'Email ou mot de passe incorrect.',
-        'auth/too-many-requests':       'Trop de tentatives. Réessayez plus tard.',
-        'auth/network-request-failed':  'Erreur réseau. Vérifiez votre connexion.',
-        'auth/operation-not-allowed':   'Connexion email/password non activée dans Firebase Console.',
-        'auth/user-disabled':           'Ce compte a été désactivé.',
-      };
-      ale.innerHTML = `<div class="alert alert-err">${m[err.code] || 'Erreur (' + err.code + ') : ' + err.message}</div>`;
-      btn.disabled = false;
-      btn.textContent = 'Se connecter';
-    }
-  });
 }
 
 // ════════════════════════════════════════════
