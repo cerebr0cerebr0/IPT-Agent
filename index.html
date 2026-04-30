@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>IMPROTECH – Portail Agents</title>
+  <title>IMPROTECH – Agent Portal</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
@@ -26,8 +26,8 @@
     h1,h2,h3,h4{font-family:'Sora',sans-serif}
     .loader{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;gap:16px}
     .spinner{width:36px;height:36px;border:3px solid var(--p100);border-top-color:var(--p600);border-radius:50%;animation:spin .7s linear infinite}
-    @keyframes spin{to{transform:rotate(360deg)}}
-    .login-page{min-height:100vh;display:grid;grid-template-columns:1fr 1fr}
+    @keyenames spin{to{transform:rotate(360deg)}}
+    .login-page{min-height:100vh;display:grid;grid-template-columns:1en 1en}
     .login-brand{background:var(--p800);display:flex;flex-direction:column;justify-content:center;padding:60px;position:relative;overflow:hidden}
     .login-brand::before{content:'';position:absolute;top:-120px;right:-120px;width:440px;height:440px;background:var(--p700);border-radius:50%;opacity:.35}
     .login-brand::after{content:'';position:absolute;bottom:-100px;left:-80px;width:320px;height:320px;background:var(--p900);border-radius:50%}
@@ -66,7 +66,7 @@
     .alert-ok{background:var(--ok-bg);color:#065f46;border-left:3px solid var(--ok)}
     .alert-warn{background:var(--warn-bg);color:#92400e;border-left:3px solid var(--warn)}
     .alert-info{background:var(--p50);color:var(--p700);border-left:3px solid var(--p500)}
-    .portal{display:grid;grid-template-columns:248px 1fr;min-height:100vh}
+    .portal{display:grid;grid-template-columns:248px 1en;min-height:100vh}
     .sidebar{background:var(--p800);position:sticky;top:0;height:100vh;overflow-y:auto;display:flex;flex-direction:column}
     .sb-brand{padding:22px 20px;border-bottom:1px solid rgba(255,255,255,.08)}
     .sb-brand-name{color:var(--white);font-family:'Sora',sans-serif;font-size:15px;font-weight:700}
@@ -87,7 +87,7 @@
     .ph p{color:var(--text2);font-size:13.5px;margin-top:4px}
     .card{background:var(--white);border-radius:var(--r);box-shadow:var(--sh);padding:24px}
     .card-ttl{font-size:14px;font-weight:600;margin-bottom:18px;display:flex;align-items:center;justify-content:space-between}
-    .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px;margin-bottom:24px}
+    .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1en));gap:14px;margin-bottom:24px}
     .sc{background:var(--white);border-radius:var(--r);padding:20px;box-shadow:var(--sh);border-top:3px solid var(--p500)}
     .sc.gold{border-top-color:var(--gold)}.sc.green{border-top-color:var(--ok)}
     .sc.purple{border-top-color:var(--p700)}.sc.gray{border-top-color:var(--gray400)}
@@ -121,12 +121,12 @@
     .enroll-hdr p{color:var(--p200);font-size:13px;margin-top:6px;position:relative}
     .enroll-body{padding:32px}
     .agent-notice{background:var(--ok-bg);border:1px solid rgba(16,185,129,.25);border-radius:var(--r-sm);padding:10px 14px;font-size:13px;color:#065f46;margin-bottom:22px}
-    .link-section{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+    .link-section{display:grid;grid-template-columns:1en 1en;gap:20px}
     #qr-wrap canvas,#qr-wrap img{border-radius:8px;border:4px solid var(--p50)}
     .empty{text-align:center;padding:52px 24px;color:var(--text2)}
     .empty-ico{font-size:44px;margin-bottom:14px}
     .empty p{font-size:14px;line-height:1.6}
-    .g2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+    .g2{display:grid;grid-template-columns:1en 1en;gap:16px}
     .row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
     hr{border:none;border-top:1px solid var(--gray100);margin:20px 0}
     .mt8{margin-top:8px}.mt16{margin-top:16px}.mt24{margin-top:24px}
@@ -134,11 +134,11 @@
     .muted{color:var(--text2)}.sm{font-size:13px}.xs{font-size:11px}
     code{background:var(--p50);padding:2px 7px;border-radius:4px;font-size:12px;color:var(--p700);font-family:monospace}
     .fade{animation:fadeIn .25s ease}
-    @keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+    @keyenames fadeIn{enom{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
     @media(max-width:780px){
-      .login-brand{display:none}.login-page{grid-template-columns:1fr}
-      .portal{grid-template-columns:1fr}.sidebar{display:none}
-      .main{padding:20px}.g2,.link-section{grid-template-columns:1fr}
+      .login-brand{display:none}.login-page{grid-template-columns:1en}
+      .portal{grid-template-columns:1en}.sidebar{display:none}
+      .main{padding:20px}.g2,.link-section{grid-template-columns:1en}
     }
   </style>
 </head>
@@ -159,7 +159,7 @@ var FB_CONFIG = {
 };
 
 if(typeof firebase==='undefined'){
-  document.getElementById('app').innerHTML='<div class="loader"><p style="color:#EF4444;font-size:14px;text-align:center;padding:20px">Erreur : Firebase ne charge pas.<br>Vérifiez votre connexion internet et rafraîchissez.</p></div>';
+  document.getElementById('app').innerHTML='<div class="loader"><p style="color:#EF4444;font-size:14px;text-align:center;padding:20px">Error: Firebase ne charge pas.<br>Vérifiez votre connexion internet et raenaîchissez.</p></div>';
   throw new Error('Firebase SDK not loaded');
 }
 
@@ -188,11 +188,11 @@ function $(id){return document.getElementById(id);}
 function el(){return $('app');}
 function genCode(){var c='ABCDEFGHJKLMNPQRSTUVWXYZ23456789',r='AGT-';for(var i=0;i<4;i++)r+=c[Math.floor(Math.random()*c.length)];return r;}
 function enrollUrl(code){return location.origin+location.pathname+'?ref='+code;}
-function fmt(ts){if(!ts)return'—';var d=ts.toDate?ts.toDate():new Date(ts);return d.toLocaleDateString('fr-FR',{day:'2-digit',month:'short',year:'numeric'});}
+function fmt(ts){if(!ts)return'—';var d=ts.toDate?ts.toDate():new Date(ts);return d.toLocaleDateString('en-FR',{day:'2-digit',month:'short',year:'numeric'});}
 function progName(id){var p=PROGRAMS.find(function(x){return x.id===id;});return p?p.name:id;}
 function initials(n){return(n||'?').split(' ').map(function(w){return w[0];}).slice(0,2).join('').toUpperCase();}
 var BC={pending:'bdg-pending',confirmed:'bdg-confirmed',cancelled:'bdg-cancelled',active:'bdg-active',suspended:'bdg-suspended',paid:'bdg-paid',due:'bdg-due',none:'bdg-none',link:'bdg-link',qr:'bdg-qr',direct:'bdg-direct'};
-var BL={pending:'En attente',confirmed:'Confirmé',cancelled:'Annulé',active:'Actif',suspended:'Suspendu',paid:'Payée',due:'À payer',none:'—',link:'Lien',qr:'QR Code',direct:'Direct'};
+var BL={pending:'Pending',confirmed:'Confirmed',cancelled:'Cancelled',active:'Active',suspended:'Suspended',paid:'Paid',due:'Due',none:'—',link:'Link',qr:'QR Code',direct:'Direct'};
 function bdg(s){return'<span class="bdg '+(BC[s]||'bdg-none')+'">'+(BL[s]||s)+'</span>';}
 
 // ══════════════════════════════════════
@@ -200,14 +200,14 @@ function bdg(s){return'<span class="bdg '+(BC[s]||'bdg-none')+'">'+(BL[s]||s)+'<
 // ══════════════════════════════════════
 function getAgents(){return db.collection('agents').get().then(function(s){return s.docs.map(function(d){return Object.assign({id:d.id},d.data());});});}
 function getAgentByCode(code){return db.collection('agents').where('code','==',code).limit(1).get().then(function(s){return s.empty?null:Object.assign({id:s.docs[0].id},s.docs[0].data());});}
-function getEnrollments(agentId){return db.collection('enrollments').orderBy('timestamp','desc').get().then(function(s){var all=s.docs.map(function(d){return Object.assign({id:d.id},d.data());});return agentId?all.filter(function(e){return e.agentId===agentId;}):all;});}
+function getEnrollments(agentId){return db.collection('enrollments').orderBy('timestamp','desc').get().then(function(s){var all=s.docs.map(function(d){return Object.assign({id:d.id},d.data());});if(!agentId)return all;return all.filter(function(e){return e.agentId===agentId||(S.agent&&e.agentCode===S.agent.code);});});}
 function updateEnrollment(id,u){return db.collection('enrollments').doc(id).update(u);}
 function updateAgentStatus(id,s){return db.collection('agents').doc(id).update({status:s});}
 function markCommPaid(eid,aid,amt){return db.collection('enrollments').doc(eid).update({commissionStatus:'paid'}).then(function(){if(aid&&amt>0)return db.collection('agents').doc(aid).update({totalCommission:firebase.firestore.FieldValue.increment(amt)});});}
 
 function submitEnrollment(data){
   return db.collection('enrollments').where('studentEmail','==',data.studentEmail).limit(1).get().then(function(dup){
-    if(!dup.empty)throw new Error('Un dossier avec cet email existe déjà.');
+    if(!dup.empty)throw new Error('A record with this email already exists.');
     return db.collection('enrollments').add(Object.assign({},data,{status:'pending',commissionStatus:data.agentId?'due':'none',timestamp:firebase.firestore.FieldValue.serverTimestamp()}));
   }).then(function(ref){
     if(data.agentId)db.collection('agents').doc(data.agentId).update({totalEnrollments:firebase.firestore.FieldValue.increment(1)});
@@ -225,10 +225,10 @@ function createAgentUser(email,pwd){
   .then(function(d){
     if(d.error){
       var msg={
-        EMAIL_EXISTS:'Cet email existe déjà dans Firebase Auth.',
-        WEAK_PASSWORD:'Mot de passe trop faible. Utilisez au moins 6 caractères.',
-        INVALID_EMAIL:'Email invalide.',
-        OPERATION_NOT_ALLOWED:'Activez Email/Password dans Firebase Authentication.'
+        EMAIL_EXISTS:'This email already exists in Firebase Auth.',
+        WEAK_PASSWORD:'Password trop faible. Utilisez au moins 6 caractères.',
+        INVALID_EMAIL:'Invalid email.',
+        OPERATION_NOT_ALLOWED:'Enable Email/Password in Firebase Authentication.'
       }[d.error.message]||d.error.message;
       throw new Error(msg);
     }
@@ -261,13 +261,13 @@ function doLogin(){
   var btn=$('lb'),ale=$('la');
   var email=($('le')?$('le').value:'').trim();
   var pwd=$('lp')?$('lp').value:'';
-  if(!email||!pwd){ale.innerHTML='<div class="alert alert-err">Saisissez votre email et mot de passe.</div>';return;}
-  btn.disabled=true;btn.textContent='Connexion…';ale.innerHTML='';
+  if(!email||!pwd){ale.innerHTML='<div class="alert alert-err">Enter your email and password.</div>';return;}
+  btn.disabled=true;btn.textContent='Login…';ale.innerHTML='';
   auth.signInWithEmailAndPassword(email,pwd).catch(function(err){
     console.error(err.code,err.message);
-    var m={'auth/wrong-password':'Mot de passe incorrect.','auth/user-not-found':'Email introuvable.','auth/invalid-email':'Email invalide.','auth/invalid-credential':'Email ou mot de passe incorrect.','auth/too-many-requests':'Trop de tentatives.','auth/network-request-failed':'Erreur réseau.','auth/operation-not-allowed':'Email/Password non activé dans Firebase.'};
+    var m={'auth/wrong-password':'Password incorrect.','auth/user-not-found':'Email not found.','auth/invalid-email':'Invalid email.','auth/invalid-credential':'Incorrect email or password.','auth/too-many-requests':'Too many attempts.','auth/network-request-failed':'Network error.','auth/operation-not-allowed':'Email/Password is not enabled in Firebase.'};
     ale.innerHTML='<div class="alert alert-err">'+(m[err.code]||'('+err.code+') '+err.message)+'</div>';
-    btn.disabled=false;btn.textContent='Se connecter';
+    btn.disabled=false;btn.textContent='Sign in';
   });
 }
 
@@ -275,17 +275,17 @@ function viewLogin(errMsg){
   el().innerHTML=
   '<div class="login-page">'+
     '<div class="login-brand"><div class="brand-content">'+
-      '<div class="brand-badge">Portail Agents</div>'+
-      '<h1 class="brand-title">Suivez vos<br>référencements</h1>'+
-      '<p class="brand-sub">Gérez vos inscriptions, consultez vos commissions et générez votre lien personnalisé.</p>'+
-      '<div class="brand-stats"><div><div class="stat-num">600+</div><div class="stat-lbl">Pros certifiés</div></div><div><div class="stat-num">14</div><div class="stat-lbl">Certifications</div></div><div><div class="stat-num">4</div><div class="stat-lbl">Pays</div></div></div>'+
+      '<div class="brand-badge">Agent Portal</div>'+
+      '<h1 class="brand-title">Track your<br>referrals</h1>'+
+      '<p class="brand-sub">Manage your enrollments, track commissions, and generate your personal referral link.</p>'+
+      '<div class="brand-stats"><div><div class="stat-num">600+</div><div class="stat-lbl">Certified pros</div></div><div><div class="stat-num">14</div><div class="stat-lbl">Certifications</div></div><div><div class="stat-num">4</div><div class="stat-lbl">Countries</div></div></div>'+
     '</div></div>'+
     '<div class="login-form-wrap"><div class="login-card fade">'+
-      '<h2>Connexion</h2><p>Accédez à votre espace agent ou administration</p>'+
+      '<h2>Login</h2><p>Access your agent or admin workspace</p>'+
       '<div id="la">'+(errMsg?'<div class="alert alert-err">'+errMsg+'</div>':'')+'</div>'+
       '<div class="fg"><label>Email</label><input type="email" id="le" placeholder="vous@email.com" autocomplete="email"></div>'+
-      '<div class="fg"><label>Mot de passe</label><input type="password" id="lp" placeholder="••••••••" autocomplete="current-password" onkeydown="if(event.key===\'Enter\')doLogin()"></div>'+
-      '<button type="button" class="btn btn-primary btn-full" id="lb" onclick="doLogin()">Se connecter</button>'+
+      '<div class="fg"><label>Password</label><input type="password" id="lp" placeholder="••••••••" autocomplete="current-password" onkeydown="if(event.key===\'Enter\')doLogin()"></div>'+
+      '<button type="button" class="btn btn-primary btn-full" id="lb" onclick="doLogin()">Sign in</button>'+
     '</div></div>'+
   '</div>';
 }
@@ -301,15 +301,15 @@ function viewEnroll(refCode){
     _agent=agent;_src=location.search.includes('qr=1')?'qr':'link';
     el().innerHTML=
     '<div class="enroll-page"><div class="enroll-card fade">'+
-      '<div class="enroll-hdr"><div class="enroll-hdr-badge">IMPROTECH Training Center</div><h1>Formulaire d\'inscription</h1><p>Notre équipe vous contactera sous 24–48h</p></div>'+
+      '<div class="enroll-hdr"><div class="enroll-hdr-badge">IMPROTECH Training Center</div><h1>Formulaire d\'inscription</h1><p>Our team will contact you within 24–48 hours</p></div>'+
       '<div class="enroll-body">'+
-      (agent?'<div class="agent-notice">✓ Inscription via <strong>'+agent.name+'</strong></div>':'')+
+      (agent?'<div class="agent-notice">✓ Enrollment via <strong>'+agent.name+'</strong></div>':'')+
       '<div id="ea"></div>'+
-      '<div class="g2"><div class="fg"><label>Prénom & Nom *</label><input id="en" placeholder="Jean Dupont"></div><div class="fg"><label>Email *</label><input type="email" id="ee" placeholder="vous@exemple.com"></div></div>'+
-      '<div class="g2"><div class="fg"><label>Téléphone *</label><input id="ep" placeholder="+233 XX XXX XXXX"></div><div class="fg"><label>Ville</label><input id="ec" placeholder="Accra, Abidjan…"></div></div>'+
-      '<div class="fg"><label>Programme souhaité *</label><select id="epr"><option value="">— Sélectionnez —</option>'+PROGRAMS.map(function(p){return'<option value="'+p.id+'">'+p.name+'</option>';}).join('')+'</select></div>'+
-      '<div class="fg"><label>Message</label><textarea id="em" rows="3" placeholder="Disponibilité, questions…"></textarea></div>'+
-      '<button type="button" class="btn btn-gold btn-full" id="eb" onclick="submitForm()">Envoyer ma candidature →</button>'+
+      '<div class="g2"><div class="fg"><label>Full name *</label><input id="en" placeholder="John Doe"></div><div class="fg"><label>Email *</label><input type="email" id="ee" placeholder="vous@exemple.com"></div></div>'+
+      '<div class="g2"><div class="fg"><label>Phone *</label><input id="ep" placeholder="+233 XX XXX XXXX"></div><div class="fg"><label>City</label><input id="ec" placeholder="Accra, Abidjan…"></div></div>'+
+      '<div class="fg"><label>Desired program *</label><select id="epr"><option value="">— Select —</option>'+PROGRAMS.map(function(p){return'<option value="'+p.id+'">'+p.name+'</option>';}).join('')+'</select></div>'+
+      '<div class="fg"><label>Message</label><textarea id="em" rows="3" placeholder="Availability, questions…"></textarea></div>'+
+      '<button type="button" class="btn btn-gold btn-full" id="eb" onclick="submitForm()">Submit my application →</button>'+
       '</div></div></div>';
   });
 }
@@ -320,12 +320,12 @@ function submitForm(){
   var email=($('ee')?$('ee').value:'').trim().toLowerCase();
   var phone=($('ep')?$('ep').value:'').trim();
   var pid=$('epr')?$('epr').value:'';
-  if(!name||!email||!phone||!pid){ale.innerHTML='<div class="alert alert-err">Remplissez tous les champs obligatoires (*).</div>';return;}
-  btn.disabled=true;btn.textContent='Envoi…';ale.innerHTML='';
+  if(!name||!email||!phone||!pid){ale.innerHTML='<div class="alert alert-err">Fill in all required fields (*).</div>';return;}
+  btn.disabled=true;btn.textContent='Submitting…';ale.innerHTML='';
   submitEnrollment({studentName:name,studentEmail:email,studentPhone:phone,studentCity:($('ec')?$('ec').value:'').trim(),studentMessage:($('em')?$('em').value:'').trim(),programId:pid,programName:progName(pid),agentId:_agent?_agent.id:null,agentCode:_agent?_agent.code:null,agentName:_agent?_agent.name:null,source:_agent?_src:'direct'})
   .then(function(){
-    el().innerHTML='<div class="enroll-page"><div class="enroll-card fade" style="text-align:center"><div class="enroll-hdr"><div class="enroll-hdr-badge">IMPROTECH Training Center</div><h1>Candidature reçue ✓</h1></div><div class="enroll-body"><div style="font-size:56px;margin-bottom:18px">🎉</div><h2 style="font-size:20px;margin-bottom:10px">Merci, '+name.split(' ')[0]+' !</h2><p class="muted" style="font-size:14px;line-height:1.8">Votre demande pour <strong>'+progName(pid)+'</strong><br>a été enregistrée. Un conseiller vous contactera sous 24–48h.</p><div style="margin-top:28px;padding:16px;background:var(--p50);border-radius:12px"><p class="xs muted">Contact direct :</p><p class="sm" style="color:var(--p700);font-weight:500;margin-top:4px">info@improtech.edu.gh · 0266134658</p></div></div></div></div>';
-  }).catch(function(err){ale.innerHTML='<div class="alert alert-err">'+err.message+'</div>';btn.disabled=false;btn.textContent='Envoyer ma candidature →';});
+    el().innerHTML='<div class="enroll-page"><div class="enroll-card fade" style="text-align:center"><div class="enroll-hdr"><div class="enroll-hdr-badge">IMPROTECH Training Center</div><h1>Application received ✓</h1></div><div class="enroll-body"><div style="font-size:56px;margin-bottom:18px">🎉</div><h2 style="font-size:20px;margin-bottom:10px">Thank you, '+name.split(' ')[0]+' !</h2><p class="muted" style="font-size:14px;line-height:1.8">Your request for <strong>'+progName(pid)+'</strong><br>has been recorded. An advisor will contact you within 24–48 hours.</p><div style="margin-top:28px;padding:16px;background:var(--p50);border-radius:12px"><p class="xs muted">Direct contact:</p><p class="sm" style="color:var(--p700);font-weight:500;margin-top:4px">info@improtech.edu.gh · 0266134658</p></div></div></div></div>';
+  }).catch(function(err){ale.innerHTML='<div class="alert alert-err">'+err.message+'</div>';btn.disabled=false;btn.textContent='Submit my application →';});
 }
 
 // ══════════════════════════════════════
@@ -337,9 +337,9 @@ function viewAdmin(){
     '<div class="sb-brand"><div class="sb-brand-name">IMPROTECH</div><div class="sb-brand-sub">Administration</div></div>'+
     '<div class="sb-user"><div class="avatar">'+initials(S.agent&&S.agent.name)+'</div><div><div class="user-name">'+(S.agent&&S.agent.name||'Admin')+'</div><div class="user-role">Admin</div></div></div>'+
     '<div class="sb-nav"><div class="nav-lbl">Navigation</div>'+
-      ['enrollments','agents','commissions'].map(function(k){var lbl={enrollments:'📋 Inscriptions',agents:'👥 Agents',commissions:'💰 Commissions'}[k];return'<div class="nav-item'+(S.tab===k?' active':'')+'" onclick="goTab(\''+k+'\')">'+lbl+'</div>';}).join('')+
+      ['enrollments','agents','commissions'].map(function(k){var lbl={enrollments:'📋 Enrollments',agents:'👥 Agents',commissions:'💰 Commissions'}[k];return'<div class="nav-item'+(S.tab===k?' active':'')+'" onclick="goTab(\''+k+'\')">'+lbl+'</div>';}).join('')+
     '</div>'+
-    '<div class="sb-footer"><button class="btn btn-ghost btn-sm btn-full" onclick="auth.signOut()">Déconnexion</button></div>'+
+    '<div class="sb-footer"><button class="btn btn-ghost btn-sm btn-full" onclick="auth.signOut()">Logout</button></div>'+
   '</div><div class="main" id="main"></div></div>';
   loadTab();
 }
@@ -347,7 +347,7 @@ function viewAdmin(){
 function goTab(t){
   S.tab=t;
   document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('active');});
-  var lbl={enrollments:'📋 Inscriptions',agents:'👥 Agents',commissions:'💰 Commissions',dashboard:'📊 Dashboard',link:'🔗 Mon lien',students:'🎓 Mes étudiants'}[t];
+  var lbl={enrollments:'📋 Enrollments',agents:'👥 Agents',commissions:'💰 Commissions',dashboard:'📊 Dashboard',link:'🔗 My link',students:'🎓 My students'}[t];
   document.querySelectorAll('.nav-item').forEach(function(n){if(n.textContent.trim()===lbl)n.classList.add('active');});
   loadTab();
 }
@@ -361,11 +361,11 @@ function loadAdminTab(){
   if(S.tab==='enrollments'){
     getEnrollments().then(function(rows){
       var t=rows.length,p=rows.filter(function(e){return e.status==='pending';}).length,c=rows.filter(function(e){return e.status==='confirmed';}).length,v=rows.filter(function(e){return e.agentId;}).length;
-      area.innerHTML='<div class="fade"><div class="ph"><div><h1>Inscriptions</h1><p>Toutes les demandes reçues</p></div></div>'+
-        '<div class="stats mb24"><div class="sc purple"><div class="sv">'+t+'</div><div class="sl">Total</div></div><div class="sc gray"><div class="sv">'+p+'</div><div class="sl">En attente</div></div><div class="sc green"><div class="sv">'+c+'</div><div class="sl">Confirmées</div></div><div class="sc gold"><div class="sv">'+v+'</div><div class="sl">Via agent</div></div></div>'+
-        '<div class="card"><div class="card-ttl">Liste des inscriptions</div><div class="tw">'+
-        (rows.length===0?'<div class="empty"><div class="empty-ico">📭</div><p>Aucune inscription.</p></div>':
-          '<table><thead><tr><th>Étudiant</th><th>Programme</th><th>Agent</th><th>Source</th><th>Date</th><th>Statut</th><th>Actions</th></tr></thead><tbody>'+
+      area.innerHTML='<div class="fade"><div class="ph"><div><h1>Enrollments</h1><p>All received applications</p></div></div>'+
+        '<div class="stats mb24"><div class="sc purple"><div class="sv">'+t+'</div><div class="sl">Total</div></div><div class="sc gray"><div class="sv">'+p+'</div><div class="sl">Pending</div></div><div class="sc green"><div class="sv">'+c+'</div><div class="sl">Confirmed</div></div><div class="sc gold"><div class="sv">'+v+'</div><div class="sl">Via agent</div></div></div>'+
+        '<div class="card"><div class="card-ttl">Enrollment list</div><div class="tw">'+
+        (rows.length===0?'<div class="empty"><div class="empty-ico">📭</div><p>No enrollments.</p></div>':
+          '<table><thead><tr><th>Student</th><th>Program</th><th>Agent</th><th>Source</th><th>Date</th><th>Status</th><th>Actions</th></tr></thead><tbody>'+
           rows.map(function(e){return'<tr><td class="td-name"><strong>'+e.studentName+'</strong><span>'+e.studentEmail+'</span></td><td>'+(e.programName||e.programId||'')+'</td><td>'+(e.agentName||'<span class="muted">—</span>')+'</td><td>'+bdg(e.source||'direct')+'</td><td>'+fmt(e.timestamp)+'</td><td>'+bdg(e.status)+'</td><td><div class="row">'+(e.status==='pending'?'<button class="btn btn-primary btn-sm" onclick="confE(\''+e.id+'\')">✓</button>':'')+(e.status!=='cancelled'?'<button class="btn btn-danger btn-sm" onclick="cancE(\''+e.id+'\')">✕</button>':'')+'</div></td></tr>';}).join('')+
           '</tbody></table>')+
         '</div></div></div>';
@@ -373,11 +373,11 @@ function loadAdminTab(){
   } else if(S.tab==='agents'){
     getAgents().then(function(agents){
       var agts=agents.filter(function(a){return a.role==='agent';});
-      area.innerHTML='<div class="fade"><div class="ph"><div><h1>Agents</h1><p>'+agts.filter(function(a){return a.status==='active';}).length+' actif(s)</p></div><button class="btn btn-primary" onclick="showNewAgent()">+ Nouvel agent</button></div>'+
+      area.innerHTML='<div class="fade"><div class="ph"><div><h1>Agents</h1><p>'+agts.filter(function(a){return a.status==='active';}).length+' active</p></div><button class="btn btn-primary" onclick="showNewAgent()">+ New agent</button></div>'+
         '<div class="card"><div class="tw">'+
-        (agts.length===0?'<div class="empty"><div class="empty-ico">👥</div><p>Aucun agent. Créez-en un ci-dessus.</p></div>':
-          '<table><thead><tr><th>Nom</th><th>Code</th><th>Email</th><th>Inscriptions</th><th>Commission</th><th>Statut</th><th>Actions</th></tr></thead><tbody>'+
-          agts.map(function(a){return'<tr><td><strong>'+a.name+'</strong></td><td><code>'+a.code+'</code></td><td class="sm">'+a.email+'</td><td>'+(a.totalEnrollments||0)+'</td><td>GHS '+(a.totalCommission||0).toLocaleString()+'</td><td>'+bdg(a.status)+'</td><td><div class="row"><button class="btn btn-sm btn-outline" onclick="cpLink(\''+a.code+'\',this)">🔗 Lien</button>'+(a.status==='active'?'<button class="btn btn-sm btn-danger" onclick="togAgent(\''+a.id+'\',\'suspended\')">Suspendre</button>':'<button class="btn btn-sm btn-primary" onclick="togAgent(\''+a.id+'\',\'active\')">Réactiver</button>')+'</div></td></tr>';}).join('')+
+        (agts.length===0?'<div class="empty"><div class="empty-ico">👥</div><p>No agents yet. Create one above.</p></div>':
+          '<table><thead><tr><th>Name</th><th>Code</th><th>Email</th><th>Enrollments</th><th>Commission</th><th>Status</th><th>Actions</th></tr></thead><tbody>'+
+          agts.map(function(a){return'<tr><td><strong>'+a.name+'</strong></td><td><code>'+a.code+'</code></td><td class="sm">'+a.email+'</td><td>'+(a.totalEnrollments||0)+'</td><td>GHS '+(a.totalCommission||0).toLocaleString()+'</td><td>'+bdg(a.status)+'</td><td><div class="row"><button class="btn btn-sm btn-outline" onclick="cpLink(\''+a.code+'\',this)">🔗 Link</button>'+(a.status==='active'?'<button class="btn btn-sm btn-danger" onclick="togAgent(\''+a.id+'\',\'suspended\')">Suspend</button>':'<button class="btn btn-sm btn-primary" onclick="togAgent(\''+a.id+'\',\'active\')">Reactivate</button>')+'</div></td></tr>';}).join('')+
           '</tbody></table>')+
         '</div></div></div>';
     });
@@ -388,11 +388,11 @@ function loadAdminTab(){
       var due=rows.filter(function(e){return e.commissionStatus==='due'&&e.status==='confirmed';});
       var paid=rows.filter(function(e){return e.commissionStatus==='paid';});
       area.innerHTML='<div class="fade"><div class="ph"><div><h1>Commissions</h1></div></div>'+
-        '<div class="stats mb24"><div class="sc"><div class="sv">'+due.length+'</div><div class="sl">À payer</div></div><div class="sc green"><div class="sv">'+paid.length+'</div><div class="sl">Payées</div></div></div>'+
-        '<div class="card"><div class="card-ttl">À régler</div><div class="tw">'+
-        (due.length===0?'<div class="empty"><div class="empty-ico">✅</div><p>Toutes les commissions sont à jour.</p></div>':
-          '<table><thead><tr><th>Agent</th><th>Étudiant</th><th>Programme</th><th>Date</th><th>Montant</th><th>Action</th></tr></thead><tbody>'+
-          due.map(function(e){var a=amap[e.agentId],amt=a?a.commissionAmount||0:0;return'<tr><td><strong>'+(e.agentName||'—')+'</strong></td><td>'+e.studentName+'</td><td>'+(e.programName||'')+'</td><td>'+fmt(e.timestamp)+'</td><td>GHS '+amt+'</td><td><button class="btn btn-sm btn-primary" onclick="payC(\''+e.id+'\',\''+e.agentId+'\','+amt+',this)">Marquer payée</button></td></tr>';}).join('')+
+        '<div class="stats mb24"><div class="sc"><div class="sv">'+due.length+'</div><div class="sl">Due</div></div><div class="sc green"><div class="sv">'+paid.length+'</div><div class="sl">Paids</div></div></div>'+
+        '<div class="card"><div class="card-ttl">To pay</div><div class="tw">'+
+        (due.length===0?'<div class="empty"><div class="empty-ico">✅</div><p>All commissions are up to date.</p></div>':
+          '<table><thead><tr><th>Agent</th><th>Student</th><th>Program</th><th>Date</th><th>Amount</th><th>Action</th></tr></thead><tbody>'+
+          due.map(function(e){var a=amap[e.agentId],amt=a?a.commissionAmount||0:0;return'<tr><td><strong>'+(e.agentName||'—')+'</strong></td><td>'+e.studentName+'</td><td>'+(e.programName||'')+'</td><td>'+fmt(e.timestamp)+'</td><td>GHS '+amt+'</td><td><button class="btn btn-sm btn-primary" onclick="payC(\''+e.id+'\',\''+e.agentId+'\','+amt+',this)">Mark as paid</button></td></tr>';}).join('')+
           '</tbody></table>')+
         '</div></div></div>';
     });
@@ -400,21 +400,21 @@ function loadAdminTab(){
 }
 
 function confE(id){updateEnrollment(id,{status:'confirmed'}).then(function(){loadAdminTab();});}
-function cancE(id){if(confirm('Annuler ?'))updateEnrollment(id,{status:'cancelled',commissionStatus:'none'}).then(function(){loadAdminTab();});}
+function cancE(id){if(confirm('Cancel?'))updateEnrollment(id,{status:'cancelled',commissionStatus:'none'}).then(function(){loadAdminTab();});}
 function togAgent(id,s){updateAgentStatus(id,s).then(function(){loadAdminTab();});}
-function cpLink(code,btn){navigator.clipboard.writeText(enrollUrl(code));var t=btn.textContent;btn.textContent='✓ Copié';setTimeout(function(){btn.textContent=t;},2000);}
-function payC(eid,aid,amt,btn){if(!confirm('Confirmer paiement ?'))return;btn.disabled=true;markCommPaid(eid,aid,amt).then(function(){loadAdminTab();});}
+function cpLink(code,btn){navigator.clipboard.writeText(enrollUrl(code));var t=btn.textContent;btn.textContent='✓ Copied';setTimeout(function(){btn.textContent=t;},2000);}
+function payC(eid,aid,amt,btn){if(!confirm('Confirm payment?'))return;btn.disabled=true;markCommPaid(eid,aid,amt).then(function(){loadAdminTab();});}
 
 function showNewAgent(){
   var code=genCode();
   var pwd=Math.random().toString(36).slice(-6).toUpperCase()+Math.floor(Math.random()*9000+1000);
   var ov=document.createElement('div');ov.className='overlay';
-  ov.innerHTML='<div class="modal fade"><div class="modal-ttl">Créer un agent <span class="modal-x" onclick="this.closest(\'.overlay\').remove()">✕</span></div><div id="ma"></div>'+ 
-    '<div class="fg"><label>Nom *</label><input id="mn" placeholder="Prénom Nom"></div>'+ 
-    '<div class="g2"><div class="fg"><label>Email *</label><input type="email" id="me" placeholder="agent@email.com"></div><div class="fg"><label>Téléphone</label><input id="mph" placeholder="+233…"></div></div>'+ 
-    '<div class="g2"><div class="fg"><label>Commission (GHS)</label><input type="number" id="mc" value="0"></div><div class="fg"><label>Code agent</label><input id="mco" value="'+code+'" readonly></div></div>'+ 
-    '<div class="alert alert-info"><strong>Credentials générés automatiquement</strong><br><span class="xs">Le mot de passe sera affiché après la création. Copiez-le avant de fermer la fenêtre.</span></div>'+ 
-    '<div class="row" style="justify-content:flex-end"><button class="btn btn-outline" onclick="this.closest(\'.overlay\').remove()">Annuler</button><button class="btn btn-primary" id="msb" onclick="saveAgent(\''+pwd+'\')">Créer l’agent</button></div>'+ 
+  ov.innerHTML='<div class="modal fade"><div class="modal-ttl">Create an agent <span class="modal-x" onclick="this.closest(\'.overlay\').remove()">✕</span></div><div id="ma"></div>'+ 
+    '<div class="fg"><label>Name *</label><input id="mn" placeholder="Prénom Name"></div>'+ 
+    '<div class="g2"><div class="fg"><label>Email *</label><input type="email" id="me" placeholder="agent@email.com"></div><div class="fg"><label>Phone</label><input id="mph" placeholder="+233…"></div></div>'+ 
+    '<div class="g2"><div class="fg"><label>Commission (GHS)</label><input type="number" id="mc" value="0"></div><div class="fg"><label>Agent code</label><input id="mco" value="'+code+'" readonly></div></div>'+ 
+    '<div class="alert alert-info"><strong>Credentials generated automatically</strong><br><span class="xs">The password will be displayed after creation. Copy it before closing the window.</span></div>'+ 
+    '<div class="row" style="justify-content:flex-end"><button class="btn btn-outline" onclick="this.closest(\'.overlay\').remove()">Cancel</button><button class="btn btn-primary" id="msb" onclick="saveAgent(\''+pwd+'\')">Create agent</button></div>'+ 
   '</div>';
   document.body.appendChild(ov);
 }
@@ -426,26 +426,26 @@ function saveAgent(pwd){
   var phone=($('mph')?$('mph').value:'').trim();
   var code=($('mco')?$('mco').value:'').trim();
   var commission=($('mc')?$('mc').value:0);
-  if(!name||!email){ma.innerHTML='<div class="alert alert-err">Nom et email requis.</div>';return;}
-  if(!email.includes('@')){ma.innerHTML='<div class="alert alert-err">Email invalide.</div>';return;}
-  btn.disabled=true;btn.textContent='Création…';ma.innerHTML='';
+  if(!name||!email){ma.innerHTML='<div class="alert alert-err">Name et email requis.</div>';return;}
+  if(!email.includes('@')){ma.innerHTML='<div class="alert alert-err">Invalid email.</div>';return;}
+  btn.disabled=true;btn.textContent='Creating…';ma.innerHTML='';
   createAgent({name:name,email:email,phone:phone,pwd:pwd,code:code,commission:commission})
   .then(function(c){
-    var msg='Bonjour '+name.split(' ')[0]+',\n\nVotre compte agent IMPROTECH a été créé.\n\nEmail: '+c.email+'\nMot de passe temporaire: '+c.password+'\nCode agent: '+c.code+'\nLien de référencement: '+c.link+'\n\nConnectez-vous à la plateforme avec votre email et mot de passe.';
-    ma.innerHTML='<div class="alert alert-ok"><strong>Agent créé avec succès ✓</strong></div>'+ 
-      '<div class="code-box"><strong>Email:</strong> '+c.email+'<br><strong>Mot de passe temporaire:</strong> '+c.password+'<br><strong>Code agent:</strong> '+c.code+'<br><strong>Lien:</strong><br>'+c.link+'</div>'+ 
-      '<div class="row mt16"><button class="btn btn-primary btn-sm" onclick="copyAgentCredentials(this)">Copier les credentials</button><button class="btn btn-outline btn-sm" onclick="this.closest(\'.overlay\').remove();loadAdminTab();">Fermer</button></div>'+ 
+    var msg='Bonjour '+name.split(' ')[0]+',\n\nYour IMPROTECH agent account has been created.\n\nEmail: '+c.email+'\nPassword temporaire: '+c.password+'\nAgent code: '+c.code+'\nLink de référencement: '+c.link+'\n\nLog in to the platform with your email and password.';
+    ma.innerHTML='<div class="alert alert-ok"><strong>Agent created successfully ✓</strong></div>'+ 
+      '<div class="code-box"><strong>Email:</strong> '+c.email+'<br><strong>Password temporaire:</strong> '+c.password+'<br><strong>Agent code:</strong> '+c.code+'<br><strong>Link:</strong><br>'+c.link+'</div>'+ 
+      '<div class="row mt16"><button class="btn btn-primary btn-sm" onclick="copyAgentCredentials(this)">Copy credentials</button><button class="btn btn-outline btn-sm" onclick="this.closest(\'.overlay\').remove();loadAdminTab();">Close</button></div>'+ 
       '<textarea id="agentCredsText" style="position:absolute;left:-9999px">'+msg+'</textarea>';
     btn.style.display='none';
   })
-  .catch(function(err){ma.innerHTML='<div class="alert alert-err">'+err.message+'</div>';btn.disabled=false;btn.textContent='Créer l’agent';});
+  .catch(function(err){ma.innerHTML='<div class="alert alert-err">'+err.message+'</div>';btn.disabled=false;btn.textContent='Create agent';});
 }
 
 function copyAgentCredentials(btn){
   var t=$('agentCredsText');
   if(!t)return;
   navigator.clipboard.writeText(t.value).then(function(){
-    var old=btn.textContent;btn.textContent='✓ Copié';setTimeout(function(){btn.textContent=old;},2000);
+    var old=btn.textContent;btn.textContent='✓ Copied';setTimeout(function(){btn.textContent=old;},2000);
   });
 }
 
@@ -455,12 +455,12 @@ function copyAgentCredentials(btn){
 function viewAgent(){
   el().innerHTML=
   '<div class="portal"><div class="sidebar">'+
-    '<div class="sb-brand"><div class="sb-brand-name">IMPROTECH</div><div class="sb-brand-sub">Portail Agent</div></div>'+
+    '<div class="sb-brand"><div class="sb-brand-name">IMPROTECH</div><div class="sb-brand-sub">Agent Portal</div></div>'+
     '<div class="sb-user"><div class="avatar">'+initials(S.agent&&S.agent.name)+'</div><div><div class="user-name">'+(S.agent&&S.agent.name||'')+'</div><div class="user-role">Agent · '+(S.agent&&S.agent.code||'')+'</div></div></div>'+
     '<div class="sb-nav"><div class="nav-lbl">Navigation</div>'+
-      ['dashboard','link','students'].map(function(k){var lbl={dashboard:'📊 Dashboard',link:'🔗 Mon lien',students:'🎓 Mes étudiants'}[k];return'<div class="nav-item'+(S.tab===k?' active':'')+'" onclick="goTab(\''+k+'\')">'+lbl+'</div>';}).join('')+
+      ['dashboard','link','students'].map(function(k){var lbl={dashboard:'📊 Dashboard',link:'🔗 My link',students:'🎓 My students'}[k];return'<div class="nav-item'+(S.tab===k?' active':'')+'" onclick="goTab(\''+k+'\')">'+lbl+'</div>';}).join('')+
     '</div>'+
-    '<div class="sb-footer"><button class="btn btn-ghost btn-sm btn-full" onclick="auth.signOut()">Déconnexion</button></div>'+
+    '<div class="sb-footer"><button class="btn btn-ghost btn-sm btn-full" onclick="auth.signOut()">Logout</button></div>'+
   '</div><div class="main" id="main"></div></div>';
   loadAgentTab();
 }
@@ -474,35 +474,35 @@ function loadAgentTab(){
       var conf=rows.filter(function(e){return e.status==='confirmed';}).length;
       var pend=rows.filter(function(e){return e.status==='pending';}).length;
       var due=rows.filter(function(e){return e.commissionStatus==='due';}).length;
-      area.innerHTML='<div class="fade"><div class="ph"><div><h1>Bonjour, '+a.name.split(' ')[0]+' 👋</h1><p>Code : <code>'+a.code+'</code></p></div></div>'+
-        (due>0?'<div class="alert alert-warn mb16">💰 <strong>'+due+'</strong> commission(s) en attente.</div>':'')+
-        '<div class="stats mb24"><div class="sc purple"><div class="sv">'+(a.totalEnrollments||0)+'</div><div class="sl">Total</div></div><div class="sc green"><div class="sv">'+conf+'</div><div class="sl">Confirmées</div></div><div class="sc gray"><div class="sv">'+pend+'</div><div class="sl">En attente</div></div><div class="sc gold"><div class="sv">GHS '+(a.totalCommission||0).toLocaleString()+'</div><div class="sl">Commission reçue</div></div></div>'+
-        '<div class="card" style="max-width:560px"><div class="card-ttl">Votre lien</div><div class="code-box">'+enrollUrl(a.code)+'</div>'+
-        '<div class="row mt16"><button class="btn btn-primary btn-sm" onclick="cpLnk(this)">Copier</button><button class="btn btn-outline btn-sm" onclick="goTab(\'link\')">Voir QR →</button></div></div></div>';
+      area.innerHTML='<div class="fade"><div class="ph"><div><h1>Hello, '+a.name.split(' ')[0]+' 👋</h1><p>Code : <code>'+a.code+'</code></p></div></div>'+
+        (due>0?'<div class="alert alert-warn mb16">💰 <strong>'+due+'</strong> commission(s) pending.</div>':'')+
+        '<div class="stats mb24"><div class="sc purple"><div class="sv">'+(a.totalEnrollments||0)+'</div><div class="sl">Total</div></div><div class="sc green"><div class="sv">'+conf+'</div><div class="sl">Confirmed</div></div><div class="sc gray"><div class="sv">'+pend+'</div><div class="sl">Pending</div></div><div class="sc gold"><div class="sv">GHS '+(a.totalCommission||0).toLocaleString()+'</div><div class="sl">Commission received</div></div></div>'+
+        '<div class="card" style="max-width:560px"><div class="card-ttl">Your link</div><div class="code-box">'+enrollUrl(a.code)+'</div>'+
+        '<div class="row mt16"><button class="btn btn-primary btn-sm" onclick="cpLnk(this)">Copy</button><button class="btn btn-outline btn-sm" onclick="goTab(\'link\')">View QR →</button></div></div></div>';
     });
   } else if(S.tab==='link'){
     var url=enrollUrl(a.code),urlQR=url+'&qr=1';
-    area.innerHTML='<div class="fade"><div class="ph"><div><h1>Mon lien de référencement</h1></div></div>'+
+    area.innerHTML='<div class="fade"><div class="ph"><div><h1>My referral link</h1></div></div>'+
       '<div class="link-section mb24">'+
-        '<div class="card"><div class="card-ttl">Lien unique</div><div class="code-box">'+url+'</div>'+
-          '<div class="row mt16"><button class="btn btn-primary btn-sm" onclick="cpLinkT(\''+url+'\',this)">Copier</button><button class="btn btn-outline btn-sm" onclick="window.open(\''+url+'\',\'_blank\')">Tester ↗</button></div>'+
-          '<hr><p class="xs muted">Lien QR :</p><div class="code-box mt8">'+urlQR+'</div>'+
-          '<button class="btn btn-outline btn-sm mt8" onclick="cpLinkT(\''+urlQR+'\',this)">Copier lien QR</button></div>'+
+        '<div class="card"><div class="card-ttl">Link unique</div><div class="code-box">'+url+'</div>'+
+          '<div class="row mt16"><button class="btn btn-primary btn-sm" onclick="cpLinkT(\''+url+'\',this)">Copy</button><button class="btn btn-outline btn-sm" onclick="window.open(\''+url+'\',\'_blank\')">Test ↗</button></div>'+
+          '<hr><p class="xs muted">Link QR :</p><div class="code-box mt8">'+urlQR+'</div>'+
+          '<button class="btn btn-outline btn-sm mt8" onclick="cpLinkT(\''+urlQR+'\',this)">Copy lien QR</button></div>'+
         '<div class="card" style="text-align:center"><div class="card-ttl">QR Code</div>'+
           '<div id="qr-wrap" style="display:flex;justify-content:center;margin:12px 0 16px"></div>'+
-          '<p class="xs muted">Imprimez sur vos flyers</p>'+
-          '<button class="btn btn-gold btn-sm mt16" onclick="dlQR(\''+a.code+'\')">⬇ Télécharger</button></div>'+
+          '<p class="xs muted">Print it on your flyers</p>'+
+          '<button class="btn btn-gold btn-sm mt16" onclick="dlQR(\''+a.code+'\')">⬇ Download</button></div>'+
       '</div>'+
-      '<div class="card" style="background:var(--p50);border:1.5px solid var(--p100)"><div class="card-ttl" style="color:var(--p700)">💡 Conseils</div>'+
-        '<ul class="sm" style="color:var(--text2);line-height:2.2;padding-left:20px"><li>Partagez votre lien sur WhatsApp, email, réseaux sociaux</li><li>Ne communiquez pas directement le numéro IMPROTECH</li><li>Chaque inscription via votre lien est automatiquement créditée</li></ul>'+
+      '<div class="card" style="background:var(--p50);border:1.5px solid var(--p100)"><div class="card-ttl" style="color:var(--p700)">💡 Tips</div>'+
+        '<ul class="sm" style="color:var(--text2);line-height:2.2;padding-left:20px"><li>Share your link on WhatsApp, email, and social media</li><li>Do not share the IMPROTECH number directly</li><li>Every enrollment through your link is automatically credited</li></ul>'+
       '</div></div>';
     setTimeout(function(){var w=$('qr-wrap');if(w&&typeof QRCode!=='undefined')new QRCode(w,{text:urlQR,width:180,height:180,colorDark:'#251560',colorLight:'#ffffff'});},200);
   } else if(S.tab==='students'){
     getEnrollments(S.user.uid).then(function(rows){
-      area.innerHTML='<div class="fade"><div class="ph"><div><h1>Mes étudiants</h1><p>'+rows.length+' inscription(s)</p></div></div>'+
+      area.innerHTML='<div class="fade"><div class="ph"><div><h1>My students</h1><p>'+rows.length+' enrollment(s)</p></div></div>'+
         '<div class="card"><div class="tw">'+
-        (rows.length===0?'<div class="empty"><div class="empty-ico">🎓</div><p>Aucun étudiant.<br>Partagez votre lien !</p></div>':
-          '<table><thead><tr><th>Étudiant</th><th>Programme</th><th>Téléphone</th><th>Ville</th><th>Date</th><th>Statut</th><th>Commission</th></tr></thead><tbody>'+
+        (rows.length===0?'<div class="empty"><div class="empty-ico">🎓</div><p>No students yet.<br>Share your link!</p></div>':
+          '<table><thead><tr><th>Student</th><th>Program</th><th>Phone</th><th>City</th><th>Date</th><th>Status</th><th>Commission</th></tr></thead><tbody>'+
           rows.map(function(e){return'<tr><td class="td-name"><strong>'+e.studentName+'</strong><span>'+e.studentEmail+'</span></td><td>'+(e.programName||'')+'</td><td class="sm">'+(e.studentPhone||'—')+'</td><td class="sm">'+(e.studentCity||'—')+'</td><td>'+fmt(e.timestamp)+'</td><td>'+bdg(e.status)+'</td><td>'+bdg(e.commissionStatus||'none')+'</td></tr>';}).join('')+
           '</tbody></table>')+
         '</div></div></div>';
@@ -510,8 +510,8 @@ function loadAgentTab(){
   }
 }
 
-function cpLnk(btn){navigator.clipboard.writeText(enrollUrl(S.agent.code));btn.textContent='✓ Copié!';setTimeout(function(){btn.textContent='Copier';},2000);}
-function cpLinkT(url,btn){navigator.clipboard.writeText(url);var t=btn.textContent;btn.textContent='✓ Copié!';setTimeout(function(){btn.textContent=t;},2000);}
+function cpLnk(btn){navigator.clipboard.writeText(enrollUrl(S.agent.code));btn.textContent='✓ Copied!';setTimeout(function(){btn.textContent='Copy';},2000);}
+function cpLinkT(url,btn){navigator.clipboard.writeText(url);var t=btn.textContent;btn.textContent='✓ Copied!';setTimeout(function(){btn.textContent=t;},2000);}
 function dlQR(code){var c=document.querySelector('#qr-wrap canvas');if(c){var a=document.createElement('a');a.download='QR_'+code+'.png';a.href=c.toDataURL();a.click();}}
 
 // ══════════════════════════════════════
@@ -526,7 +526,7 @@ function route(user){
     S.isAdmin=S.agent.role==='admin';
     S.tab=S.isAdmin?'enrollments':'dashboard';
     if(S.isAdmin)viewAdmin();else viewAgent();
-  }).catch(function(err){console.error(err);viewLogin('Erreur : '+err.message);});
+  }).catch(function(err){console.error(err);viewLogin('Error: '+err.message);});
 }
 
 // ══════════════════════════════════════
@@ -536,7 +536,7 @@ var initRef=new URLSearchParams(location.search).get('ref');
 if(initRef){
   viewEnroll(initRef);
 }else{
-  var t=setTimeout(function(){viewLogin('Délai dépassé. Vérifiez que Firebase Auth et Firestore sont activés.');},8000);
+  var t=setTimeout(function(){viewLogin('Timeout. Check that Firebase Auth and Firestore are enabled.');},8000);
   auth.onAuthStateChanged(function(user){clearTimeout(t);route(user);});
 }
 </script>
