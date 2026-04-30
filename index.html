@@ -216,11 +216,41 @@ function submitEnrollment(data){
 }
 
 function createAgentUser(email,pwd){
-  return fetch('https://identitytoolkit.googleapis.com/v1/accounts:signUp?key='+FB_CONFIG.apiKey,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:email,password:pwd,returnSecureToken:true})}).then(function(r){return r.json();}).then(function(d){if(d.error)throw new Error(d.error.message);return d.localId;});
+  return fetch('https://identitytoolkit.googleapis.com/v1/accounts:signUp?key='+FB_CONFIG.apiKey,{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({email:email,password:pwd,returnSecureToken:true})
+  })
+  .then(function(r){return r.json();})
+  .then(function(d){
+    if(d.error){
+      var msg={
+        EMAIL_EXISTS:'Cet email existe déjà dans Firebase Auth.',
+        WEAK_PASSWORD:'Mot de passe trop faible. Utilisez au moins 6 caractères.',
+        INVALID_EMAIL:'Email invalide.',
+        OPERATION_NOT_ALLOWED:'Activez Email/Password dans Firebase Authentication.'
+      }[d.error.message]||d.error.message;
+      throw new Error(msg);
+    }
+    return d.localId;
+  });
 }
 function createAgent(data){
   return createAgentUser(data.email,data.pwd).then(function(uid){
-    return db.collection('agents').doc(uid).set({name:data.name,email:data.email,phone:data.phone||'',code:data.code,role:'agent',status:'active',commissionAmount:Number(data.commission)||0,totalEnrollments:0,totalCommission:0,createdAt:firebase.firestore.FieldValue.serverTimestamp()});
+    return db.collection('agents').doc(uid).set({
+      name:data.name,
+      email:data.email,
+      phone:data.phone||'',
+      code:data.code,
+      role:'agent',
+      status:'active',
+      commissionAmount:Number(data.commission)||0,
+      totalEnrollments:0,
+      totalCommission:0,
+      createdAt:firebase.firestore.FieldValue.serverTimestamp()
+    }).then(function(){
+      return {uid:uid,email:data.email,password:data.pwd,code:data.code,link:enrollUrl(data.code)};
+    });
   });
 }
 
@@ -379,27 +409,44 @@ function showNewAgent(){
   var code=genCode();
   var pwd=Math.random().toString(36).slice(-6).toUpperCase()+Math.floor(Math.random()*9000+1000);
   var ov=document.createElement('div');ov.className='overlay';
-  ov.innerHTML='<div class="modal fade"><div class="modal-ttl">Créer un agent <span class="modal-x" onclick="this.closest(\'.overlay\').remove()">✕</span></div><div id="ma"></div>'+
-    '<div class="fg"><label>Nom *</label><input id="mn" placeholder="Prénom Nom"></div>'+
-    '<div class="g2"><div class="fg"><label>Email *</label><input type="email" id="me" placeholder="agent@email.com"></div><div class="fg"><label>Téléphone</label><input id="mph" placeholder="+233…"></div></div>'+
-    '<div class="g2"><div class="fg"><label>Commission (GHS)</label><input type="number" id="mc" value="0"></div><div class="fg"><label>Code agent</label><input id="mco" value="'+code+'" readonly></div></div>'+
-    '<div style="background:var(--p50);border-radius:8px;padding:14px;margin-bottom:16px">'+
-      '<p class="xs muted">Mot de passe temporaire :</p><p style="font-family:monospace;font-size:16px;font-weight:700;color:var(--p700);margin-top:6px">'+pwd+'</p>'+
-      '<p class="xs muted mt8">Lien de référencement :</p><p class="xs" style="color:var(--p600);word-break:break-all;margin-top:4px">'+enrollUrl(code)+'</p>'+
-    '</div>'+
-    '<div class="row" style="justify-content:flex-end"><button class="btn btn-outline" onclick="this.closest(\'.overlay\').remove()">Annuler</button><button class="btn btn-primary" id="msb" onclick="saveAgent(\''+pwd+'\')">Créer</button></div>'+
+  ov.innerHTML='<div class="modal fade"><div class="modal-ttl">Créer un agent <span class="modal-x" onclick="this.closest(\'.overlay\').remove()">✕</span></div><div id="ma"></div>'+ 
+    '<div class="fg"><label>Nom *</label><input id="mn" placeholder="Prénom Nom"></div>'+ 
+    '<div class="g2"><div class="fg"><label>Email *</label><input type="email" id="me" placeholder="agent@email.com"></div><div class="fg"><label>Téléphone</label><input id="mph" placeholder="+233…"></div></div>'+ 
+    '<div class="g2"><div class="fg"><label>Commission (GHS)</label><input type="number" id="mc" value="0"></div><div class="fg"><label>Code agent</label><input id="mco" value="'+code+'" readonly></div></div>'+ 
+    '<div class="alert alert-info"><strong>Credentials générés automatiquement</strong><br><span class="xs">Le mot de passe sera affiché après la création. Copiez-le avant de fermer la fenêtre.</span></div>'+ 
+    '<div class="row" style="justify-content:flex-end"><button class="btn btn-outline" onclick="this.closest(\'.overlay\').remove()">Annuler</button><button class="btn btn-primary" id="msb" onclick="saveAgent(\''+pwd+'\')">Créer l’agent</button></div>'+ 
   '</div>';
   document.body.appendChild(ov);
 }
 
 function saveAgent(pwd){
   var btn=$('msb'),ma=$('ma');
-  var name=($('mn')?$('mn').value:'').trim(),email=($('me')?$('me').value:'').trim().toLowerCase();
+  var name=($('mn')?$('mn').value:'').trim();
+  var email=($('me')?$('me').value:'').trim().toLowerCase();
+  var phone=($('mph')?$('mph').value:'').trim();
+  var code=($('mco')?$('mco').value:'').trim();
+  var commission=($('mc')?$('mc').value:0);
   if(!name||!email){ma.innerHTML='<div class="alert alert-err">Nom et email requis.</div>';return;}
-  btn.disabled=true;btn.textContent='Création…';
-  createAgent({name:name,email:email,phone:$('mph')?$('mph').value:'',pwd:pwd,code:$('mco')?$('mco').value:'',commission:$('mc')?$('mc').value:0})
-  .then(function(){document.querySelector('.overlay').remove();loadAdminTab();})
-  .catch(function(err){ma.innerHTML='<div class="alert alert-err">'+err.message+'</div>';btn.disabled=false;btn.textContent='Créer';});
+  if(!email.includes('@')){ma.innerHTML='<div class="alert alert-err">Email invalide.</div>';return;}
+  btn.disabled=true;btn.textContent='Création…';ma.innerHTML='';
+  createAgent({name:name,email:email,phone:phone,pwd:pwd,code:code,commission:commission})
+  .then(function(c){
+    var msg='Bonjour '+name.split(' ')[0]+',\n\nVotre compte agent IMPROTECH a été créé.\n\nEmail: '+c.email+'\nMot de passe temporaire: '+c.password+'\nCode agent: '+c.code+'\nLien de référencement: '+c.link+'\n\nConnectez-vous à la plateforme avec votre email et mot de passe.';
+    ma.innerHTML='<div class="alert alert-ok"><strong>Agent créé avec succès ✓</strong></div>'+ 
+      '<div class="code-box"><strong>Email:</strong> '+c.email+'<br><strong>Mot de passe temporaire:</strong> '+c.password+'<br><strong>Code agent:</strong> '+c.code+'<br><strong>Lien:</strong><br>'+c.link+'</div>'+ 
+      '<div class="row mt16"><button class="btn btn-primary btn-sm" onclick="copyAgentCredentials(this)">Copier les credentials</button><button class="btn btn-outline btn-sm" onclick="this.closest(\'.overlay\').remove();loadAdminTab();">Fermer</button></div>'+ 
+      '<textarea id="agentCredsText" style="position:absolute;left:-9999px">'+msg+'</textarea>';
+    btn.style.display='none';
+  })
+  .catch(function(err){ma.innerHTML='<div class="alert alert-err">'+err.message+'</div>';btn.disabled=false;btn.textContent='Créer l’agent';});
+}
+
+function copyAgentCredentials(btn){
+  var t=$('agentCredsText');
+  if(!t)return;
+  navigator.clipboard.writeText(t.value).then(function(){
+    var old=btn.textContent;btn.textContent='✓ Copié';setTimeout(function(){btn.textContent=old;},2000);
+  });
 }
 
 // ══════════════════════════════════════
