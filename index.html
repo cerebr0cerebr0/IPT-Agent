@@ -1,0 +1,1059 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IMPROTECH – Portail Agents</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;1,9..40,400&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <style>
+    /*
+    ══════════════════════════════════════════════
+      FIRESTORE SECURITY RULES
+      (Firebase Console → Firestore → Rules)
+    ══════════════════════════════════════════════
+    rules_version = '2';
+    service cloud.firestore {
+      match /databases/{database}/documents {
+
+        function isLoggedIn() { return request.auth != null; }
+        function isAdmin() {
+          return isLoggedIn() &&
+            get(/databases/$(database)/documents/agents/$(request.auth.uid)).data.role == 'admin';
+        }
+        function isOwner(uid) { return isLoggedIn() && request.auth.uid == uid; }
+
+        match /agents/{agentId} {
+          allow read: if isLoggedIn();
+          allow write: if isAdmin();
+        }
+        match /enrollments/{id} {
+          allow create: if true;
+          allow read: if isLoggedIn();
+          allow update, delete: if isAdmin();
+        }
+      }
+    }
+    ══════════════════════════════════════════════
+    */
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --p900: #160E40;
+      --p800: #251560;
+      --p700: #3A1F82;
+      --p600: #5535A8;
+      --p500: #7B5CC0;
+      --p300: #B09EE0;
+      --p200: #D4C9F5;
+      --p100: #EDE9FA;
+      --p50:  #F5F3FF;
+      --gold: #F0A500;
+      --gold-d: #C78600;
+      --gold-l: #FFD166;
+      --white: #FFFFFF;
+      --gray50: #F8F7FC;
+      --gray100: #EDECF5;
+      --gray200: #D8D6E8;
+      --gray400: #8B87A8;
+      --gray600: #5B5775;
+      --text: #1A1037;
+      --text2: #6B6880;
+      --ok: #10B981;
+      --ok-bg: #D1FAE5;
+      --err: #EF4444;
+      --err-bg: #FEE2E2;
+      --warn: #F59E0B;
+      --warn-bg: #FEF3C7;
+      --r: 12px;
+      --r-sm: 8px;
+      --sh: 0 2px 16px rgba(37,21,96,.10);
+      --sh-lg: 0 8px 40px rgba(37,21,96,.18);
+    }
+
+    body { font-family: 'DM Sans', sans-serif; background: var(--gray50); color: var(--text); min-height: 100vh; }
+    h1, h2, h3, h4 { font-family: 'Sora', sans-serif; }
+
+    /* ── LOADER ── */
+    .loader { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; gap: 16px; }
+    .spinner { width: 36px; height: 36px; border: 3px solid var(--p100); border-top-color: var(--p600); border-radius: 50%; animation: spin .7s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── LOGIN ── */
+    .login-page { min-height: 100vh; display: grid; grid-template-columns: 1fr 1fr; }
+    .login-brand { background: var(--p800); display: flex; flex-direction: column; justify-content: center; padding: 60px; position: relative; overflow: hidden; }
+    .login-brand::before { content: ''; position: absolute; top: -120px; right: -120px; width: 440px; height: 440px; background: var(--p700); border-radius: 50%; opacity: .35; }
+    .login-brand::after { content: ''; position: absolute; bottom: -100px; left: -80px; width: 320px; height: 320px; background: var(--p900); border-radius: 50%; }
+    .brand-content { position: relative; z-index: 1; }
+    .brand-badge { display: inline-block; background: rgba(240,165,0,.18); color: var(--gold); border: 1px solid rgba(240,165,0,.3); padding: 4px 14px; border-radius: 20px; font-size: 11px; font-weight: 500; letter-spacing: .8px; text-transform: uppercase; margin-bottom: 24px; }
+    .brand-title { color: var(--white); font-size: 38px; font-weight: 700; line-height: 1.15; margin-bottom: 14px; }
+    .brand-sub { color: var(--p300); font-size: 15px; line-height: 1.7; max-width: 340px; }
+    .brand-stats { display: flex; gap: 36px; margin-top: 52px; }
+    .stat-num { color: var(--gold); font-family: 'Sora', sans-serif; font-size: 30px; font-weight: 700; }
+    .stat-lbl { color: var(--p300); font-size: 12px; margin-top: 3px; }
+    .login-form-wrap { display: flex; align-items: center; justify-content: center; padding: 60px 40px; background: var(--white); }
+    .login-card { width: 100%; max-width: 360px; }
+    .login-card h2 { font-size: 26px; font-weight: 700; margin-bottom: 6px; }
+    .login-card > p { color: var(--text2); font-size: 14px; margin-bottom: 32px; }
+
+    /* ── FORMS ── */
+    .fg { margin-bottom: 18px; }
+    .fg label { display: block; font-size: 12.5px; font-weight: 500; margin-bottom: 6px; color: var(--gray600); text-transform: uppercase; letter-spacing: .4px; }
+    .fg input, .fg select, .fg textarea { width: 100%; padding: 11px 14px; border: 1.5px solid var(--gray200); border-radius: var(--r-sm); font-family: 'DM Sans', sans-serif; font-size: 14px; background: var(--white); color: var(--text); transition: border-color .2s; outline: none; }
+    .fg input:focus, .fg select:focus, .fg textarea:focus { border-color: var(--p500); }
+    .fg input[readonly] { background: var(--p50); color: var(--p700); font-weight: 600; }
+
+    /* ── BUTTONS ── */
+    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 7px; padding: 11px 20px; border-radius: var(--r-sm); font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 500; cursor: pointer; border: none; transition: all .18s; text-decoration: none; white-space: nowrap; }
+    .btn-primary { background: var(--p600); color: var(--white); }
+    .btn-primary:hover:not(:disabled) { background: var(--p700); transform: translateY(-1px); box-shadow: var(--sh); }
+    .btn-primary:disabled { opacity: .55; cursor: not-allowed; }
+    .btn-gold { background: var(--gold); color: var(--p900); font-weight: 600; }
+    .btn-gold:hover { background: var(--gold-d); transform: translateY(-1px); box-shadow: 0 4px 16px rgba(240,165,0,.3); }
+    .btn-outline { background: transparent; border: 1.5px solid var(--gray200); color: var(--text); }
+    .btn-outline:hover { border-color: var(--p500); color: var(--p600); }
+    .btn-danger { background: var(--err-bg); color: #b91c1c; border: 1px solid rgba(239,68,68,.2); }
+    .btn-danger:hover { background: var(--err); color: white; }
+    .btn-sm { padding: 7px 13px; font-size: 12px; }
+    .btn-full { width: 100%; }
+    .btn-ghost { background: rgba(255,255,255,.12); color: var(--white); border: 1px solid rgba(255,255,255,.2); }
+    .btn-ghost:hover { background: rgba(255,255,255,.2); }
+
+    /* ── ALERTS ── */
+    .alert { padding: 11px 16px; border-radius: var(--r-sm); font-size: 13px; margin-bottom: 16px; line-height: 1.5; }
+    .alert-err { background: var(--err-bg); color: #991b1b; border-left: 3px solid var(--err); }
+    .alert-ok  { background: var(--ok-bg);  color: #065f46; border-left: 3px solid var(--ok); }
+    .alert-warn { background: var(--warn-bg); color: #92400e; border-left: 3px solid var(--warn); }
+    .alert-info { background: var(--p50); color: var(--p700); border-left: 3px solid var(--p500); }
+
+    /* ── PORTAL SHELL ── */
+    .portal { display: grid; grid-template-columns: 248px 1fr; min-height: 100vh; }
+    .sidebar { background: var(--p800); position: sticky; top: 0; height: 100vh; overflow-y: auto; display: flex; flex-direction: column; }
+    .sb-brand { padding: 22px 20px; border-bottom: 1px solid rgba(255,255,255,.08); }
+    .sb-brand-name { color: var(--white); font-family: 'Sora', sans-serif; font-size: 15px; font-weight: 700; letter-spacing: .3px; }
+    .sb-brand-sub { color: var(--p300); font-size: 11px; margin-top: 2px; }
+    .sb-user { padding: 16px 20px; border-bottom: 1px solid rgba(255,255,255,.08); display: flex; align-items: center; gap: 12px; }
+    .avatar { width: 38px; height: 38px; background: var(--p600); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-family: 'Sora', sans-serif; font-size: 15px; font-weight: 700; flex-shrink: 0; }
+    .user-name { color: var(--white); font-size: 13px; font-weight: 500; }
+    .user-role { color: var(--gold); font-size: 11px; background: rgba(240,165,0,.15); display: inline-block; padding: 2px 8px; border-radius: 10px; margin-top: 3px; }
+    .sb-nav { padding: 14px 12px; flex: 1; }
+    .nav-lbl { color: var(--p300); font-size: 10px; letter-spacing: 1px; text-transform: uppercase; padding: 6px 8px 4px; }
+    .nav-item { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 8px; color: var(--p300); font-size: 13px; cursor: pointer; transition: all .15s; user-select: none; }
+    .nav-item:hover { background: rgba(255,255,255,.08); color: var(--white); }
+    .nav-item.active { background: var(--p600); color: var(--white); }
+    .nav-icon { font-size: 15px; width: 20px; text-align: center; }
+    .sb-footer { padding: 16px 20px; border-top: 1px solid rgba(255,255,255,.08); }
+    .main { padding: 32px; overflow-y: auto; }
+
+    /* ── PAGE HEADER ── */
+    .ph { margin-bottom: 28px; display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+    .ph h1 { font-size: 24px; font-weight: 700; }
+    .ph p { color: var(--text2); font-size: 13.5px; margin-top: 4px; }
+
+    /* ── CARDS ── */
+    .card { background: var(--white); border-radius: var(--r); box-shadow: var(--sh); padding: 24px; }
+    .card-ttl { font-size: 14px; font-weight: 600; margin-bottom: 18px; display: flex; align-items: center; justify-content: space-between; color: var(--text); }
+
+    /* ── STATS ── */
+    .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 14px; margin-bottom: 24px; }
+    .sc { background: var(--white); border-radius: var(--r); padding: 20px; box-shadow: var(--sh); border-top: 3px solid var(--p500); }
+    .sc.gold { border-top-color: var(--gold); }
+    .sc.green { border-top-color: var(--ok); }
+    .sc.purple { border-top-color: var(--p700); }
+    .sc.gray { border-top-color: var(--gray400); }
+    .sv { font-family: 'Sora', sans-serif; font-size: 28px; font-weight: 700; }
+    .sl { font-size: 12px; color: var(--text2); margin-top: 5px; }
+
+    /* ── TABLE ── */
+    .tw { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    th { text-align: left; padding: 10px 14px; color: var(--text2); font-weight: 500; font-size: 11px; letter-spacing: .5px; text-transform: uppercase; border-bottom: 1.5px solid var(--gray100); white-space: nowrap; }
+    td { padding: 13px 14px; border-bottom: 1px solid var(--gray100); vertical-align: middle; }
+    tr:last-child td { border-bottom: none; }
+    tbody tr:hover td { background: var(--p50); }
+    .td-name strong { display: block; }
+    .td-name span { color: var(--text2); font-size: 12px; }
+
+    /* ── BADGES ── */
+    .bdg { display: inline-flex; align-items: center; padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 500; white-space: nowrap; }
+    .bdg-pending  { background: var(--warn-bg); color: #92400e; }
+    .bdg-confirmed { background: var(--ok-bg);  color: #065f46; }
+    .bdg-cancelled { background: var(--err-bg); color: #b91c1c; }
+    .bdg-active   { background: var(--ok-bg);  color: #065f46; }
+    .bdg-suspended { background: var(--err-bg); color: #b91c1c; }
+    .bdg-paid     { background: var(--ok-bg);  color: #065f46; }
+    .bdg-due      { background: var(--warn-bg); color: #92400e; }
+    .bdg-none     { background: var(--gray100); color: var(--gray600); }
+    .bdg-link     { background: var(--p100); color: var(--p700); }
+    .bdg-qr       { background: var(--p100); color: var(--p700); }
+    .bdg-direct   { background: var(--gray100); color: var(--gray600); }
+
+    /* ── MODAL ── */
+    .overlay { position: fixed; inset: 0; background: rgba(22,14,64,.65); display: flex; align-items: center; justify-content: center; z-index: 200; padding: 20px; backdrop-filter: blur(2px); }
+    .modal { background: var(--white); border-radius: var(--r); box-shadow: var(--sh-lg); padding: 28px; width: 100%; max-width: 500px; max-height: 92vh; overflow-y: auto; }
+    .modal-ttl { font-size: 18px; font-weight: 700; margin-bottom: 22px; display: flex; align-items: center; justify-content: space-between; }
+    .modal-x { cursor: pointer; color: var(--text2); font-size: 20px; line-height: 1; padding: 4px; }
+
+    /* ── CODE BOX ── */
+    .code-box { background: var(--p50); border: 1.5px solid var(--p100); border-radius: var(--r-sm); padding: 12px 16px; font-family: monospace; font-size: 13px; color: var(--p700); word-break: break-all; margin: 10px 0; line-height: 1.5; }
+
+    /* ── ENROLLMENT PAGE ── */
+    .enroll-page { min-height: 100vh; background: linear-gradient(150deg, var(--p800) 0%, var(--p900) 100%); display: flex; align-items: flex-start; justify-content: center; padding: 48px 20px; }
+    .enroll-card { background: var(--white); border-radius: 20px; box-shadow: var(--sh-lg); width: 100%; max-width: 560px; overflow: hidden; }
+    .enroll-hdr { background: var(--p700); padding: 28px 32px; position: relative; overflow: hidden; }
+    .enroll-hdr::before { content: ''; position: absolute; top: -60px; right: -60px; width: 200px; height: 200px; background: rgba(255,255,255,.05); border-radius: 50%; }
+    .enroll-hdr-badge { background: rgba(240,165,0,.2); color: var(--gold-l); border: 1px solid rgba(240,165,0,.3); display: inline-block; padding: 3px 12px; border-radius: 20px; font-size: 10px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 10px; position: relative; }
+    .enroll-hdr h1 { color: var(--white); font-size: 22px; font-weight: 700; position: relative; }
+    .enroll-hdr p { color: var(--p200); font-size: 13px; margin-top: 6px; position: relative; }
+    .enroll-body { padding: 32px; }
+    .agent-notice { background: var(--ok-bg); border: 1px solid rgba(16,185,129,.25); border-radius: var(--r-sm); padding: 10px 14px; font-size: 13px; color: #065f46; margin-bottom: 22px; display: flex; align-items: center; gap: 8px; }
+
+    /* ── LINK PORTAL QR ── */
+    #qr-wrap canvas, #qr-wrap img { border-radius: 8px; border: 4px solid var(--p50); }
+    .link-section { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+
+    /* ── EMPTY ── */
+    .empty { text-align: center; padding: 52px 24px; color: var(--text2); }
+    .empty-ico { font-size: 44px; margin-bottom: 14px; }
+    .empty p { font-size: 14px; line-height: 1.6; }
+
+    /* ── UTILS ── */
+    .g2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .g3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+    .row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+    .between { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+    hr { border: none; border-top: 1px solid var(--gray100); margin: 20px 0; }
+    .mt8 { margin-top: 8px; } .mt16 { margin-top: 16px; } .mt24 { margin-top: 24px; }
+    .mb16 { margin-bottom: 16px; } .mb24 { margin-bottom: 24px; }
+    .muted { color: var(--text2); } .sm { font-size: 13px; } .xs { font-size: 11px; }
+    .mono { font-family: monospace; }
+    code { background: var(--p50); padding: 2px 7px; border-radius: 4px; font-size: 12px; color: var(--p700); font-family: monospace; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 780px) {
+      .login-brand { display: none; }
+      .login-page { grid-template-columns: 1fr; }
+      .portal { grid-template-columns: 1fr; }
+      .sidebar { display: none; }
+      .main { padding: 20px; }
+      .g2, .g3, .link-section { grid-template-columns: 1fr; }
+    }
+
+    /* ── FADE IN ── */
+    .fade { animation: fadeIn .25s ease; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+  </style>
+</head>
+<body>
+  <div id="app"><div class="loader"><div class="spinner"></div></div></div>
+
+<script type="module">
+import { initializeApp }                                     from 'https://esm.sh/firebase@10/app';
+import { getAuth, signInWithEmailAndPassword,
+         onAuthStateChanged, signOut }                       from 'https://esm.sh/firebase@10/auth';
+import { getFirestore, collection, doc, getDocs, addDoc,
+         setDoc, updateDoc, getDoc, query, where, orderBy,
+         limit, serverTimestamp, increment }                 from 'https://esm.sh/firebase@10/firestore';
+
+// ════════════════════════════════════════════
+//  FIREBASE CONFIG
+//  → Remplacer YOUR_API_KEY par votre clé
+//    (Firebase Console → Project Settings)
+// ════════════════════════════════════════════
+const FB_CONFIG = {
+  apiKey: "AIzaSyDaF6KaZN2vdFxR6-myx46XD26Hstkpwk0",
+  authDomain: "ipt-agent.firebaseapp.com",
+  projectId: "ipt-agent",
+  storageBucket: "ipt-agent.firebasestorage.app",
+  messagingSenderId: "758605257056",
+  appId: "1:758605257056:web:ac2680e273525784e82605",
+  measurementId: "G-34150JS9CY"
+};
+const fbApp = initializeApp(FB_CONFIG);
+const auth  = getAuth(fbApp);
+const db    = getFirestore(fbApp);
+
+// ════════════════════════════════════════════
+//  PROGRAMMES
+// ════════════════════════════════════════════
+const PROGRAMS = [
+  { id:'ccna',        name:'Cisco CCNA' },
+  { id:'ccnp-ent',    name:'Cisco CCNP Enterprise' },
+  { id:'ccnp-sec',    name:'Cisco CCNP Security' },
+  { id:'ccie-ent',    name:'Cisco CCIE Enterprise' },
+  { id:'ccie-sec',    name:'Cisco CCIE Security' },
+  { id:'sec-plus',    name:'CompTIA Security+' },
+  { id:'cysa',        name:'CompTIA CySA+' },
+  { id:'a-plus',      name:'CompTIA A+' },
+  { id:'az900',       name:'Microsoft Azure AZ-900' },
+  { id:'az104',       name:'Microsoft Azure AZ-104' },
+  { id:'nse4',        name:'Fortinet NSE 4' },
+  { id:'nse7',        name:'Fortinet NSE 7' },
+  { id:'itil',        name:'ITIL Foundation' },
+  { id:'pmp',         name:'PMP Certification' },
+];
+
+// ════════════════════════════════════════════
+//  STATE
+// ════════════════════════════════════════════
+let S = { user: null, agent: null, isAdmin: false, tab: 'enrollments' };
+
+// ════════════════════════════════════════════
+//  HELPERS
+// ════════════════════════════════════════════
+const $  = id => document.getElementById(id);
+const el = () => $('app');
+
+function genCode() {
+  const c = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+  return 'AGT-' + Array.from({length:4}, () => c[Math.floor(Math.random()*c.length)]).join('');
+}
+
+function enrollUrl(code) {
+  return `${location.origin}${location.pathname}?ref=${code}`;
+}
+
+function fmt(ts) {
+  if (!ts) return '—';
+  const d = ts.toDate ? ts.toDate() : new Date(ts);
+  return d.toLocaleDateString('fr-FR', {day:'2-digit', month:'short', year:'numeric'});
+}
+
+const BADGE_CLASS = {
+  pending:'bdg-pending', confirmed:'bdg-confirmed', cancelled:'bdg-cancelled',
+  active:'bdg-active', suspended:'bdg-suspended',
+  paid:'bdg-paid', due:'bdg-due', none:'bdg-none',
+  link:'bdg-link', qr:'bdg-qr', direct:'bdg-direct',
+};
+const BADGE_LBL = {
+  pending:'En attente', confirmed:'Confirmé', cancelled:'Annulé',
+  active:'Actif', suspended:'Suspendu',
+  paid:'Payée', due:'À payer', none:'—',
+  link:'Lien', qr:'QR Code', direct:'Direct',
+};
+function bdg(s) {
+  return `<span class="bdg ${BADGE_CLASS[s]||'bdg-none'}">${BADGE_LBL[s]||s}</span>`;
+}
+
+function programName(id) {
+  return PROGRAMS.find(p => p.id === id)?.name || id;
+}
+
+function initials(name) {
+  return (name||'?').split(' ').map(w=>w[0]).slice(0,2).join('').toUpperCase();
+}
+
+// ════════════════════════════════════════════
+//  FIRESTORE — pas d'index composite nécessaire
+// ════════════════════════════════════════════
+async function getAgents() {
+  const s = await getDocs(collection(db,'agents'));
+  return s.docs.map(d => ({id:d.id,...d.data()}));
+}
+
+async function getAgentByCode(code) {
+  const q = query(collection(db,'agents'), where('code','==',code), limit(1));
+  const s = await getDocs(q);
+  return s.empty ? null : {id:s.docs[0].id,...s.docs[0].data()};
+}
+
+async function getEnrollments(agentId=null) {
+  const s = await getDocs(query(collection(db,'enrollments'), orderBy('timestamp','desc')));
+  const all = s.docs.map(d => ({id:d.id,...d.data()}));
+  return agentId ? all.filter(e => e.agentId === agentId) : all;
+}
+
+async function submitEnrollment(data) {
+  const dupQ = query(collection(db,'enrollments'), where('studentEmail','==',data.studentEmail), limit(1));
+  const dup  = await getDocs(dupQ);
+  if (!dup.empty) throw new Error('Un dossier avec cet email existe déjà dans notre système.');
+  const ref = await addDoc(collection(db,'enrollments'), {
+    ...data,
+    status:'pending',
+    commissionStatus: data.agentId ? 'due' : 'none',
+    timestamp: serverTimestamp(),
+  });
+  if (data.agentId) {
+    await updateDoc(doc(db,'agents',data.agentId), {
+      totalEnrollments: increment(1),
+    });
+  }
+  return ref.id;
+}
+
+async function updateEnrollment(id, updates) {
+  await updateDoc(doc(db,'enrollments',id), updates);
+}
+
+async function markCommPaid(eid, agentId, amount) {
+  await updateDoc(doc(db,'enrollments',eid), {commissionStatus:'paid'});
+  if (agentId && amount > 0) {
+    await updateDoc(doc(db,'agents',agentId), {
+      totalCommission: increment(amount),
+    });
+  }
+}
+
+async function updateAgentStatus(id, status) {
+  await updateDoc(doc(db,'agents',id), {status});
+}
+
+// ─── Création d'agent via REST (ne déconnecte pas l'admin) ─────────────────
+async function createAgentUser(email, password) {
+  const r = await fetch(
+    `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${FB_CONFIG.apiKey}`,
+    { method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({email, password, returnSecureToken:true}) }
+  );
+  const d = await r.json();
+  if (d.error) {
+    const msgs = {
+      'EMAIL_EXISTS': 'Cet email est déjà utilisé.',
+      'WEAK_PASSWORD : Password should be at least 6 characters': 'Mot de passe trop faible.',
+    };
+    throw new Error(msgs[d.error.message] || d.error.message);
+  }
+  return d.localId; // Firebase UID
+}
+
+async function createAgent(data) {
+  const uid = await createAgentUser(data.email, data.password);
+  await setDoc(doc(db,'agents',uid), {
+    name: data.name,
+    email: data.email,
+    phone: data.phone || '',
+    code: data.code,
+    role: 'agent',
+    status: 'active',
+    commissionAmount: Number(data.commission) || 0,
+    totalEnrollments: 0,
+    totalCommission: 0,
+    createdAt: serverTimestamp(),
+  });
+  return uid;
+}
+
+// ════════════════════════════════════════════
+//  VIEW: ENROLLMENT FORM (public)
+// ════════════════════════════════════════════
+async function viewEnroll(refCode) {
+  let agent = null;
+  if (refCode) { try { agent = await getAgentByCode(refCode); } catch(_){} }
+
+  el().innerHTML = `
+  <div class="enroll-page">
+    <div class="enroll-card fade">
+      <div class="enroll-hdr">
+        <div class="enroll-hdr-badge">IMPROTECH Training Center</div>
+        <h1>Formulaire d'inscription</h1>
+        <p>Remplissez ce formulaire — notre équipe vous contactera sous 24–48h</p>
+      </div>
+      <div class="enroll-body">
+        ${agent ? `<div class="agent-notice">✓ Inscription via <strong>${agent.name}</strong></div>` : ''}
+        ${!refCode ? `<div class="alert alert-info mb16">📌 Accès direct — Utilisez le lien de votre agent pour un suivi personnalisé.</div>` : ''}
+        <div id="ea"></div>
+        <form id="ef" novalidate>
+          <div class="g2">
+            <div class="fg"><label>Prénom & Nom *</label><input name="name" placeholder="Jean Dupont" required></div>
+            <div class="fg"><label>Email *</label><input type="email" name="email" placeholder="vous@exemple.com" required></div>
+          </div>
+          <div class="g2">
+            <div class="fg"><label>Téléphone *</label><input name="phone" placeholder="+233 XX XXX XXXX" required></div>
+            <div class="fg"><label>Ville</label><input name="city" placeholder="Accra, Abidjan…"></div>
+          </div>
+          <div class="fg">
+            <label>Programme souhaité *</label>
+            <select name="program" required>
+              <option value="">— Sélectionnez un programme —</option>
+              ${PROGRAMS.map(p=>`<option value="${p.id}">${p.name}</option>`).join('')}
+            </select>
+          </div>
+          <div class="fg">
+            <label>Message (disponibilité, questions)</label>
+            <textarea name="msg" rows="3" placeholder="Je suis disponible à partir de…"></textarea>
+          </div>
+          <button type="submit" class="btn btn-gold btn-full" id="eb">
+            Envoyer ma candidature →
+          </button>
+        </form>
+        <p class="sm muted mt16" style="text-align:center">En soumettant, vous consentez à être contacté par IMPROTECH Training Center.</p>
+      </div>
+    </div>
+  </div>`;
+
+  $('ef').addEventListener('submit', async e => {
+    e.preventDefault();
+    const btn = $('eb');
+    btn.disabled = true; btn.textContent = 'Envoi en cours…';
+    $('ea').innerHTML = '';
+    const fd = new FormData(e.target);
+    const pid = fd.get('program');
+    try {
+      await submitEnrollment({
+        studentName:    fd.get('name').trim(),
+        studentEmail:   fd.get('email').trim().toLowerCase(),
+        studentPhone:   fd.get('phone').trim(),
+        studentCity:    fd.get('city').trim(),
+        studentMessage: fd.get('msg').trim(),
+        programId:   pid,
+        programName: programName(pid),
+        agentId:   agent?.id   || null,
+        agentCode: agent?.code || null,
+        agentName: agent?.name || null,
+        source: agent ? (location.search.includes('qr=1') ? 'qr' : 'link') : 'direct',
+      });
+      el().innerHTML = `
+      <div class="enroll-page">
+        <div class="enroll-card fade" style="text-align:center">
+          <div class="enroll-hdr"><div class="enroll-hdr-badge">IMPROTECH Training Center</div><h1>Candidature reçue ✓</h1></div>
+          <div class="enroll-body">
+            <div style="font-size:56px;margin-bottom:18px">🎉</div>
+            <h2 style="font-size:20px;margin-bottom:10px">Merci, ${fd.get('name').split(' ')[0]} !</h2>
+            <p class="muted" style="font-size:14px;line-height:1.8">
+              Votre demande pour <strong>${programName(pid)}</strong><br>
+              a bien été enregistrée.<br>Un conseiller vous contactera sous 24–48h.
+            </p>
+            <div style="margin-top:28px;padding:16px;background:var(--p50);border-radius:12px">
+              <p class="xs muted">Contact direct :</p>
+              <p class="sm" style="color:var(--p700);font-weight:500;margin-top:4px">info@improtech.edu.gh &nbsp;·&nbsp; 0266134658</p>
+            </div>
+          </div>
+        </div>
+      </div>`;
+    } catch(err) {
+      $('ea').innerHTML = `<div class="alert alert-err">${err.message}</div>`;
+      btn.disabled = false;
+      btn.textContent = 'Envoyer ma candidature →';
+    }
+  });
+}
+
+// ════════════════════════════════════════════
+//  VIEW: LOGIN
+// ════════════════════════════════════════════
+function viewLogin(errMsg='') {
+  el().innerHTML = `
+  <div class="login-page">
+    <div class="login-brand">
+      <div class="brand-content">
+        <div class="brand-badge">Portail Agents</div>
+        <h1 class="brand-title">Suivez vos<br>référencements</h1>
+        <p class="brand-sub">Gérez vos inscriptions, consultez vos commissions et générez votre lien personnalisé en temps réel.</p>
+        <div class="brand-stats">
+          <div><div class="stat-num">600+</div><div class="stat-lbl">Pros certifiés</div></div>
+          <div><div class="stat-num">14</div><div class="stat-lbl">Certifications</div></div>
+          <div><div class="stat-num">4</div><div class="stat-lbl">Pays</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="login-form-wrap">
+      <div class="login-card fade">
+        <h2>Connexion</h2>
+        <p>Accédez à votre espace agent ou administration</p>
+        ${errMsg ? `<div class="alert alert-err">${errMsg}</div>` : ''}
+        <form id="lf" novalidate>
+          <div class="fg"><label>Email</label><input type="email" id="le" placeholder="vous@email.com" required autocomplete="email"></div>
+          <div class="fg"><label>Mot de passe</label><input type="password" id="lp" placeholder="••••••••" required autocomplete="current-password"></div>
+          <button type="submit" class="btn btn-primary btn-full" id="lb">Se connecter</button>
+        </form>
+      </div>
+    </div>
+  </div>`;
+
+  $('lf').addEventListener('submit', async e => {
+    e.preventDefault();
+    const btn = $('lb');
+    btn.disabled = true; btn.textContent = 'Connexion…';
+    try {
+      await signInWithEmailAndPassword(auth, $('le').value, $('lp').value);
+    } catch(err) {
+      const m = {
+        'auth/wrong-password':'Mot de passe incorrect.',
+        'auth/user-not-found':'Aucun compte associé à cet email.',
+        'auth/invalid-email':'Adresse email invalide.',
+        'auth/too-many-requests':'Trop de tentatives. Réessayez dans quelques minutes.',
+        'auth/invalid-credential':'Email ou mot de passe incorrect.',
+      };
+      viewLogin(m[err.code] || 'Erreur de connexion. Vérifiez vos identifiants.');
+    }
+  });
+}
+
+// ════════════════════════════════════════════
+//  ADMIN — SHELL
+// ════════════════════════════════════════════
+const ADMIN_TABS = {enrollments:'📋 Inscriptions', agents:'👥 Agents', commissions:'💰 Commissions'};
+
+function adminShell() {
+  return `
+  <div class="portal">
+    <div class="sidebar">
+      <div class="sb-brand">
+        <div class="sb-brand-name">IMPROTECH</div>
+        <div class="sb-brand-sub">Administration</div>
+      </div>
+      <div class="sb-user">
+        <div class="avatar">${initials(S.agent?.name)}</div>
+        <div>
+          <div class="user-name">${S.agent?.name||S.user.email}</div>
+          <div class="user-role">Admin</div>
+        </div>
+      </div>
+      <div class="sb-nav">
+        <div class="nav-lbl">Navigation</div>
+        ${Object.entries(ADMIN_TABS).map(([k,v])=>`
+          <div class="nav-item ${S.tab===k?'active':''}" data-tab="${k}">${v}</div>
+        `).join('')}
+      </div>
+      <div class="sb-footer">
+        <button class="btn btn-ghost btn-sm btn-full" id="lout">Déconnexion</button>
+      </div>
+    </div>
+    <div class="main" id="main"></div>
+  </div>`;
+}
+
+async function viewAdmin() {
+  el().innerHTML = adminShell();
+  document.querySelectorAll('.nav-item[data-tab]').forEach(n=>{
+    n.addEventListener('click', ()=>{ S.tab=n.dataset.tab; adminTab(); });
+  });
+  $('lout').addEventListener('click', ()=> signOut(auth));
+  await adminTab();
+}
+
+async function adminTab() {
+  // Sync sidebar active state
+  document.querySelectorAll('.nav-item[data-tab]').forEach(n=>{
+    n.classList.toggle('active', n.dataset.tab===S.tab);
+  });
+  const area = $('main');
+  area.innerHTML = `<div class="loader" style="min-height:60vh"><div class="spinner"></div></div>`;
+
+  if (S.tab === 'enrollments') {
+    const rows = await getEnrollments();
+    const total = rows.length;
+    const pend  = rows.filter(e=>e.status==='pending').length;
+    const conf  = rows.filter(e=>e.status==='confirmed').length;
+    const via   = rows.filter(e=>e.agentId).length;
+
+    area.innerHTML = `
+    <div class="fade">
+      <div class="ph"><div><h1>Inscriptions</h1><p>Toutes les demandes reçues</p></div></div>
+      <div class="stats mb24">
+        <div class="sc purple"><div class="sv">${total}</div><div class="sl">Total</div></div>
+        <div class="sc gray"><div class="sv">${pend}</div><div class="sl">En attente</div></div>
+        <div class="sc green"><div class="sv">${conf}</div><div class="sl">Confirmées</div></div>
+        <div class="sc gold"><div class="sv">${via}</div><div class="sl">Via agent</div></div>
+      </div>
+      <div class="card">
+        <div class="card-ttl">Liste des inscriptions</div>
+        <div class="tw">
+          ${rows.length===0 ? `<div class="empty"><div class="empty-ico">📭</div><p>Aucune inscription pour l'instant.<br>Partagez le lien des agents !</p></div>` : `
+          <table>
+            <thead><tr><th>Étudiant</th><th>Programme</th><th>Agent</th><th>Source</th><th>Date</th><th>Statut</th><th>Actions</th></tr></thead>
+            <tbody>
+              ${rows.map(e=>`
+              <tr>
+                <td class="td-name"><strong>${e.studentName}</strong><span>${e.studentEmail}</span></td>
+                <td>${e.programName||e.programId}</td>
+                <td>${e.agentName||'<span class="muted">—</span>'}</td>
+                <td>${bdg(e.source||'direct')}</td>
+                <td>${fmt(e.timestamp)}</td>
+                <td>${bdg(e.status)}</td>
+                <td>
+                  <div class="row">
+                    ${e.status==='pending'?`<button class="btn btn-primary btn-sm conf-btn" data-id="${e.id}">✓ Confirmer</button>`:''}
+                    ${e.status!=='cancelled'?`<button class="btn btn-danger btn-sm canc-btn" data-id="${e.id}">✕</button>`:''}
+                  </div>
+                </td>
+              </tr>`).join('')}
+            </tbody>
+          </table>`}
+        </div>
+      </div>
+    </div>`;
+
+    area.querySelectorAll('.conf-btn').forEach(b=>{
+      b.addEventListener('click', async ()=>{ b.disabled=true; await updateEnrollment(b.dataset.id,{status:'confirmed'}); adminTab(); });
+    });
+    area.querySelectorAll('.canc-btn').forEach(b=>{
+      b.addEventListener('click', async ()=>{
+        if (!confirm('Annuler cette inscription ?')) return;
+        await updateEnrollment(b.dataset.id,{status:'cancelled',commissionStatus:'none'});
+        adminTab();
+      });
+    });
+  }
+
+  else if (S.tab === 'agents') {
+    const agents = await getAgents();
+    const agts   = agents.filter(a=>a.role==='agent');
+    const active = agts.filter(a=>a.status==='active').length;
+
+    area.innerHTML = `
+    <div class="fade">
+      <div class="ph">
+        <div><h1>Agents</h1><p>${active} agent(s) actif(s) sur ${agts.length}</p></div>
+        <button class="btn btn-primary" id="new-agent-btn">+ Nouvel agent</button>
+      </div>
+      <div class="card">
+        <div class="tw">
+          ${agts.length===0 ? `<div class="empty"><div class="empty-ico">👥</div><p>Aucun agent enregistré.<br>Créez votre premier agent ci-dessus.</p></div>` : `
+          <table>
+            <thead><tr><th>Nom</th><th>Code</th><th>Email</th><th>Inscriptions</th><th>Commission totale</th><th>Statut</th><th>Actions</th></tr></thead>
+            <tbody>
+              ${agts.map(a=>`
+              <tr>
+                <td><strong>${a.name}</strong></td>
+                <td><code>${a.code}</code></td>
+                <td class="sm">${a.email}</td>
+                <td>${a.totalEnrollments||0}</td>
+                <td>GHS ${(a.totalCommission||0).toLocaleString()}</td>
+                <td>${bdg(a.status)}</td>
+                <td>
+                  <div class="row">
+                    <button class="btn btn-sm btn-outline cp-btn" data-code="${a.code}" title="Copier le lien agent">🔗 Lien</button>
+                    ${a.status==='active'
+                      ?`<button class="btn btn-sm btn-danger tog-btn" data-id="${a.id}" data-s="suspended">Suspendre</button>`
+                      :`<button class="btn btn-sm btn-primary tog-btn" data-id="${a.id}" data-s="active">Réactiver</button>`}
+                  </div>
+                </td>
+              </tr>`).join('')}
+            </tbody>
+          </table>`}
+        </div>
+      </div>
+    </div>`;
+
+    $('new-agent-btn').addEventListener('click', ()=> showNewAgentModal());
+
+    area.querySelectorAll('.cp-btn').forEach(b=>{
+      b.addEventListener('click', ()=>{
+        navigator.clipboard.writeText(enrollUrl(b.dataset.code));
+        b.textContent='✓ Copié'; setTimeout(()=>b.innerHTML='🔗 Lien',2000);
+      });
+    });
+    area.querySelectorAll('.tog-btn').forEach(b=>{
+      b.addEventListener('click', async ()=>{ await updateAgentStatus(b.dataset.id,b.dataset.s); adminTab(); });
+    });
+  }
+
+  else if (S.tab === 'commissions') {
+    const rows   = await getEnrollments();
+    const agents = await getAgents();
+    const amap   = {}; agents.forEach(a=>amap[a.id]=a);
+    const due    = rows.filter(e=>e.commissionStatus==='due'&&e.status==='confirmed');
+    const paid   = rows.filter(e=>e.commissionStatus==='paid');
+
+    area.innerHTML = `
+    <div class="fade">
+      <div class="ph"><div><h1>Commissions</h1><p>Suivi des commissions agents</p></div></div>
+      <div class="stats mb24">
+        <div class="sc"><div class="sv">${due.length}</div><div class="sl">À payer</div></div>
+        <div class="sc green"><div class="sv">${paid.length}</div><div class="sl">Déjà payées</div></div>
+      </div>
+      <div class="card">
+        <div class="card-ttl">Commissions à régler</div>
+        <div class="tw">
+          ${due.length===0 ? `<div class="empty"><div class="empty-ico">✅</div><p>Toutes les commissions sont à jour.</p></div>` : `
+          <table>
+            <thead><tr><th>Agent</th><th>Étudiant</th><th>Programme</th><th>Date</th><th>Montant</th><th>Action</th></tr></thead>
+            <tbody>
+              ${due.map(e=>{
+                const a   = amap[e.agentId];
+                const amt = a?.commissionAmount||0;
+                return `<tr>
+                  <td><strong>${e.agentName||'—'}</strong></td>
+                  <td>${e.studentName}</td>
+                  <td>${e.programName||e.programId}</td>
+                  <td>${fmt(e.timestamp)}</td>
+                  <td>GHS ${amt.toLocaleString()}</td>
+                  <td><button class="btn btn-sm btn-primary pay-btn" data-eid="${e.id}" data-aid="${e.agentId}" data-amt="${amt}">Marquer payée</button></td>
+                </tr>`;
+              }).join('')}
+            </tbody>
+          </table>`}
+        </div>
+      </div>
+    </div>`;
+
+    area.querySelectorAll('.pay-btn').forEach(b=>{
+      b.addEventListener('click', async ()=>{
+        if (!confirm('Confirmer le paiement de cette commission ?')) return;
+        b.disabled=true;
+        await markCommPaid(b.dataset.eid, b.dataset.aid, Number(b.dataset.amt));
+        adminTab();
+      });
+    });
+  }
+}
+
+function showNewAgentModal() {
+  const code = genCode();
+  const pwd  = Math.random().toString(36).slice(-8).toUpperCase() + Math.floor(Math.random()*9000+1000);
+  const ov   = document.createElement('div');
+  ov.className = 'overlay';
+  ov.innerHTML = `
+  <div class="modal fade">
+    <div class="modal-ttl">Créer un agent <span class="modal-x" id="mcx">✕</span></div>
+    <div id="ma"></div>
+    <form id="af" novalidate>
+      <div class="fg"><label>Nom complet *</label><input name="name" placeholder="Prénom Nom" required></div>
+      <div class="g2">
+        <div class="fg"><label>Email *</label><input type="email" name="email" placeholder="agent@email.com" required></div>
+        <div class="fg"><label>Téléphone</label><input name="phone" placeholder="+233…"></div>
+      </div>
+      <div class="g2">
+        <div class="fg"><label>Commission par inscription (GHS)</label><input type="number" name="commission" placeholder="0" min="0"></div>
+        <div class="fg"><label>Code agent (auto)</label><input name="code" value="${code}" readonly></div>
+      </div>
+      <div style="background:var(--p50);border-radius:8px;padding:14px;margin-bottom:16px">
+        <p class="xs muted">Mot de passe temporaire — communiquer à l'agent :</p>
+        <p style="font-family:monospace;font-size:15px;font-weight:700;color:var(--p700);margin-top:6px;letter-spacing:1px">${pwd}</p>
+        <p class="xs muted mt8">Lien de référencement :</p>
+        <p class="xs" style="color:var(--p600);word-break:break-all;margin-top:4px">${enrollUrl(code)}</p>
+      </div>
+      <div class="row" style="justify-content:flex-end">
+        <button type="button" class="btn btn-outline" id="mca">Annuler</button>
+        <button type="submit" class="btn btn-primary" id="msb">Créer l'agent</button>
+      </div>
+    </form>
+  </div>`;
+  document.body.appendChild(ov);
+
+  $('mcx').onclick = $('mca').onclick = ()=> ov.remove();
+
+  $('af').addEventListener('submit', async e=>{
+    e.preventDefault();
+    const btn = $('msb');
+    btn.disabled=true; btn.textContent='Création…';
+    const fd = new FormData(e.target);
+    try {
+      await createAgent({
+        name:       fd.get('name').trim(),
+        email:      fd.get('email').trim().toLowerCase(),
+        phone:      fd.get('phone').trim(),
+        password:   pwd,
+        code:       fd.get('code'),
+        commission: fd.get('commission'),
+      });
+      ov.remove();
+      adminTab();
+    } catch(err) {
+      $('ma').innerHTML = `<div class="alert alert-err">${err.message}</div>`;
+      btn.disabled=false; btn.textContent="Créer l'agent";
+    }
+  });
+}
+
+// ════════════════════════════════════════════
+//  AGENT PORTAL — SHELL
+// ════════════════════════════════════════════
+const AGENT_TABS = { dashboard:'📊 Dashboard', link:'🔗 Mon lien', students:'🎓 Mes étudiants' };
+
+function agentShell() {
+  return `
+  <div class="portal">
+    <div class="sidebar">
+      <div class="sb-brand">
+        <div class="sb-brand-name">IMPROTECH</div>
+        <div class="sb-brand-sub">Portail Agent</div>
+      </div>
+      <div class="sb-user">
+        <div class="avatar">${initials(S.agent?.name)}</div>
+        <div>
+          <div class="user-name">${S.agent?.name||S.user.email}</div>
+          <div class="user-role">Agent · ${S.agent?.code||''}</div>
+        </div>
+      </div>
+      <div class="sb-nav">
+        <div class="nav-lbl">Navigation</div>
+        ${Object.entries(AGENT_TABS).map(([k,v])=>`
+          <div class="nav-item ${S.tab===k?'active':''}" data-tab="${k}">${v}</div>
+        `).join('')}
+      </div>
+      <div class="sb-footer">
+        <button class="btn btn-ghost btn-sm btn-full" id="lout">Déconnexion</button>
+      </div>
+    </div>
+    <div class="main" id="main"></div>
+  </div>`;
+}
+
+async function viewAgent() {
+  el().innerHTML = agentShell();
+  document.querySelectorAll('.nav-item[data-tab]').forEach(n=>{
+    n.addEventListener('click', ()=>{ S.tab=n.dataset.tab; agentTab(); });
+  });
+  $('lout').addEventListener('click', ()=> signOut(auth));
+  await agentTab();
+}
+
+async function agentTab() {
+  document.querySelectorAll('.nav-item[data-tab]').forEach(n=>{
+    n.classList.toggle('active', n.dataset.tab===S.tab);
+  });
+  const area = $('main');
+  area.innerHTML = `<div class="loader" style="min-height:60vh"><div class="spinner"></div></div>`;
+  const a = S.agent;
+
+  if (S.tab === 'dashboard') {
+    const rows = await getEnrollments(S.user.uid);
+    const conf = rows.filter(e=>e.status==='confirmed').length;
+    const pend = rows.filter(e=>e.status==='pending').length;
+    const due  = rows.filter(e=>e.commissionStatus==='due').length;
+
+    area.innerHTML = `
+    <div class="fade">
+      <div class="ph"><div>
+        <h1>Bonjour, ${a.name.split(' ')[0]} 👋</h1>
+        <p>Votre tableau de bord — Code : <code>${a.code}</code></p>
+      </div></div>
+      ${due>0?`<div class="alert alert-warn mb16">💰 Vous avez <strong>${due} commission(s)</strong> en attente de paiement.</div>`:''}
+      <div class="stats mb24">
+        <div class="sc purple"><div class="sv">${a.totalEnrollments||0}</div><div class="sl">Total inscriptions</div></div>
+        <div class="sc green"><div class="sv">${conf}</div><div class="sl">Confirmées</div></div>
+        <div class="sc gray"><div class="sv">${pend}</div><div class="sl">En attente</div></div>
+        <div class="sc gold"><div class="sv">GHS ${(a.totalCommission||0).toLocaleString()}</div><div class="sl">Commission reçue</div></div>
+      </div>
+      <div class="card" style="max-width:560px">
+        <div class="card-ttl">Votre lien de référencement</div>
+        <div class="code-box">${enrollUrl(a.code)}</div>
+        <div class="row mt16">
+          <button class="btn btn-primary btn-sm" id="cp-dash">Copier le lien</button>
+          <button class="btn btn-outline btn-sm" onclick="window._goTab('link')">Voir QR Code →</button>
+        </div>
+      </div>
+    </div>`;
+
+    $('cp-dash').onclick = ()=>{
+      navigator.clipboard.writeText(enrollUrl(a.code));
+      $('cp-dash').textContent='✓ Copié !';
+      setTimeout(()=>$('cp-dash').textContent='Copier le lien',2000);
+    };
+  }
+
+  else if (S.tab === 'link') {
+    const url    = enrollUrl(a.code);
+    const urlQR  = url + '&qr=1';
+
+    area.innerHTML = `
+    <div class="fade">
+      <div class="ph"><div><h1>Mon lien de référencement</h1><p>Partagez ce lien ou ce QR code avec vos prospects</p></div></div>
+      <div class="link-section mb24">
+        <div class="card">
+          <div class="card-ttl">Lien unique</div>
+          <div class="code-box">${url}</div>
+          <div class="row mt16">
+            <button class="btn btn-primary btn-sm" id="cp-url">Copier</button>
+            <button class="btn btn-outline btn-sm" onclick="window.open('${url}','_blank')">Tester ↗</button>
+          </div>
+          <hr>
+          <p class="xs muted">Lien avec tracking QR :</p>
+          <div class="code-box mt8">${urlQR}</div>
+          <button class="btn btn-outline btn-sm mt8" id="cp-qr">Copier lien QR</button>
+        </div>
+        <div class="card" style="text-align:center">
+          <div class="card-ttl">QR Code à imprimer</div>
+          <div id="qr-wrap" style="display:flex;justify-content:center;margin:12px 0 16px"></div>
+          <p class="xs muted">Intégrez ce QR code sur vos flyers<br>et cartes de visite</p>
+          <button class="btn btn-gold btn-sm mt16" id="dl-qr">⬇ Télécharger</button>
+        </div>
+      </div>
+      <div class="card" style="background:var(--p50);border:1.5px solid var(--p100)">
+        <div class="card-ttl" style="color:var(--p700)">💡 Conseils d'utilisation</div>
+        <ul class="sm" style="color:var(--text2);line-height:2.1;padding-left:20px">
+          <li>Partagez votre lien sur WhatsApp, email, et réseaux sociaux</li>
+          <li>Imprimez le QR code sur vos flyers — ne partagez pas directement le numéro IMPROTECH</li>
+          <li>Chaque inscription via votre lien est automatiquement créditée à votre compte</li>
+          <li>Ne communiquez pas votre code à d'autres agents</li>
+        </ul>
+      </div>
+    </div>`;
+
+    $('cp-url').onclick = ()=>{ navigator.clipboard.writeText(url); $('cp-url').textContent='✓ Copié!'; setTimeout(()=>$('cp-url').textContent='Copier',2000); };
+    $('cp-qr').onclick  = ()=>{ navigator.clipboard.writeText(urlQR); $('cp-qr').textContent='✓ Copié!'; setTimeout(()=>$('cp-qr').textContent='Copier lien QR',2000); };
+
+    const qrWrap = $('qr-wrap');
+    new window.QRCode(qrWrap, { text:urlQR, width:180, height:180, colorDark:'#251560', colorLight:'#ffffff' });
+
+    $('dl-qr').onclick = ()=>{
+      const canvas = qrWrap.querySelector('canvas');
+      if (canvas) { const l=document.createElement('a'); l.download=`QR_${a.code}.png`; l.href=canvas.toDataURL(); l.click(); }
+    };
+  }
+
+  else if (S.tab === 'students') {
+    const rows = await getEnrollments(S.user.uid);
+
+    area.innerHTML = `
+    <div class="fade">
+      <div class="ph"><div><h1>Mes étudiants</h1><p>${rows.length} inscription(s) via votre lien</p></div></div>
+      <div class="card">
+        <div class="tw">
+          ${rows.length===0 ? `
+          <div class="empty">
+            <div class="empty-ico">🎓</div>
+            <p>Aucun étudiant encore inscrit.<br>Partagez votre lien pour démarrer !</p>
+          </div>` : `
+          <table>
+            <thead><tr><th>Étudiant</th><th>Programme</th><th>Téléphone</th><th>Ville</th><th>Date</th><th>Statut</th><th>Commission</th></tr></thead>
+            <tbody>
+              ${rows.map(e=>`
+              <tr>
+                <td class="td-name"><strong>${e.studentName}</strong><span>${e.studentEmail}</span></td>
+                <td>${e.programName||e.programId}</td>
+                <td class="sm">${e.studentPhone||'—'}</td>
+                <td class="sm">${e.studentCity||'—'}</td>
+                <td>${fmt(e.timestamp)}</td>
+                <td>${bdg(e.status)}</td>
+                <td>${bdg(e.commissionStatus||'none')}</td>
+              </tr>`).join('')}
+            </tbody>
+          </table>`}
+        </div>
+      </div>
+    </div>`;
+  }
+}
+
+// ════════════════════════════════════════════
+//  ROUTER
+// ════════════════════════════════════════════
+async function route(user) {
+  const ref = new URLSearchParams(location.search).get('ref');
+  if (ref) { await viewEnroll(ref); return; }
+
+  if (!user) { S={user:null,agent:null,isAdmin:false,tab:'enrollments'}; viewLogin(); return; }
+
+  S.user = user;
+  try {
+    const docSnap = await getDoc(doc(db,'agents',user.uid));
+    if (!docSnap.exists()) { await signOut(auth); return; }
+    S.agent   = {id:docSnap.id,...docSnap.data()};
+    S.isAdmin = S.agent.role === 'admin';
+    S.tab     = S.isAdmin ? 'enrollments' : 'dashboard';
+    if (S.isAdmin) await viewAdmin();
+    else           await viewAgent();
+  } catch(_) {
+    viewLogin('Erreur de chargement du profil. Reconnectez-vous.');
+  }
+}
+
+// ════════════════════════════════════════════
+//  INIT
+// ════════════════════════════════════════════
+// Expose for inline onclick in dynamic HTML
+window._goTab = (tab) => { S.tab = tab; agentTab(); };
+const initRef = new URLSearchParams(location.search).get('ref');
+if (initRef) {
+  viewEnroll(initRef);
+} else {
+  onAuthStateChanged(auth, u => route(u));
+}
+</script>
+</body>
+</html>
