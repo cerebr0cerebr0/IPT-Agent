@@ -10,6 +10,9 @@
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jspdf-autotable@3.8.2/dist/jspdf.plugin.autotable.min.js"></script>
   <style>
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
     :root{
@@ -307,6 +310,86 @@ function submitForm(){
   }).catch(function(err){ale.innerHTML='<div class="alert alert-err">'+err.message+'</div>';btn.disabled=false;btn.textContent='Submit my application →';});
 }
 
+
+// ══════════════════════════════════════
+//  EXPORT HELPERS
+// ══════════════════════════════════════
+function cleanExportValue(v){
+  if(v===null || v===undefined) return '';
+  return String(v).replace(/<[^>]*>/g,'').replace(/\s+/g,' ').trim();
+}
+
+function enrollmentExportRows(rows){
+  return (rows || []).map(function(e){
+    return {
+      "Student Name": cleanExportValue(e.studentName),
+      "Email": cleanExportValue(e.studentEmail),
+      "Phone": cleanExportValue(e.studentPhone),
+      "City": cleanExportValue(e.studentCity),
+      "Program": cleanExportValue(e.programName || e.programId),
+      "Agent": cleanExportValue(e.agentName),
+      "Agent Code": cleanExportValue(e.agentCode),
+      "Source": cleanExportValue(e.source || 'direct'),
+      "Status": cleanExportValue(e.status),
+      "Commission Status": cleanExportValue(e.commissionStatus || 'none'),
+      "Date": cleanExportValue(fmt(e.timestamp)),
+      "Message": cleanExportValue(e.studentMessage)
+    };
+  });
+}
+
+function exportEnrollmentsExcel(rows, fileName){
+  var data = enrollmentExportRows(rows || []);
+  if(!data.length){ alert('No data to export.'); return; }
+
+  if(typeof XLSX === 'undefined'){
+    alert('Excel export library did not load. Check your internet connection.');
+    return;
+  }
+
+  var ws = XLSX.utils.json_to_sheet(data);
+  ws['!cols'] = [
+    {wch:22},{wch:28},{wch:18},{wch:16},{wch:28},
+    {wch:22},{wch:14},{wch:12},{wch:18},{wch:16},{wch:35}
+  ];
+
+  var wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws, "Students");
+  XLSX.writeFile(wb, (fileName || 'students_export') + ".xlsx");
+}
+
+function exportEnrollmentsPDF(rows, title, fileName){
+  var data = enrollmentExportRows(rows || []);
+  if(!data.length){ alert('No data to export.'); return; }
+
+  if(!window.jspdf || !window.jspdf.jsPDF){
+    alert('PDF export library did not load. Check your internet connection.');
+    return;
+  }
+
+  var doc = new window.jspdf.jsPDF({orientation:'landscape'});
+  doc.setFontSize(16);
+  doc.text(title || 'Students Export', 14, 14);
+  doc.setFontSize(9);
+  doc.text('Generated on: ' + new Date().toLocaleString(), 14, 21);
+
+  var columns = ["Student Name","Email","Phone","City","Program","Agent","Source","Status","Commission Status","Date"];
+  var body = data.map(function(r){
+    return columns.map(function(c){ return r[c] || ''; });
+  });
+
+  doc.autoTable({
+    head: [columns],
+    body: body,
+    startY: 28,
+    styles: {fontSize: 7, cellPadding: 2},
+    headStyles: {fillColor: [85, 53, 168]},
+    margin: {left: 10, right: 10}
+  });
+
+  doc.save((fileName || 'students_export') + ".pdf");
+}
+
 // ══════════════════════════════════════
 //  ADMIN
 // ══════════════════════════════════════
@@ -340,7 +423,8 @@ function loadAdminTab(){
   if(S.tab==='enrollments'){
     getEnrollments().then(function(rows){
       var t=rows.length,p=rows.filter(function(e){return e.status==='pending';}).length,c=rows.filter(function(e){return e.status==='confirmed';}).length,v=rows.filter(function(e){return e.agentId;}).length;
-      area.innerHTML='<div class="fade"><div class="ph"><div><h1>Enrollments</h1><p>All received applications</p></div></div>'+
+      window._adminEnrollments=rows;
+      area.innerHTML='<div class="fade"><div class="ph"><div><h1>Enrollments</h1><p>All received applications</p></div><div class="row"><button class="btn btn-outline btn-sm" onclick="exportEnrollmentsExcel(window._adminEnrollments||[],\'all_students\')">⬇ Excel</button><button class="btn btn-outline btn-sm" onclick="exportEnrollmentsPDF(window._adminEnrollments||[],\'All Students / Enrollments\',\'all_students\')">⬇ PDF</button></div></div>'+
         '<div class="stats mb24"><div class="sc purple"><div class="sv">'+t+'</div><div class="sl">Total</div></div><div class="sc gray"><div class="sv">'+p+'</div><div class="sl">Pending</div></div><div class="sc green"><div class="sv">'+c+'</div><div class="sl">Confirmed</div></div><div class="sc gold"><div class="sv">'+v+'</div><div class="sl">Via agent</div></div></div>'+
         '<div class="card"><div class="card-ttl">Enrollment list</div><div class="tw">'+
         (rows.length===0?'<div class="empty"><div class="empty-ico">📭</div><p>No enrollments yet.</p></div>':
@@ -461,7 +545,8 @@ function loadAgentTab(){
     setTimeout(function(){var w=$('qr-wrap');if(w&&typeof QRCode!=='undefined')new QRCode(w,{text:urlQR,width:180,height:180,colorDark:'#251560',colorLight:'#ffffff'});},200);
   } else if(S.tab==='students'){
     getEnrollments(S.user.uid).then(function(rows){
-      area.innerHTML='<div class="fade"><div class="ph"><div><h1>My Students</h1><p>'+rows.length+' enrollment(s)</p></div></div>'+
+      window._agentEnrollments=rows;
+      area.innerHTML='<div class="fade"><div class="ph"><div><h1>My Students</h1><p>'+rows.length+' enrollment(s)</p></div><div class="row"><button class="btn btn-outline btn-sm" onclick="exportEnrollmentsExcel(window._agentEnrollments||[],\'my_students\')">⬇ Excel</button><button class="btn btn-outline btn-sm" onclick="exportEnrollmentsPDF(window._agentEnrollments||[],\'My Students\',\'my_students\')">⬇ PDF</button></div></div>'+
         '<div class="card"><div class="tw">'+
         (rows.length===0?'<div class="empty"><div class="empty-ico">🎓</div><p>No students yet.<br>Share your link!</p></div>':
           '<table><thead><tr><th>Student</th><th>Program</th><th>Phone</th><th>City</th><th>Date</th><th>Status</th><th>Commission</th></tr></thead><tbody>'+
