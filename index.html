@@ -226,7 +226,7 @@ function adminAnalytics(area){
     var partnerRows=analyticsBy(rows,function(e){return e.sourceName || (e.sourceType==='direct'?'Direct':'Unknown partner');});
 
     area.innerHTML=
-      '<div class="ph"><div><h1>Analytics</h1><p>Conversion, attribution and performance intelligence.</p></div><div class="row"><button class="btn btn-outline btn-sm" onclick="exportExcel(window._analyticsRows,\\'analytics\\')">⬇ Excel</button><button class="btn btn-outline btn-sm" onclick="exportPDF(window._analyticsRows,\\'Analytics Report\\',\\'analytics\\')">⬇ PDF</button></div></div>'+
+      '<div class="ph"><div><h1>Analytics</h1><p>Conversion, attribution and performance intelligence.</p></div><div class="row"><button class="btn btn-outline btn-sm" onclick="exportExcel(window._analyticsRows,\'analytics\')">⬇ Excel</button><button class="btn btn-outline btn-sm" onclick="exportPDF(window._analyticsRows,\'Analytics Report\',\'analytics\')">⬇ PDF</button></div></div>'+
       '<div class="stats">'+
         '<div class="sc"><div class="sv">'+rows.length+'</div><div class="sl">Total leads</div></div>'+
         '<div class="sc blue"><div class="sv">'+conversionRate(enrolled,rows.length)+'</div><div class="sl">Lead → enrolled</div></div>'+
@@ -263,11 +263,11 @@ function adminClasses(area){
 function openClassModal(){
   var ov=document.createElement('div');
   ov.className='overlay';
-  ov.innerHTML='<div class="modal"><div class="modal-ttl">Create class <span class="modal-x" onclick="this.closest(\\'.overlay\\').remove()">✕</span></div><div id="ca"></div>'+
+  ov.innerHTML='<div class="modal"><div class="modal-ttl">Create class <span class="modal-x" onclick="this.closest(\'.overlay\').remove()">✕</span></div><div id="ca"></div>'+
   '<div class="g2"><div class="fg"><label>Class name</label><input id="cname" placeholder="CCNA Weekend Batch 01"></div><div class="fg"><label>Program</label><select id="cprogram"><option value="">— Select —</option>'+PROGRAMS.map(function(p){return '<option value="'+p.id+'">'+p.name+'</option>';}).join('')+'</select></div></div>'+
   '<div class="g2"><div class="fg"><label>Start date</label><input id="cstart" type="date"></div><div class="fg"><label>Schedule</label><input id="cschedule" placeholder="Saturday 9am - 1pm"></div></div>'+
   '<div class="fg"><label>Trainer</label><input id="ctrainer" placeholder="Trainer name"></div>'+
-  '<div class="row" style="justify-content:flex-end"><button class="btn btn-outline" onclick="this.closest(\\'.overlay\\').remove()">Cancel</button><button id="csave" class="btn btn-primary" onclick="saveClass()">Create class</button></div></div>';
+  '<div class="row" style="justify-content:flex-end"><button class="btn btn-outline" onclick="this.closest(\'.overlay\').remove()">Cancel</button><button id="csave" class="btn btn-primary" onclick="saveClass()">Create class</button></div></div>';
   document.body.appendChild(ov);
 }
 
@@ -298,12 +298,12 @@ function openContractModal(){
   var opts=partners.map(function(p){return '<option value="'+p.id+'">'+p.name+' ('+(p.type||p.role)+')</option>';}).join('');
   var ov=document.createElement('div');
   ov.className='overlay';
-  ov.innerHTML='<div class="modal"><div class="modal-ttl">Create contract record <span class="modal-x" onclick="this.closest(\\'.overlay\\').remove()">✕</span></div><div id="cta"></div>'+
+  ov.innerHTML='<div class="modal"><div class="modal-ttl">Create contract record <span class="modal-x" onclick="this.closest(\'.overlay\').remove()">✕</span></div><div id="cta"></div>'+
   '<div class="fg"><label>Partner</label><select id="ctpartner"><option value="">— Select partner —</option>'+opts+'</select></div>'+
   '<div class="g2"><div class="fg"><label>Start date</label><input id="ctstart" type="date"></div><div class="fg"><label>End date</label><input id="ctend" type="date"></div></div>'+
   '<div class="fg"><label>Document URL</label><input id="cturl" placeholder="Google Drive / PDF link"></div>'+
   '<div class="fg"><label>Notes</label><textarea id="ctnotes" rows="3" placeholder="Revenue share, territory, obligations…"></textarea></div>'+
-  '<div class="row" style="justify-content:flex-end"><button class="btn btn-outline" onclick="this.closest(\\'.overlay\\').remove()">Cancel</button><button id="ctsave" class="btn btn-primary" onclick="saveContract()">Save contract</button></div></div>';
+  '<div class="row" style="justify-content:flex-end"><button class="btn btn-outline" onclick="this.closest(\'.overlay\').remove()">Cancel</button><button id="ctsave" class="btn btn-primary" onclick="saveContract()">Save contract</button></div></div>';
   document.body.appendChild(ov);
 }
 
