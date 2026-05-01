@@ -6,139 +6,13 @@
 <title>IMPROTECH – SaaS Partner Portal</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js">
-<script>
-window.addEventListener('error', function(e){
-  console.error('Global error:', e.error || e.message);
-  var main=document.getElementById('main');
-  if(main && main.innerHTML.indexOf('spinner') !== -1){
-    main.innerHTML='<div class="card"><div class="alert alert-err"><strong>JavaScript error:</strong> '+(e.message||'Unknown error')+'</div></div>';
-  }
-});
-window.addEventListener('unhandledrejection', function(e){
-  console.error('Unhandled promise:', e.reason);
-  var main=document.getElementById('main');
-  if(main && main.innerHTML.indexOf('spinner') !== -1){
-    var msg=(e.reason && e.reason.message) ? e.reason.message : e.reason;
-    main.innerHTML='<div class="card"><div class="alert alert-err"><strong>Request error:</strong> '+msg+'</div></div>';
-  }
-});
-</script>
-</script>
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js">
-<script>
-window.addEventListener('error', function(e){
-  console.error('Global error:', e.error || e.message);
-  var main=document.getElementById('main');
-  if(main && main.innerHTML.indexOf('spinner') !== -1){
-    main.innerHTML='<div class="card"><div class="alert alert-err"><strong>JavaScript error:</strong> '+(e.message||'Unknown error')+'</div></div>';
-  }
-});
-window.addEventListener('unhandledrejection', function(e){
-  console.error('Unhandled promise:', e.reason);
-  var main=document.getElementById('main');
-  if(main && main.innerHTML.indexOf('spinner') !== -1){
-    var msg=(e.reason && e.reason.message) ? e.reason.message : e.reason;
-    main.innerHTML='<div class="card"><div class="alert alert-err"><strong>Request error:</strong> '+msg+'</div></div>';
-  }
-});
-</script>
-</script>
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js">
-<script>
-window.addEventListener('error', function(e){
-  console.error('Global error:', e.error || e.message);
-  var main=document.getElementById('main');
-  if(main && main.innerHTML.indexOf('spinner') !== -1){
-    main.innerHTML='<div class="card"><div class="alert alert-err"><strong>JavaScript error:</strong> '+(e.message||'Unknown error')+'</div></div>';
-  }
-});
-window.addEventListener('unhandledrejection', function(e){
-  console.error('Unhandled promise:', e.reason);
-  var main=document.getElementById('main');
-  if(main && main.innerHTML.indexOf('spinner') !== -1){
-    var msg=(e.reason && e.reason.message) ? e.reason.message : e.reason;
-    main.innerHTML='<div class="card"><div class="alert alert-err"><strong>Request error:</strong> '+msg+'</div></div>';
-  }
-});
-</script>
-</script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js">
-<script>
-window.addEventListener('error', function(e){
-  console.error('Global error:', e.error || e.message);
-  var main=document.getElementById('main');
-  if(main && main.innerHTML.indexOf('spinner') !== -1){
-    main.innerHTML='<div class="card"><div class="alert alert-err"><strong>JavaScript error:</strong> '+(e.message||'Unknown error')+'</div></div>';
-  }
-});
-window.addEventListener('unhandledrejection', function(e){
-  console.error('Unhandled promise:', e.reason);
-  var main=document.getElementById('main');
-  if(main && main.innerHTML.indexOf('spinner') !== -1){
-    var msg=(e.reason && e.reason.message) ? e.reason.message : e.reason;
-    main.innerHTML='<div class="card"><div class="alert alert-err"><strong>Request error:</strong> '+msg+'</div></div>';
-  }
-});
-</script>
-</script>
-<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js">
-<script>
-window.addEventListener('error', function(e){
-  console.error('Global error:', e.error || e.message);
-  var main=document.getElementById('main');
-  if(main && main.innerHTML.indexOf('spinner') !== -1){
-    main.innerHTML='<div class="card"><div class="alert alert-err"><strong>JavaScript error:</strong> '+(e.message||'Unknown error')+'</div></div>';
-  }
-});
-window.addEventListener('unhandledrejection', function(e){
-  console.error('Unhandled promise:', e.reason);
-  var main=document.getElementById('main');
-  if(main && main.innerHTML.indexOf('spinner') !== -1){
-    var msg=(e.reason && e.reason.message) ? e.reason.message : e.reason;
-    main.innerHTML='<div class="card"><div class="alert alert-err"><strong>Request error:</strong> '+msg+'</div></div>';
-  }
-});
-</script>
-</script>
-<script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js">
-<script>
-window.addEventListener('error', function(e){
-  console.error('Global error:', e.error || e.message);
-  var main=document.getElementById('main');
-  if(main && main.innerHTML.indexOf('spinner') !== -1){
-    main.innerHTML='<div class="card"><div class="alert alert-err"><strong>JavaScript error:</strong> '+(e.message||'Unknown error')+'</div></div>';
-  }
-});
-window.addEventListener('unhandledrejection', function(e){
-  console.error('Unhandled promise:', e.reason);
-  var main=document.getElementById('main');
-  if(main && main.innerHTML.indexOf('spinner') !== -1){
-    var msg=(e.reason && e.reason.message) ? e.reason.message : e.reason;
-    main.innerHTML='<div class="card"><div class="alert alert-err"><strong>Request error:</strong> '+msg+'</div></div>';
-  }
-});
-</script>
-</script>
-<script src="https://cdn.jsdelivr.net/npm/jspdf-autotable@3.8.2/dist/jspdf.plugin.autotable.min.js">
-<script>
-window.addEventListener('error', function(e){
-  console.error('Global error:', e.error || e.message);
-  var main=document.getElementById('main');
-  if(main && main.innerHTML.indexOf('spinner') !== -1){
-    main.innerHTML='<div class="card"><div class="alert alert-err"><strong>JavaScript error:</strong> '+(e.message||'Unknown error')+'</div></div>';
-  }
-});
-window.addEventListener('unhandledrejection', function(e){
-  console.error('Unhandled promise:', e.reason);
-  var main=document.getElementById('main');
-  if(main && main.innerHTML.indexOf('spinner') !== -1){
-    var msg=(e.reason && e.reason.message) ? e.reason.message : e.reason;
-    main.innerHTML='<div class="card"><div class="alert alert-err"><strong>Request error:</strong> '+msg+'</div></div>';
-  }
-});
-</script>
-</script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jspdf-autotable@3.8.2/dist/jspdf.plugin.autotable.min.js"></script>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}:root{--p900:#160E40;--p800:#251560;--p700:#3A1F82;--p600:#5535A8;--p500:#7B5CC0;--p300:#B09EE0;--p100:#EDE9FA;--p50:#F8F6FF;--gold:#F0A500;--white:#fff;--bg:#F7F6FB;--line:#E6E2F2;--muted:#6B6880;--text:#1A1037;--ok:#10B981;--ok-bg:#D1FAE5;--err:#EF4444;--err-bg:#FEE2E2;--warn:#F59E0B;--warn-bg:#FEF3C7;--info:#3B82F6;--info-bg:#DBEAFE;--r:16px;--r2:22px;--sh:0 8px 30px rgba(37,21,96,.10);--sh-lg:0 18px 60px rgba(37,21,96,.20)}body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}h1,h2,h3{font-family:'Sora',sans-serif}button,input,select,textarea{font-family:'DM Sans',sans-serif}.loader{display:flex;align-items:center;justify-content:center;min-height:100vh;gap:14px;color:var(--muted)}.spinner{width:36px;height:36px;border:3px solid var(--p100);border-top-color:var(--p600);border-radius:50%;animation:spin .7s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}.login-page{min-height:100vh;display:grid;grid-template-columns:1fr 1fr;background:white}.login-brand{background:linear-gradient(145deg,var(--p800),var(--p900));display:flex;align-items:center;padding:70px;position:relative;overflow:hidden}.login-brand:before{content:'';position:absolute;right:-150px;top:-140px;width:450px;height:450px;border-radius:50%;background:rgba(255,255,255,.06)}.brand-content{position:relative}.brand-badge{display:inline-block;background:rgba(240,165,0,.16);color:#FFD166;border:1px solid rgba(240,165,0,.30);padding:6px 14px;border-radius:999px;font-size:11px;letter-spacing:.8px;text-transform:uppercase;margin-bottom:24px}.brand-title{font-size:44px;line-height:1.1;color:white;margin-bottom:18px}.brand-sub{color:var(--p300);max-width:440px;line-height:1.75}.login-wrap{display:flex;align-items:center;justify-content:center;padding:52px}.login-card{width:100%;max-width:390px}.login-card h2{font-size:30px;margin-bottom:8px}.login-card>p{color:var(--muted);margin-bottom:28px}.fg{margin-bottom:16px}.fg label{display:block;font-size:12px;font-weight:700;color:var(--muted);letter-spacing:.45px;text-transform:uppercase;margin-bottom:7px}.fg input,.fg select,.fg textarea{width:100%;padding:12px 14px;border:1.5px solid var(--line);border-radius:12px;background:white;color:var(--text);outline:none;font-size:14px}.fg input:focus,.fg select:focus,.fg textarea:focus{border-color:var(--p500);box-shadow:0 0 0 4px rgba(123,92,192,.10)}.fg input[readonly]{background:var(--p50);font-weight:700;color:var(--p700)}.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:none;border-radius:12px;padding:11px 16px;font-weight:700;cursor:pointer;transition:.18s;white-space:nowrap}.btn:hover{transform:translateY(-1px)}.btn:disabled{opacity:.55;cursor:not-allowed;transform:none}.btn-primary{background:var(--p600);color:white}.btn-gold{background:var(--gold);color:var(--p900)}.btn-outline{background:white;border:1.5px solid var(--line);color:var(--p800)}.btn-danger{background:var(--err-bg);color:#991b1b}.btn-sm{padding:8px 12px;font-size:12px;border-radius:10px}.btn-full{width:100%}.alert{padding:12px 14px;border-radius:12px;font-size:13px;line-height:1.55;margin-bottom:14px}.alert-err{background:var(--err-bg);color:#991b1b;border-left:4px solid var(--err)}.alert-ok{background:var(--ok-bg);color:#065f46;border-left:4px solid var(--ok)}.alert-warn{background:var(--warn-bg);color:#92400e;border-left:4px solid var(--warn)}.alert-info{background:var(--p50);color:var(--p700);border-left:4px solid var(--p500)}.portal{display:grid;grid-template-columns:270px 1fr;min-height:100vh}.sidebar{background:var(--p800);height:100vh;position:sticky;top:0;display:flex;flex-direction:column;overflow:auto;color:white}.sb-brand{padding:24px;border-bottom:1px solid rgba(255,255,255,.08)}.sb-brand-name{font-family:'Sora';font-weight:800;font-size:17px}.sb-brand-sub{color:var(--p300);font-size:12px;margin-top:3px}.sb-user{display:flex;align-items:center;gap:12px;padding:18px 24px;border-bottom:1px solid rgba(255,255,255,.08)}.avatar{width:42px;height:42px;border-radius:50%;background:var(--p600);display:flex;align-items:center;justify-content:center;font-family:'Sora';font-weight:800}.user-name{font-weight:700;font-size:14px}.user-role{display:inline-block;color:var(--gold);background:rgba(240,165,0,.14);font-size:11px;padding:3px 8px;border-radius:999px;margin-top:4px}.sb-nav{padding:16px 12px;flex:1}.nav-lbl{font-size:10px;color:var(--p300);text-transform:uppercase;letter-spacing:1px;padding:8px 12px}.nav-item{display:flex;align-items:center;gap:10px;padding:12px 14px;border-radius:12px;color:var(--p300);font-size:14px;cursor:pointer;margin-bottom:4px;user-select:none}.nav-item:hover{background:rgba(255,255,255,.08);color:white}.nav-item.active{background:var(--p600);color:white}.sb-footer{padding:18px 24px;border-top:1px solid rgba(255,255,255,.08)}.ghost-white{background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.18);color:white;width:100%}.main{padding:34px;min-width:0}.ph{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap;margin-bottom:24px}.ph h1{font-size:26px}.ph p{color:var(--muted);margin-top:5px}.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:16px;margin-bottom:24px}.sc{background:white;border-radius:var(--r);box-shadow:var(--sh);padding:20px;border-top:4px solid var(--p500)}.sc.gold{border-top-color:var(--gold)}.sc.green{border-top-color:var(--ok)}.sc.red{border-top-color:var(--err)}.sc.blue{border-top-color:var(--info)}.sv{font-family:'Sora';font-size:30px;font-weight:800}.sl{color:var(--muted);font-size:13px;margin-top:6px}.card{background:white;border-radius:var(--r2);box-shadow:var(--sh);padding:24px;margin-bottom:22px}.card-ttl{font-family:'Sora';font-weight:700;margin-bottom:18px;display:flex;justify-content:space-between;align-items:center;gap:12px}.tw{overflow-x:auto}table{width:100%;border-collapse:collapse;font-size:13.5px}th{text-align:left;padding:12px 14px;border-bottom:1.5px solid var(--line);color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.6px;white-space:nowrap}td{padding:14px;border-bottom:1px solid #f0edf7;vertical-align:middle}tr:last-child td{border-bottom:none}tbody tr:hover td{background:var(--p50)}.td-name strong{display:block}.td-name span{display:block;color:var(--muted);font-size:12.5px;margin-top:2px}.bdg{display:inline-flex;align-items:center;padding:5px 10px;border-radius:999px;font-size:12px;font-weight:800;white-space:nowrap}.b-new,.b-pending{background:var(--warn-bg);color:#92400e}.b-contacted,.b-qualified{background:var(--info-bg);color:#1e40af}.b-enrolled,.b-confirmed,.b-paid,.b-active{background:var(--ok-bg);color:#065f46}.b-completed,.b-agent,.b-school,.b-company,.b-influencer,.b-link,.b-qr{background:var(--p100);color:var(--p700)}.b-lost,.b-cancelled,.b-suspended{background:var(--err-bg);color:#991b1b}.b-direct,.b-none{background:#F1F0F6;color:var(--muted)}.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.filters{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-bottom:16px}.code-box{background:var(--p50);border:1.5px solid var(--p100);color:var(--p700);border-radius:12px;padding:13px;word-break:break-all;font-family:monospace;font-size:13px}.empty{text-align:center;padding:46px 18px;color:var(--muted)}.g2{display:grid;grid-template-columns:1fr 1fr;gap:16px}.overlay{position:fixed;inset:0;background:rgba(22,14,64,.65);z-index:500;display:flex;align-items:center;justify-content:center;padding:20px}.modal{background:white;border-radius:22px;box-shadow:var(--sh-lg);padding:28px;width:100%;max-width:640px;max-height:90vh;overflow:auto}.modal-ttl{display:flex;justify-content:space-between;align-items:center;gap:16px;font-family:'Sora';font-size:18px;font-weight:800;margin-bottom:20px}.modal-x{cursor:pointer;color:var(--muted);font-size:22px}.mobile-topbar{display:none}.sidebar-backdrop{display:none}.enroll-page{min-height:100vh;background:linear-gradient(150deg,var(--p800),var(--p900));display:flex;align-items:flex-start;justify-content:center;padding:44px 18px}.enroll-card{background:white;border-radius:24px;box-shadow:var(--sh-lg);width:100%;max-width:620px;overflow:hidden}.enroll-hdr{background:var(--p700);padding:30px}.enroll-hdr h1{color:white;font-size:24px}.enroll-hdr p{color:var(--p300);margin-top:7px}.enroll-badge{display:inline-block;background:rgba(240,165,0,.18);border:1px solid rgba(240,165,0,.28);color:#FFD166;font-size:10px;text-transform:uppercase;letter-spacing:1px;padding:5px 12px;border-radius:999px;margin-bottom:12px}.enroll-body{padding:30px}.mt8{margin-top:8px}.mt16{margin-top:16px}.mt24{margin-top:24px}.mb16{margin-bottom:16px}.muted{color:var(--muted)}.sm{font-size:13px}.xs{font-size:11px}hr{border:none;border-top:1px solid var(--line);margin:20px 0}@media(max-width:780px){.login-page{grid-template-columns:1fr}.login-brand{display:none}.login-wrap{padding:36px 20px}.mobile-topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;position:sticky;top:0;z-index:150;background:white;padding:14px 18px;box-shadow:var(--sh)}.mobile-menu-btn{padding:10px 14px;border-radius:12px;border:1.5px solid var(--line);background:white;color:var(--p800);font-weight:800}.mobile-brand{font-family:'Sora';font-weight:800;color:var(--p800)}.portal{display:block}.sidebar{display:flex;position:fixed;top:0;left:0;width:285px;max-width:84vw;height:100vh;z-index:300;transform:translateX(-105%);transition:.22s;box-shadow:var(--sh-lg)}.sidebar.open{transform:translateX(0)}.sidebar-backdrop{display:none;position:fixed;inset:0;background:rgba(22,14,64,.55);z-index:250}.sidebar-backdrop.show{display:block}.main{padding:22px 18px}.stats{grid-template-columns:1fr 1fr}.g2{grid-template-columns:1fr}.ph h1{font-size:22px}.card{padding:18px;border-radius:18px}th,td{padding:11px 10px}}
     a.btn{text-decoration:none}
@@ -148,7 +22,16 @@ window.addEventListener('unhandledrejection', function(e){
 <script>
 var FB_CONFIG={apiKey:"AIzaSyDaF6KaZN2vdFxR6-myx46XD26Hstkpwk0",authDomain:"ipt-agent.firebaseapp.com",projectId:"ipt-agent",storageBucket:"ipt-agent.firebasestorage.app",messagingSenderId:"758605257056",appId:"1:758605257056:web:ac2680e273525784e82605"};
 if(typeof firebase==='undefined'){document.getElementById('app').innerHTML='<div class="loader"><p style="color:#EF4444;text-align:center">Firebase did not load.</p></div>';throw new Error('Firebase SDK not loaded')}
-firebase.initializeApp(FB_CONFIG);var auth=firebase.auth(),db=firebase.firestore();
+var app;
+try {
+  app = firebase.app();
+} catch(e) {
+  app = firebase.initializeApp(FB_CONFIG);
+}
+var auth = firebase.auth(app);
+var db = firebase.firestore(app);
+window.auth = auth;
+window.db = db;
 var PROGRAMS=[{id:'ccna',name:'Cisco CCNA'},{id:'ccnp-ent',name:'Cisco CCNP Enterprise'},{id:'ccnp-sec',name:'Cisco CCNP Security'},{id:'ccie-ent',name:'Cisco CCIE Enterprise'},{id:'ccie-sec',name:'Cisco CCIE Security'},{id:'sec-plus',name:'CompTIA Security+'},{id:'cysa',name:'CompTIA CySA+'},{id:'a-plus',name:'CompTIA A+'},{id:'az900',name:'Microsoft Azure AZ-900'},{id:'az104',name:'Microsoft Azure AZ-104'},{id:'nse4',name:'Fortinet NSE 4'},{id:'nse7',name:'Fortinet NSE 7'},{id:'itil',name:'ITIL Foundation'},{id:'pmp',name:'PMP Certification'}];
 var LEAD_STAGES=['new','contacted','qualified','enrolled','paid','completed','lost'],STAGE_LABEL={new:'New',contacted:'Contacted',qualified:'Qualified',enrolled:'Enrolled',paid:'Paid',completed:'Completed',lost:'Lost'},PARTNER_TYPES=['agent','school','company','influencer'];
 var S={user:null,profile:null,isAdmin:false,tab:'dashboard',leadFilter:{stage:'all',source:'all',program:'all',search:''}};
@@ -158,7 +41,14 @@ function badge(v){v=v||'none';var cls='b-'+v,label=STAGE_LABEL[v]||({pending:'Pe
 function openMobileMenu(){var sb=document.querySelector('.sidebar'),bd=document.querySelector('.sidebar-backdrop');if(sb)sb.classList.add('open');if(bd)bd.classList.add('show')}function closeMobileMenu(){var sb=document.querySelector('.sidebar'),bd=document.querySelector('.sidebar-backdrop');if(sb)sb.classList.remove('open');if(bd)bd.classList.remove('show')}function mobileTopbar(){return '<div class="mobile-topbar"><button class="mobile-menu-btn" onclick="openMobileMenu()">☰ Menu</button><div class="mobile-brand">IMPROTECH</div></div><div class="sidebar-backdrop" onclick="closeMobileMenu()"></div>'}
 function normalizeProfile(p){p.type=p.type||(p.role==='partner'?'school':'agent');p.role=p.role||(p.type==='agent'?'agent':'partner');p.status=p.status||'active';return p}function normalizeEnrollment(e){e.leadStatus=e.leadStatus||(e.status==='confirmed'?'enrolled':(e.status==='cancelled'?'lost':'new'));e.sourceType=e.sourceType||e.refType||(e.agentId?'agent':'direct');e.sourceId=e.sourceId||e.refId||e.agentId||null;e.sourceCode=e.sourceCode||e.refCode||e.agentCode||null;e.sourceName=e.sourceName||e.refName||e.agentName||null;e.commissionStatus=e.commissionStatus||(e.sourceId?'due':'none');return e}
 function getProfiles(){return db.collection('agents').get().then(function(s){return s.docs.map(function(d){return normalizeProfile(Object.assign({id:d.id},d.data()))})})}
-
+function getSalesUsers(){
+  return getProfiles().then(function(users){
+    return users.filter(function(u){ return u.role === 'sales'; });
+  }).catch(function(err){
+    console.warn('sales users load failed', err);
+    return [];
+  });
+}
 
 function sendLeadAssignmentEmail(lead,salesUser){
   if(!salesUser || !salesUser.email)return Promise.resolve();
@@ -180,6 +70,35 @@ function sendLeadAssignmentEmail(lead,salesUser){
         '</div>'
     }
   }).catch(function(err){console.warn("Assignment email failed:",err);});
+}
+
+
+function safeGetDocs(collectionName){
+  return db.collection(collectionName).get().then(function(s){
+    return s.docs.map(function(d){ return Object.assign({id:d.id}, d.data()); });
+  });
+}
+
+function getClasses(){
+  return safeGetDocs('classes').catch(function(err){
+    console.warn('classes load failed', err);
+    return [];
+  });
+}
+
+function getPartnerContracts(){
+  return safeGetDocs('partnerContracts').catch(function(err){
+    console.warn('partnerContracts load failed', err);
+    return [];
+  });
+}
+
+function showModuleError(area,title,err){
+  console.error(title, err);
+  area.innerHTML =
+    '<div class="ph"><div><h1>'+title+'</h1><p>This module could not load.</p></div></div>'+
+    '<div class="card"><div class="alert alert-err"><strong>Error:</strong> '+(err && err.message ? err.message : err)+'</div>'+
+    '<p class="muted sm">Check Firestore rules, collection names, and browser console.</p></div>';
 }
 
 function getProfileByCode(code){return db.collection('agents').where('code','==',code).limit(1).get().then(function(s){return s.empty?null:normalizeProfile(Object.assign({id:s.docs[0].id},s.docs[0].data()))})}function getEnrollments(refId){return db.collection('enrollments').orderBy('timestamp','desc').get().then(function(s){var all=s.docs.map(function(d){return normalizeEnrollment(Object.assign({id:d.id},d.data()))});if(!refId)return all;return all.filter(function(e){return e.sourceId===refId||e.refId===refId||e.agentId===refId||(S.profile&&(e.sourceCode===S.profile.code||e.refCode===S.profile.code||e.agentCode===S.profile.code))})})}
@@ -205,59 +124,24 @@ function viewAdmin(){shell([{key:'dashboard',label:'Dashboard',icon:'📊'},
   else if(S.tab==='sales')adminSales(area);
   else if(S.tab==='classes')adminClasses(area);
   else if(S.tab==='contracts')adminContracts(area);else if(S.tab==='commissions')adminCommissions(area);else if(S.tab==='reports')adminReports(area);else adminSettings(area)}
-
-// ══════════════════════════════════════
-//  ROBUST MODULE HELPERS
-// ══════════════════════════════════════
-function showModuleError(area,title,err){
-  console.error(title, err);
-  area.innerHTML =
-    '<div class="ph"><div><h1>'+title+'</h1><p>Something stopped this module from loading.</p></div></div>'+
-    '<div class="card"><div class="alert alert-err"><strong>Error:</strong> '+(err && err.message ? err.message : err)+'</div>'+
-    '<p class="muted sm">Check Firestore rules and required collections.</p></div>';
-}
-
-function safeGetDocs(collectionName){
-  return db.collection(collectionName).get().then(function(s){
-    return s.docs.map(function(d){return Object.assign({id:d.id},d.data());});
-  }).catch(function(err){
-    console.warn('Could not load '+collectionName,err);
-    return [];
-  });
-}
-
-function getClasses(){
-  return safeGetDocs('classes');
-}
-
-function getPartnerContracts(){
-  return safeGetDocs('partnerContracts');
-}
-
-function getSalesUsers(){
-  return getProfiles().then(function(users){
-    return users.filter(function(u){ return u.role === 'sales'; });
-  }).catch(function(err){
-    console.warn('Could not load sales users',err);
-    return [];
-  });
-}
-
 function adminDashboard(area){Promise.all([getEnrollments(),getProfiles()]).then(function(res){var rows=res[0],partners=res[1].filter(function(p){return p.role!=='admin'}),paid=rows.filter(function(e){return e.leadStatus==='paid'}).length,active=partners.filter(function(p){return p.status==='active'}).length,due=rows.filter(function(e){return e.commissionStatus==='due'}).reduce(function(a,e){return a+Number(e.commissionAmount||0)},0);area.innerHTML='<div class="ph"><div><h1>Dashboard</h1><p>Overview of leads, partners, conversions and commissions.</p></div><button class="btn btn-primary" onclick="S.tab=\'leads\';viewAdmin()">View pipeline</button></div><div class="stats"><div class="sc"><div class="sv">'+rows.length+'</div><div class="sl">Total leads</div></div><div class="sc green"><div class="sv">'+paid+'</div><div class="sl">Paid students</div></div><div class="sc blue"><div class="sv">'+active+'</div><div class="sl">Active partners</div></div><div class="sc gold"><div class="sv">'+money(due)+'</div><div class="sl">Commission due</div></div></div><div class="card"><div class="card-ttl">Lead stages</div><div class="tw"><table><thead><tr><th>Stage</th><th>Count</th><th>Share</th></tr></thead><tbody>'+LEAD_STAGES.map(function(st){var c=rows.filter(function(e){return e.leadStatus===st}).length;return'<tr><td>'+badge(st)+'</td><td><strong>'+c+'</strong></td><td>'+Math.round((c/(rows.length||1))*100)+'%</td></tr>'}).join('')+'</tbody></table></div></div>'})}
 function adminLeads(area){
   area.innerHTML =
     '<div class="ph"><div><h1>Leads Pipeline</h1><p>Manage follow-ups, assignment, WhatsApp follow-up and conversions.</p></div></div>'+
-    '<div class="card"><div class="loader" style="min-height:160px"><div class="spinner"></div><p>Loading leads…</p></div></div>';
+    '<div class="card"><div class="loader" style="min-height:140px"><div class="spinner"></div><p>Loading leads…</p></div></div>';
 
   getEnrollments().then(function(rows){
-    window._allLeads=rows||[];
-    var filtered=filterLeads(window._allLeads);
-    window._filteredLeads=filtered;
+    rows = rows || [];
+    window._allLeads = rows;
+    var filtered = filterLeads(rows);
+    window._filteredLeads = filtered;
 
-    area.innerHTML='<div class="ph"><div><h1>Leads Pipeline</h1><p>Manage follow-ups, assignment, WhatsApp follow-up and conversions.</p></div><div class="row"><button class="btn btn-outline btn-sm" onclick="exportExcel(window._filteredLeads||[],\\'leads\\')">⬇ Excel</button><button class="btn btn-outline btn-sm" onclick="exportPDF(window._filteredLeads||[],\\'Leads Pipeline\\',\\'leads\\')">⬇ PDF</button></div></div>'+
-    renderLeadFilters(window._allLeads)+
-    '<div class="stats"><div class="sc"><div class="sv">'+filtered.length+'</div><div class="sl">Filtered leads</div></div><div class="sc green"><div class="sv">'+filtered.filter(function(e){return e.leadStatus==='paid'}).length+'</div><div class="sl">Paid</div></div><div class="sc blue"><div class="sv">'+filtered.filter(function(e){return e.sourceType!=='direct'}).length+'</div><div class="sl">Via partners</div></div><div class="sc gold"><div class="sv">'+filtered.filter(function(e){return e.nextFollowUpDate}).length+'</div><div class="sl">Follow-ups set</div></div></div>'+
-    leadTable(filtered,true);
+    area.innerHTML =
+      '<div class="ph"><div><h1>Leads Pipeline</h1><p>Manage follow-ups, assignment, WhatsApp follow-up and conversions.</p></div>'+
+      '<div class="row"><button class="btn btn-outline btn-sm" onclick="exportExcel(window._filteredLeads||[],\'leads\')">⬇ Excel</button><button class="btn btn-outline btn-sm" onclick="exportPDF(window._filteredLeads||[],\'Leads Pipeline\',\'leads\')">⬇ PDF</button></div></div>'+
+      renderLeadFilters(rows)+
+      '<div class="stats"><div class="sc"><div class="sv">'+filtered.length+'</div><div class="sl">Filtered leads</div></div><div class="sc green"><div class="sv">'+filtered.filter(function(e){return e.leadStatus==='paid'}).length+'</div><div class="sl">Paid</div></div><div class="sc blue"><div class="sv">'+filtered.filter(function(e){return e.sourceType!=='direct'}).length+'</div><div class="sl">Via partners</div></div><div class="sc gold"><div class="sv">'+filtered.filter(function(e){return e.nextFollowUpDate}).length+'</div><div class="sl">Follow-ups set</div></div></div>'+
+      leadTable(filtered,true);
   }).catch(function(err){
     showModuleError(area,'Leads Pipeline',err);
   });
@@ -349,16 +233,19 @@ function adminPartners(area){getProfiles().then(function(ps){var partners=ps.fil
 function openPartnerModal(){var code=genCode('agent'),pwd=Math.random().toString(36).slice(-6).toUpperCase()+Math.floor(Math.random()*9000+1000),ov=document.createElement('div');ov.className='overlay';ov.innerHTML='<div class="modal"><div class="modal-ttl">Create partner <span class="modal-x" onclick="this.closest(\'.overlay\').remove()">✕</span></div><div id="pa"></div><div class="g2"><div class="fg"><label>Partner type</label><select id="ptype" onchange="$(\'pcode\').value=genCode(this.value)">'+PARTNER_TYPES.map(function(t){return'<option value="'+t+'">'+t+'</option>'}).join('')+'</select></div><div class="fg"><label>Name</label><input id="pname" placeholder="Partner / School name"></div></div><div class="g2"><div class="fg"><label>Email</label><input id="pemail" type="email" placeholder="partner@email.com"></div><div class="fg"><label>Phone</label><input id="pphone" placeholder="+233…"></div></div><div class="g2"><div class="fg"><label>Commission type</label><select id="pcomtype"><option value="fixed">Fixed amount</option><option value="percentage">Percentage</option></select></div><div class="fg"><label>Commission value</label><input id="pcom" type="number" value="0"></div></div><div class="g2"><div class="fg"><label>Partner code</label><input id="pcode" readonly value="'+code+'"></div><div class="fg"><label>Temporary password</label><input readonly value="'+pwd+'"></div></div><div class="alert alert-info"><strong>Credential:</strong><br>Email: to be used by partner<br>Password: <code>'+pwd+'</code><br><br><strong>Referral link:</strong><br>'+referralUrl(code)+'</div><div class="row" style="justify-content:flex-end"><button class="btn btn-outline" onclick="this.closest(\'.overlay\').remove()">Cancel</button><button id="psave" class="btn btn-primary" onclick="savePartner(\''+pwd+'\')">Create partner</button></div></div>';document.body.appendChild(ov)}function savePartner(pwd){var btn=$('psave'),pa=$('pa'),name=$('pname').value.trim(),email=$('pemail').value.trim().toLowerCase();if(!name||!email){pa.innerHTML='<div class="alert alert-err">Name and email are required.</div>';return}btn.disabled=true;btn.textContent='Creating…';createPartner({name:name,email:email,phone:$('pphone').value,type:$('ptype').value,pwd:pwd,code:$('pcode').value,commissionType:$('pcomtype').value,commissionAmount:$('pcom').value}).then(function(info){pa.innerHTML='<div class="alert alert-ok"><strong>Partner created.</strong><br>Email: '+info.email+'<br>Password: <code>'+info.password+'</code><br>Link: '+info.link+'</div>';btn.textContent='Created';setTimeout(function(){document.querySelector('.overlay').remove();adminPartners($('main'))},1400)}).catch(function(err){pa.innerHTML='<div class="alert alert-err">'+err.message+'</div>';btn.disabled=false;btn.textContent='Create partner'})}function togglePartner(id,status){if(!confirm('Change partner status?'))return;updatePartner(id,{status:status}).then(function(){adminPartners($('main'))})}
 
 function adminSales(area){
-  area.innerHTML='<div class="ph"><div><h1>Sales Team</h1><p>Create and manage internal sales users responsible for lead follow-up.</p></div><button class="btn btn-primary" onclick="openSalesUserModal()">+ New sales user</button></div>'+
-  '<div class="card"><div class="loader" style="min-height:160px"><div class="spinner"></div><p>Loading sales users…</p></div></div>';
+  area.innerHTML =
+    '<div class="ph"><div><h1>Sales Team</h1><p>Create and manage internal sales users responsible for lead follow-up.</p></div><button class="btn btn-primary" onclick="openSalesUserModal()">+ New sales user</button></div>'+
+    '<div class="card"><div class="loader" style="min-height:140px"><div class="spinner"></div><p>Loading sales users…</p></div></div>';
 
   getSalesUsers().then(function(users){
-    area.innerHTML='<div class="ph"><div><h1>Sales Team</h1><p>Create and manage internal sales users responsible for lead follow-up.</p></div><button class="btn btn-primary" onclick="openSalesUserModal()">+ New sales user</button></div>'+
-    '<div class="card"><div class="tw">'+
-    (users.length?'<table><thead><tr><th>Name</th><th>Email</th><th>Status</th><th>Role</th></tr></thead><tbody>'+
-    users.map(function(u){return '<tr><td><strong>'+u.name+'</strong></td><td>'+u.email+'</td><td>'+badge(u.status||'active')+'</td><td>'+u.role+'</td></tr>';}).join('')+
-    '</tbody></table>':'<div class="empty">No sales users yet. Click <strong>New sales user</strong> to create one.</div>')+
-    '</div></div>';
+    users = users || [];
+    area.innerHTML =
+      '<div class="ph"><div><h1>Sales Team</h1><p>Create and manage internal sales users responsible for lead follow-up.</p></div><button class="btn btn-primary" onclick="openSalesUserModal()">+ New sales user</button></div>'+
+      '<div class="card"><div class="tw">'+
+      (users.length?'<table><thead><tr><th>Name</th><th>Email</th><th>Status</th><th>Role</th></tr></thead><tbody>'+
+      users.map(function(u){return '<tr><td><strong>'+u.name+'</strong></td><td>'+u.email+'</td><td>'+badge(u.status||'active')+'</td><td>'+u.role+'</td></tr>';}).join('')+
+      '</tbody></table>':'<div class="empty">No sales users yet. Click <strong>New sales user</strong> to create one.</div>')+
+      '</div></div>';
   }).catch(function(err){
     showModuleError(area,'Sales Team',err);
   });
@@ -435,17 +322,20 @@ function analyticsTable(title,items,wide){
 }
 
 function adminClasses(area){
-  area.innerHTML='<div class="ph"><div><h1>Classes</h1><p>Create batches and assign paid/enrolled students to classes.</p></div><button class="btn btn-primary" onclick="openClassModal()">+ New class</button></div>'+
-  '<div class="card"><div class="loader" style="min-height:160px"><div class="spinner"></div><p>Loading classes…</p></div></div>';
+  area.innerHTML =
+    '<div class="ph"><div><h1>Classes</h1><p>Create batches and assign paid/enrolled students to classes.</p></div><button class="btn btn-primary" onclick="openClassModal()">+ New class</button></div>'+
+    '<div class="card"><div class="loader" style="min-height:140px"><div class="spinner"></div><p>Loading classes…</p></div></div>';
 
   Promise.all([getClasses(),getEnrollments()]).then(function(res){
-    var classes=res[0]||[], rows=res[1]||[];
-    area.innerHTML='<div class="ph"><div><h1>Classes</h1><p>Create batches and assign paid/enrolled students to classes.</p></div><button class="btn btn-primary" onclick="openClassModal()">+ New class</button></div>'+
-    '<div class="card"><div class="tw">'+
-    (classes.length?'<table><thead><tr><th>Class</th><th>Program</th><th>Schedule</th><th>Start</th><th>Students</th><th>Status</th></tr></thead><tbody>'+
-    classes.map(function(c){var count=rows.filter(function(e){return e.classId===c.id}).length;return '<tr><td><strong>'+c.name+'</strong></td><td>'+(c.programName||'')+'</td><td>'+(c.schedule||'—')+'</td><td>'+(c.startDate||'—')+'</td><td>'+count+'</td><td>'+badge(c.status||'active')+'</td></tr>';}).join('')+
-    '</tbody></table>':'<div class="empty">No classes yet. Click <strong>New class</strong> to create one.</div>')+
-    '</div></div>';
+    var classes = res[0] || [];
+    var rows = res[1] || [];
+    area.innerHTML =
+      '<div class="ph"><div><h1>Classes</h1><p>Create batches and assign paid/enrolled students to classes.</p></div><button class="btn btn-primary" onclick="openClassModal()">+ New class</button></div>'+
+      '<div class="card"><div class="tw">'+
+      (classes.length?'<table><thead><tr><th>Class</th><th>Program</th><th>Schedule</th><th>Start</th><th>Students</th><th>Status</th></tr></thead><tbody>'+
+      classes.map(function(c){var count=rows.filter(function(e){return e.classId===c.id}).length;return '<tr><td><strong>'+c.name+'</strong></td><td>'+(c.programName||'')+'</td><td>'+(c.schedule||'—')+'</td><td>'+(c.startDate||'—')+'</td><td>'+count+'</td><td>'+badge(c.status||'active')+'</td></tr>';}).join('')+
+      '</tbody></table>':'<div class="empty">No classes yet. Click <strong>New class</strong> to create one.</div>')+
+      '</div></div>';
   }).catch(function(err){
     showModuleError(area,'Classes',err);
   });
@@ -472,18 +362,22 @@ function saveClass(){
 }
 
 function adminContracts(area){
-  area.innerHTML='<div class="ph"><div><h1>Contracts</h1><p>Track school/partner agreements, expiry and renewal alerts.</p></div><button class="btn btn-primary" onclick="openContractModal()">+ New contract</button></div>'+
-  '<div class="card"><div class="loader" style="min-height:160px"><div class="spinner"></div><p>Loading contracts…</p></div></div>';
+  area.innerHTML =
+    '<div class="ph"><div><h1>Contracts</h1><p>Track school/partner agreements, expiry and renewal alerts.</p></div><button class="btn btn-primary" onclick="openContractModal()">+ New contract</button></div>'+
+    '<div class="card"><div class="loader" style="min-height:140px"><div class="spinner"></div><p>Loading contracts…</p></div></div>';
 
   Promise.all([getPartnerContracts(),getProfiles()]).then(function(res){
-    var contracts=res[0]||[], profiles=(res[1]||[]).filter(function(p){return p.role!=='admin' && p.role!=='sales'});
-    window._contractPartners=profiles;
-    area.innerHTML='<div class="ph"><div><h1>Contracts</h1><p>Track school/partner agreements, expiry and renewal alerts.</p></div><button class="btn btn-primary" onclick="openContractModal()">+ New contract</button></div>'+
-    '<div class="card"><div class="tw">'+
-    (contracts.length?'<table><thead><tr><th>Partner</th><th>Type</th><th>Start</th><th>End</th><th>Status</th><th>Document</th><th>Notes</th></tr></thead><tbody>'+
-    contracts.map(function(c){return '<tr><td><strong>'+(c.partnerName||'')+'</strong></td><td>'+badge(c.partnerType||'school')+'</td><td>'+(c.startDate||'—')+'</td><td>'+(c.endDate||'—')+'</td><td>'+badge(c.status||'active')+'</td><td>'+(c.documentUrl?'<a target="_blank" href="'+c.documentUrl+'">Open</a>':'—')+'</td><td>'+(c.notes||'')+'</td></tr>';}).join('')+
-    '</tbody></table>':'<div class="empty">No contracts yet. Click <strong>New contract</strong> to create one.</div>')+
-    '</div></div>';
+    var contracts = res[0] || [];
+    var profiles = (res[1] || []).filter(function(p){return p.role!=='admin' && p.role!=='sales'});
+    window._contractPartners = profiles;
+
+    area.innerHTML =
+      '<div class="ph"><div><h1>Contracts</h1><p>Track school/partner agreements, expiry and renewal alerts.</p></div><button class="btn btn-primary" onclick="openContractModal()">+ New contract</button></div>'+
+      '<div class="card"><div class="tw">'+
+      (contracts.length?'<table><thead><tr><th>Partner</th><th>Type</th><th>Start</th><th>End</th><th>Status</th><th>Document</th><th>Notes</th></tr></thead><tbody>'+
+      contracts.map(function(c){return '<tr><td><strong>'+(c.partnerName||'')+'</strong></td><td>'+badge(c.partnerType||'school')+'</td><td>'+(c.startDate||'—')+'</td><td>'+(c.endDate||'—')+'</td><td>'+badge(c.status||'active')+'</td><td>'+(c.documentUrl?'<a target="_blank" href="'+c.documentUrl+'">Open</a>':'—')+'</td><td>'+(c.notes||'')+'</td></tr>';}).join('')+
+      '</tbody></table>':'<div class="empty">No contracts yet. Click <strong>New contract</strong> to create one.</div>')+
+      '</div></div>';
   }).catch(function(err){
     showModuleError(area,'Contracts',err);
   });
@@ -519,24 +413,21 @@ function viewPartnerPortal(){var label=(S.profile.type==='school'?'School Partne
 function partnerDashboard(area){getEnrollments(S.user.uid).then(function(rows){window._partnerLeads=rows;var paid=rows.filter(function(e){return e.leadStatus==='paid'}).length,due=rows.filter(function(e){return e.commissionStatus==='due'}).reduce(function(a,e){return a+Number(e.commissionAmount||0)},0);area.innerHTML='<div class="ph"><div><h1>Hello, '+(S.profile.name||'Partner').split(' ')[0]+' 👋</h1><p>Track your referral performance and student progress.</p></div></div><div class="stats"><div class="sc"><div class="sv">'+rows.length+'</div><div class="sl">Total leads</div></div><div class="sc green"><div class="sv">'+paid+'</div><div class="sl">Paid students</div></div><div class="sc gold"><div class="sv">'+money(due)+'</div><div class="sl">Commission due</div></div><div class="sc blue"><div class="sv">'+rows.filter(function(e){return e.nextFollowUpDate}).length+'</div><div class="sl">Follow-ups</div></div></div><div class="card"><div class="card-ttl">Your referral link</div><div class="code-box">'+referralUrl(S.profile.code)+'</div><div class="row mt16"><button class="btn btn-primary btn-sm" onclick="copyText(\''+referralUrl(S.profile.code)+'\',this)">Copy link</button><button class="btn btn-outline btn-sm" onclick="S.tab=\'link\';viewPartnerPortal()">View QR</button></div></div>'})}function partnerLink(area){var url=referralUrl(S.profile.code),qr=url+'&qr=1';area.innerHTML='<div class="ph"><div><h1>Referral Link</h1><p>Share your link or QR code.</p></div></div><div class="g2"><div class="card"><div class="card-ttl">Unique link</div><div class="code-box">'+url+'</div><div class="row mt16"><button class="btn btn-primary btn-sm" onclick="copyText(\''+url+'\',this)">Copy</button><button class="btn btn-outline btn-sm" onclick="window.open(\''+url+'\',\'_blank\')">Test</button></div><hr><p class="xs muted">QR tracking link</p><div class="code-box mt8">'+qr+'</div></div><div class="card" style="text-align:center"><div class="card-ttl">QR Code</div><div id="qr-wrap" style="display:flex;justify-content:center;margin:16px 0"></div><button class="btn btn-gold btn-sm" onclick="downloadQR()">Download QR</button></div></div>';setTimeout(function(){var w=$('qr-wrap');if(w&&typeof QRCode!=='undefined')new QRCode(w,{text:qr,width:190,height:190,colorDark:'#251560',colorLight:'#ffffff'})},100)}function partnerStudents(area){getEnrollments(S.user.uid).then(function(rows){window._partnerLeads=rows;area.innerHTML='<div class="ph"><div><h1>My Students</h1><p>'+rows.length+' student lead(s).</p></div><div class="row"><button class="btn btn-outline btn-sm" onclick="exportExcel(window._partnerLeads,\'my_students\')">⬇ Excel</button><button class="btn btn-outline btn-sm" onclick="exportPDF(window._partnerLeads,\'My Students\',\'my_students\')">⬇ PDF</button></div></div>'+leadTable(rows,false)})}function partnerFollowups(area){getEnrollments(S.user.uid).then(function(rows){rows=rows.filter(function(e){return e.nextFollowUpDate});window._partnerLeads=rows;area.innerHTML='<div class="ph"><div><h1>Follow-ups</h1><p>Students that require follow-up.</p></div></div>'+leadTable(rows,false)})}function partnerCommissions(area){getEnrollments(S.user.uid).then(function(rows){var due=rows.filter(function(e){return e.commissionStatus==='due'}),paid=rows.filter(function(e){return e.commissionStatus==='paid'});area.innerHTML='<div class="ph"><div><h1>My Commissions</h1><p>Track pending and paid commissions.</p></div></div><div class="stats"><div class="sc gold"><div class="sv">'+money(due.reduce(function(a,e){return a+Number(e.commissionAmount||0)},0))+'</div><div class="sl">Due</div></div><div class="sc green"><div class="sv">'+money(paid.reduce(function(a,e){return a+Number(e.commissionAmount||0)},0))+'</div><div class="sl">Paid</div></div></div>'+leadTable(rows,false)})}function copyText(txt,btn){navigator.clipboard.writeText(txt);if(btn){var t=btn.textContent;btn.textContent='Copied';setTimeout(function(){btn.textContent=t},1500)}}function downloadQR(){var c=document.querySelector('#qr-wrap canvas');if(c){var a=document.createElement('a');a.download='QR_'+S.profile.code+'.png';a.href=c.toDataURL();a.click()}}
 function route(user){if(!user){S={user:null,profile:null,isAdmin:false,tab:'dashboard',leadFilter:{stage:'all',source:'all',program:'all',search:''}};viewLogin();return}S.user=user;db.collection('agents').doc(user.uid).get().then(function(doc){if(!doc.exists){auth.signOut();return}S.profile=normalizeProfile(Object.assign({id:doc.id},doc.data()));S.isAdmin=S.profile.role==='admin';S.tab='dashboard';if(S.isAdmin)viewAdmin();else viewPartnerPortal()}).catch(function(err){viewLogin('Error: '+err.message)})}
 var initRef=new URLSearchParams(location.search).get('ref');if(initRef){viewEnroll(initRef)}else{var t=setTimeout(function(){viewLogin('Timeout. Check that Firebase Auth and Firestore are enabled.')},9000);auth.onAuthStateChanged(function(user){clearTimeout(t);route(user)})}
-
-<script>
 window.addEventListener('error', function(e){
-  console.error('Global error:', e.error || e.message);
+  console.error('Global JavaScript error:', e.error || e.message);
   var main=document.getElementById('main');
   if(main && main.innerHTML.indexOf('spinner') !== -1){
     main.innerHTML='<div class="card"><div class="alert alert-err"><strong>JavaScript error:</strong> '+(e.message||'Unknown error')+'</div></div>';
   }
 });
 window.addEventListener('unhandledrejection', function(e){
-  console.error('Unhandled promise:', e.reason);
+  console.error('Unhandled promise rejection:', e.reason);
   var main=document.getElementById('main');
   if(main && main.innerHTML.indexOf('spinner') !== -1){
     var msg=(e.reason && e.reason.message) ? e.reason.message : e.reason;
     main.innerHTML='<div class="card"><div class="alert alert-err"><strong>Request error:</strong> '+msg+'</div></div>';
   }
 });
-</script>
 </script>
 </body>
 </html>
