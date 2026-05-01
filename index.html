@@ -144,6 +144,101 @@
       .portal{grid-template-columns:1fr}.sidebar{display:none}
       .main{padding:20px}.g2,.link-section{grid-template-columns:1fr}
     }
+  
+    /* Mobile menu fix */
+    .mobile-topbar{display:none}
+    .sidebar-backdrop{display:none}
+
+    @media(max-width:780px){
+      .mobile-topbar{
+        display:flex;
+        align-items:center;
+        justify-content:space-between;
+        gap:12px;
+        position:sticky;
+        top:0;
+        z-index:150;
+        background:var(--white);
+        padding:14px 18px;
+        box-shadow:0 2px 16px rgba(37,21,96,.10);
+      }
+
+      .mobile-menu-btn{
+        display:inline-flex;
+        align-items:center;
+        justify-content:center;
+        gap:8px;
+        padding:10px 14px;
+        border-radius:10px;
+        border:1.5px solid var(--gray200);
+        background:var(--white);
+        color:var(--p800);
+        font-weight:700;
+        cursor:pointer;
+      }
+
+      .mobile-brand{
+        font-family:'Sora',sans-serif;
+        font-weight:700;
+        color:var(--p800);
+      }
+
+      .portal{
+        display:block !important;
+        min-height:100vh;
+      }
+
+      .sidebar{
+        display:flex !important;
+        position:fixed !important;
+        top:0;
+        left:0;
+        width:280px !important;
+        max-width:82vw;
+        height:100vh;
+        z-index:300;
+        transform:translateX(-105%);
+        transition:transform .22s ease;
+        box-shadow:0 8px 40px rgba(22,14,64,.35);
+      }
+
+      .sidebar.open{
+        transform:translateX(0);
+      }
+
+      .sidebar-backdrop{
+        display:none;
+        position:fixed;
+        inset:0;
+        z-index:250;
+        background:rgba(22,14,64,.55);
+      }
+
+      .sidebar-backdrop.show{
+        display:block;
+      }
+
+      .main{
+        padding:22px 18px;
+      }
+
+      .ph{
+        align-items:center;
+      }
+
+      .ph h1{
+        font-size:22px;
+      }
+
+      .stats{
+        grid-template-columns:1fr 1fr;
+      }
+
+      .card{
+        padding:18px;
+      }
+    }
+
   </style>
 </head>
 <body>
@@ -394,7 +489,7 @@ function exportEnrollmentsPDF(rows, title, fileName){
 //  ADMIN
 // ══════════════════════════════════════
 function viewAdmin(){
-  el().innerHTML=
+  el().innerHTML=mobileTopbar()+
   '<div class="portal"><div class="sidebar">'+
     '<div class="sb-brand"><div class="sb-brand-name">IMPROTECH</div><div class="sb-brand-sub">Administration</div></div>'+
     '<div class="sb-user"><div class="avatar">'+initials(S.agent&&S.agent.name)+'</div><div><div class="user-name">'+(S.agent&&S.agent.name||'Admin')+'</div><div class="user-role">Admin</div></div></div>'+
@@ -408,6 +503,7 @@ function viewAdmin(){
 
 function goTab(t){
   S.tab=t;
+  closeMobileMenu();
   document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('active');});
   var lbl={enrollments:'📋 Enrollments',agents:'👥 Agents',commissions:'💰 Commissions',dashboard:'📊 Dashboard',link:'🔗 My Link',students:'🎓 My Students'}[t];
   document.querySelectorAll('.nav-item').forEach(function(n){if(n.textContent.trim()===lbl)n.classList.add('active');});
@@ -499,7 +595,7 @@ function saveAgent(pwd){
 //  AGENT PORTAL
 // ══════════════════════════════════════
 function viewAgent(){
-  el().innerHTML=
+  el().innerHTML=mobileTopbar()+
   '<div class="portal"><div class="sidebar">'+
     '<div class="sb-brand"><div class="sb-brand-name">IMPROTECH</div><div class="sb-brand-sub">Agent Portal</div></div>'+
     '<div class="sb-user"><div class="avatar">'+initials(S.agent&&S.agent.name)+'</div><div><div class="user-name">'+(S.agent&&S.agent.name||'')+'</div><div class="user-role">Agent · '+(S.agent&&S.agent.code||'')+'</div></div></div>'+
@@ -560,6 +656,28 @@ function loadAgentTab(){
 function cpLnk(btn){navigator.clipboard.writeText(enrollUrl(S.agent.code));btn.textContent='✓ Copied!';setTimeout(function(){btn.textContent='Copy';},2000);}
 function cpLinkT(url,btn){navigator.clipboard.writeText(url);var t=btn.textContent;btn.textContent='✓ Copied!';setTimeout(function(){btn.textContent=t;},2000);}
 function dlQR(code){var c=document.querySelector('#qr-wrap canvas');if(c){var a=document.createElement('a');a.download='QR_'+code+'.png';a.href=c.toDataURL();a.click();}}
+
+
+// ══════════════════════════════════════
+//  MOBILE MENU
+// ══════════════════════════════════════
+function openMobileMenu(){
+  var sb=document.querySelector('.sidebar');
+  var bd=document.querySelector('.sidebar-backdrop');
+  if(sb)sb.classList.add('open');
+  if(bd)bd.classList.add('show');
+}
+
+function closeMobileMenu(){
+  var sb=document.querySelector('.sidebar');
+  var bd=document.querySelector('.sidebar-backdrop');
+  if(sb)sb.classList.remove('open');
+  if(bd)bd.classList.remove('show');
+}
+
+function mobileTopbar(){
+  return '<div class="mobile-topbar"><button class="mobile-menu-btn" onclick="openMobileMenu()">☰ Menu</button><div class="mobile-brand">IMPROTECH</div></div><div class="sidebar-backdrop" onclick="closeMobileMenu()"></div>';
+}
 
 // ══════════════════════════════════════
 //  ROUTER
