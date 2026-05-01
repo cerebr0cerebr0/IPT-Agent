@@ -33,8 +33,8 @@ function openMobileMenu(){var sb=document.querySelector('.sidebar'),bd=document.
 function normalizeProfile(p){p.type=p.type||(p.role==='partner'?'school':'agent');p.role=p.role||(p.type==='agent'?'agent':'partner');p.status=p.status||'active';return p}function normalizeEnrollment(e){e.leadStatus=e.leadStatus||(e.status==='confirmed'?'enrolled':(e.status==='cancelled'?'lost':'new'));e.sourceType=e.sourceType||e.refType||(e.agentId?'agent':'direct');e.sourceId=e.sourceId||e.refId||e.agentId||null;e.sourceCode=e.sourceCode||e.refCode||e.agentCode||null;e.sourceName=e.sourceName||e.refName||e.agentName||null;e.commissionStatus=e.commissionStatus||(e.sourceId?'due':'none');return e}
 function getProfiles(){return db.collection('agents').get().then(function(s){return s.docs.map(function(d){return normalizeProfile(Object.assign({id:d.id},d.data()))})})}
 function getSalesUsers(){
-  return db.collection('agents').where('role','==','sales').get().then(function(s){
-    return s.docs.map(function(d){return Object.assign({id:d.id},d.data());});
+  return getProfiles().then(function(users){
+    return users.filter(function(u){ return u.role === 'sales'; });
   });
 }
 
@@ -171,15 +171,16 @@ function adminPartners(area){getProfiles().then(function(ps){var partners=ps.fil
 function openPartnerModal(){var code=genCode('agent'),pwd=Math.random().toString(36).slice(-6).toUpperCase()+Math.floor(Math.random()*9000+1000),ov=document.createElement('div');ov.className='overlay';ov.innerHTML='<div class="modal"><div class="modal-ttl">Create partner <span class="modal-x" onclick="this.closest(\'.overlay\').remove()">✕</span></div><div id="pa"></div><div class="g2"><div class="fg"><label>Partner type</label><select id="ptype" onchange="$(\'pcode\').value=genCode(this.value)">'+PARTNER_TYPES.map(function(t){return'<option value="'+t+'">'+t+'</option>'}).join('')+'</select></div><div class="fg"><label>Name</label><input id="pname" placeholder="Partner / School name"></div></div><div class="g2"><div class="fg"><label>Email</label><input id="pemail" type="email" placeholder="partner@email.com"></div><div class="fg"><label>Phone</label><input id="pphone" placeholder="+233…"></div></div><div class="g2"><div class="fg"><label>Commission type</label><select id="pcomtype"><option value="fixed">Fixed amount</option><option value="percentage">Percentage</option></select></div><div class="fg"><label>Commission value</label><input id="pcom" type="number" value="0"></div></div><div class="g2"><div class="fg"><label>Partner code</label><input id="pcode" readonly value="'+code+'"></div><div class="fg"><label>Temporary password</label><input readonly value="'+pwd+'"></div></div><div class="alert alert-info"><strong>Credential:</strong><br>Email: to be used by partner<br>Password: <code>'+pwd+'</code><br><br><strong>Referral link:</strong><br>'+referralUrl(code)+'</div><div class="row" style="justify-content:flex-end"><button class="btn btn-outline" onclick="this.closest(\'.overlay\').remove()">Cancel</button><button id="psave" class="btn btn-primary" onclick="savePartner(\''+pwd+'\')">Create partner</button></div></div>';document.body.appendChild(ov)}function savePartner(pwd){var btn=$('psave'),pa=$('pa'),name=$('pname').value.trim(),email=$('pemail').value.trim().toLowerCase();if(!name||!email){pa.innerHTML='<div class="alert alert-err">Name and email are required.</div>';return}btn.disabled=true;btn.textContent='Creating…';createPartner({name:name,email:email,phone:$('pphone').value,type:$('ptype').value,pwd:pwd,code:$('pcode').value,commissionType:$('pcomtype').value,commissionAmount:$('pcom').value}).then(function(info){pa.innerHTML='<div class="alert alert-ok"><strong>Partner created.</strong><br>Email: '+info.email+'<br>Password: <code>'+info.password+'</code><br>Link: '+info.link+'</div>';btn.textContent='Created';setTimeout(function(){document.querySelector('.overlay').remove();adminPartners($('main'))},1400)}).catch(function(err){pa.innerHTML='<div class="alert alert-err">'+err.message+'</div>';btn.disabled=false;btn.textContent='Create partner'})}function togglePartner(id,status){if(!confirm('Change partner status?'))return;updatePartner(id,{status:status}).then(function(){adminPartners($('main'))})}
 
 function adminSales(area){
-  Promise.all([getSalesUsers(),getClasses()]).then(function(res){
-    var users=res[0];
-    var classes=res[1];
+  area.innerHTML='<div class="loader" style="min-height:50vh"><div class="spinner"></div></div>';
+  getSalesUsers().then(function(users){
     area.innerHTML='<div class="ph"><div><h1>Sales Team</h1><p>Create and manage internal sales users responsible for lead follow-up.</p></div><button class="btn btn-primary" onclick="openSalesUserModal()">+ New sales user</button></div>'+
     '<div class="card"><div class="tw">'+
     (users.length?'<table><thead><tr><th>Name</th><th>Email</th><th>Status</th><th>Role</th></tr></thead><tbody>'+
     users.map(function(u){return '<tr><td><strong>'+u.name+'</strong></td><td>'+u.email+'</td><td>'+badge(u.status||'active')+'</td><td>'+u.role+'</td></tr>';}).join('')+
-    '</tbody></table>':'<div class="empty">No sales users yet.</div>')+
+    '</tbody></table>':'<div class="empty">No sales users yet. Click <strong>New sales user</strong> to create one.</div>')+
     '</div></div>';
+  }).catch(function(err){
+    showModuleError(area,'Sales Team',err);
   });
 }
 
@@ -215,6 +216,15 @@ function saveSalesUser(pwd){
 }
 
 
+
+function showModuleError(area,title,err){
+  console.error(title, err);
+  area.innerHTML =
+    '<div class="ph"><div><h1>'+title+'</h1><p>Something stopped this module from loading.</p></div></div>'+
+    '<div class="card"><div class="alert alert-err"><strong>Error:</strong> '+(err && err.message ? err.message : err)+'</div>'+
+    '<p class="muted sm">Check Firestore rules and make sure the required collection exists.</p></div>';
+}
+
 function adminAnalytics(area){
   Promise.all([getEnrollments(),getProfiles()]).then(function(res){
     var rows=res[0], profiles=res[1];
@@ -239,6 +249,8 @@ function adminAnalytics(area){
       '</div>'+
       analyticsTable('Partner performance',partnerRows,true);
     window._analyticsRows=rows;
+  }).catch(function(err){
+    showModuleError(area,'Analytics',err);
   });
 }
 
@@ -249,14 +261,17 @@ function analyticsTable(title,items,wide){
 }
 
 function adminClasses(area){
+  area.innerHTML='<div class="loader" style="min-height:50vh"><div class="spinner"></div></div>';
   Promise.all([getClasses(),getEnrollments()]).then(function(res){
     var classes=res[0], rows=res[1];
     area.innerHTML='<div class="ph"><div><h1>Classes</h1><p>Create batches and assign paid/enrolled students to classes.</p></div><button class="btn btn-primary" onclick="openClassModal()">+ New class</button></div>'+
     '<div class="card"><div class="tw">'+
     (classes.length?'<table><thead><tr><th>Class</th><th>Program</th><th>Schedule</th><th>Start</th><th>Students</th><th>Status</th></tr></thead><tbody>'+
     classes.map(function(c){var count=rows.filter(function(e){return e.classId===c.id}).length;return '<tr><td><strong>'+c.name+'</strong></td><td>'+(c.programName||'')+'</td><td>'+(c.schedule||'—')+'</td><td>'+(c.startDate||'—')+'</td><td>'+count+'</td><td>'+badge(c.status||'active')+'</td></tr>';}).join('')+
-    '</tbody></table>':'<div class="empty">No classes yet.</div>')+
+    '</tbody></table>':'<div class="empty">No classes yet. Click <strong>New class</strong> to create one.</div>')+
     '</div></div>';
+  }).catch(function(err){
+    showModuleError(area,'Classes',err);
   });
 }
 
@@ -281,6 +296,7 @@ function saveClass(){
 }
 
 function adminContracts(area){
+  area.innerHTML='<div class="loader" style="min-height:50vh"><div class="spinner"></div></div>';
   Promise.all([getPartnerContracts(),getProfiles()]).then(function(res){
     var contracts=res[0], profiles=res[1].filter(function(p){return p.role!=='admin' && p.role!=='sales'});
     window._contractPartners=profiles;
@@ -288,8 +304,10 @@ function adminContracts(area){
     '<div class="card"><div class="tw">'+
     (contracts.length?'<table><thead><tr><th>Partner</th><th>Type</th><th>Start</th><th>End</th><th>Status</th><th>Document</th><th>Notes</th></tr></thead><tbody>'+
     contracts.map(function(c){return '<tr><td><strong>'+(c.partnerName||'')+'</strong></td><td>'+badge(c.partnerType||'school')+'</td><td>'+(c.startDate||'—')+'</td><td>'+(c.endDate||'—')+'</td><td>'+badge(c.status||'active')+'</td><td>'+(c.documentUrl?'<a target="_blank" href="'+c.documentUrl+'">Open</a>':'—')+'</td><td>'+(c.notes||'')+'</td></tr>';}).join('')+
-    '</tbody></table>':'<div class="empty">No contracts yet.</div>')+
+    '</tbody></table>':'<div class="empty">No contracts yet. Click <strong>New contract</strong> to create one.</div>')+
     '</div></div>';
+  }).catch(function(err){
+    showModuleError(area,'Contracts',err);
   });
 }
 
