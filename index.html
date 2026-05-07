@@ -292,6 +292,69 @@ function saveLeadUpdate(id){
 function adminPartners(area){getProfiles().then(function(ps){var partners=ps.filter(function(p){return p.role!=='admin'});area.innerHTML='<div class="ph"><div><h1>Partners & Schools</h1><p>Manage individual agents, school partners and company partners.</p></div><button class="btn btn-primary" onclick="openPartnerModal()">+ New partner</button></div><div class="stats"><div class="sc"><div class="sv">'+partners.length+'</div><div class="sl">Total partners</div></div><div class="sc green"><div class="sv">'+partners.filter(function(p){return p.status==='active'}).length+'</div><div class="sl">Active</div></div><div class="sc blue"><div class="sv">'+partners.filter(function(p){return p.type==='school'}).length+'</div><div class="sl">Schools</div></div><div class="sc gold"><div class="sv">'+partners.reduce(function(a,p){return a+Number(p.totalEnrollments||0)},0)+'</div><div class="sl">Partner leads</div></div></div><div class="card"><div class="tw">'+(partners.length?'<table><thead><tr><th>Name</th><th>Type</th><th>Code</th><th>Email</th><th>Leads</th><th>Commission</th><th>Status</th><th>Actions</th></tr></thead><tbody>'+partners.map(function(p){return'<tr><td><strong>'+p.name+'</strong></td><td>'+badge(p.type)+'</td><td><code>'+p.code+'</code></td><td>'+p.email+'</td><td>'+(p.totalEnrollments||0)+'</td><td>'+money(p.totalCommission||0)+'</td><td>'+badge(p.status)+'</td><td><div class="row"><button class="btn btn-outline btn-sm" onclick="copyText(\''+referralUrl(p.code)+'\',this)">Copy link</button><button class="btn btn-danger btn-sm" onclick="togglePartner(\''+p.id+'\',\''+(p.status==='active'?'suspended':'active')+'\')">'+(p.status==='active'?'Suspend':'Activate')+'</button><button class="btn btn-danger btn-sm" onclick="deletePartner(\''+p.id+'\')">Delete</button></div></td></tr>'}).join('')+'</tbody></table>':'<div class="empty">No partner yet.</div>')+'</div></div>'})}
 function openPartnerModal(){var code=genCode('agent'),pwd=Math.random().toString(36).slice(-6).toUpperCase()+Math.floor(Math.random()*9000+1000),ov=document.createElement('div');ov.className='overlay';ov.innerHTML='<div class="modal"><div class="modal-ttl">Create partner <span class="modal-x" onclick="this.closest(\'.overlay\').remove()">✕</span></div><div id="pa"></div><div class="g2"><div class="fg"><label>Partner type</label><select id="ptype" onchange="$(\'pcode\').value=genCode(this.value)">'+PARTNER_TYPES.map(function(t){return'<option value="'+t+'">'+t+'</option>'}).join('')+'</select></div><div class="fg"><label>Name</label><input id="pname" placeholder="Partner / School name"></div></div><div class="g2"><div class="fg"><label>Email</label><input id="pemail" type="email" placeholder="partner@email.com"></div><div class="fg"><label>Phone</label><input id="pphone" placeholder="+233…"></div></div><div class="g2"><div class="fg"><label>Commission type</label><select id="pcomtype"><option value="fixed">Fixed amount</option><option value="percentage">Percentage</option></select></div><div class="fg"><label>Commission value</label><input id="pcom" type="number" value="0"></div></div><div class="g2"><div class="fg"><label>Partner code</label><input id="pcode" readonly value="'+code+'"></div><div class="fg"><label>Temporary password</label><input readonly value="'+pwd+'"></div></div><div class="alert alert-info"><strong>Credential:</strong><br>Email: to be used by partner<br>Password: <code>'+pwd+'</code><br><br><strong>Referral link:</strong><br>'+referralUrl(code)+'</div><div class="row" style="justify-content:flex-end"><button class="btn btn-outline" onclick="this.closest(\'.overlay\').remove()">Cancel</button><button id="psave" class="btn btn-primary" onclick="savePartner(\''+pwd+'\')">Create partner</button></div></div>';document.body.appendChild(ov)}function savePartner(pwd){var btn=$('psave'),pa=$('pa'),name=$('pname').value.trim(),email=$('pemail').value.trim().toLowerCase();if(!name||!email){pa.innerHTML='<div class="alert alert-err">Name and email are required.</div>';return}btn.disabled=true;btn.textContent='Creating…';createPartner({name:name,email:email,phone:$('pphone').value,type:$('ptype').value,pwd:pwd,code:$('pcode').value,commissionType:$('pcomtype').value,commissionAmount:$('pcom').value}).then(function(info){pa.innerHTML='<div class="alert alert-ok"><strong>Partner created.</strong><br>Email: '+info.email+'<br>Password: <code>'+info.password+'</code><br>Link: '+info.link+'</div>';btn.textContent='Created';setTimeout(function(){document.querySelector('.overlay').remove();adminPartners($('main'))},1400)}).catch(function(err){pa.innerHTML='<div class="alert alert-err">'+err.message+'</div>';btn.disabled=false;btn.textContent='Create partner'})}function togglePartner(id,status){if(!confirm('Change partner status?'))return;updatePartner(id,{status:status}).then(function(){adminPartners($('main'))})}
 
+
+function openEditSalesUserModal(id){
+  getSalesUsers().then(function(users){
+    var u=users.find(function(x){return x.id===id;});
+    if(!u){alert('Sales user not found.');return;}
+
+    var ov=document.createElement('div');
+    ov.className='overlay';
+    ov.innerHTML=
+      '<div class="modal">'+
+        '<div class="modal-ttl">Edit sales user <span class="modal-x" onclick="this.closest(\'.overlay\').remove()">✕</span></div>'+
+        '<div id="esa"></div>'+
+        '<div class="g2">'+
+          '<div class="fg"><label>Name</label><input id="esname" value="'+(u.name||'')+'"></div>'+
+          '<div class="fg"><label>Email</label><input id="esemail" type="email" value="'+(u.email||'')+'"></div>'+
+        '</div>'+
+        '<div class="fg"><label>Status</label><select id="esstatus">'+
+          '<option '+((u.status||'active')==='active'?'selected':'')+' value="active">Active</option>'+
+          '<option '+((u.status||'active')==='suspended'?'selected':'')+' value="suspended">Suspended</option>'+
+        '</select></div>'+
+        '<div class="alert alert-info">This updates the Firestore profile only. To change login email/password in Firebase Auth, use Firebase Console or a Cloud Function.</div>'+
+        '<div class="row" style="justify-content:flex-end">'+
+          '<button class="btn btn-outline" onclick="this.closest(\'.overlay\').remove()">Cancel</button>'+
+          '<button class="btn btn-primary" onclick="saveSalesUserEdit(\''+id+'\')">Save changes</button>'+
+        '</div>'+
+      '</div>';
+    document.body.appendChild(ov);
+  });
+}
+
+function saveSalesUserEdit(id){
+  var box=$('esa');
+  var name=$('esname').value.trim();
+  var email=$('esemail').value.trim().toLowerCase();
+  var status=$('esstatus').value;
+
+  if(!name||!email){
+    box.innerHTML='<div class="alert alert-err">Name and email are required.</div>';
+    return;
+  }
+
+  db.collection('agents').doc(id).update({
+    name:name,
+    email:email,
+    status:status,
+    updatedAt:firebase.firestore.FieldValue.serverTimestamp()
+  }).then(function(){
+    document.querySelector('.overlay').remove();
+    adminSales($('main'));
+  }).catch(function(err){
+    box.innerHTML='<div class="alert alert-err">'+err.message+'</div>';
+  });
+}
+
+function deleteSalesUser(id){
+  if(!confirm('Delete this sales user profile? This does not delete the Firebase Auth account.')) return;
+  db.collection('agents').doc(id).delete().then(function(){
+    adminSales($('main'));
+  }).catch(function(err){
+    alert('Delete failed: '+err.message);
+  });
+}
+
 function adminSales(area){
   area.innerHTML =
     '<div class="ph"><div><h1>Sales Team</h1><p>Create and manage internal sales users responsible for lead follow-up.</p></div><button class="btn btn-primary" onclick="openSalesUserModal()">+ New sales user</button></div>'+
@@ -302,8 +365,8 @@ function adminSales(area){
     area.innerHTML =
       '<div class="ph"><div><h1>Sales Team</h1><p>Create and manage internal sales users responsible for lead follow-up.</p></div><button class="btn btn-primary" onclick="openSalesUserModal()">+ New sales user</button></div>'+
       '<div class="card"><div class="tw">'+
-      (users.length?'<table><thead><tr><th>Name</th><th>Email</th><th>Status</th><th>Role</th></tr></thead><tbody>'+
-      users.map(function(u){return '<tr><td><strong>'+u.name+'</strong></td><td>'+u.email+'</td><td>'+badge(u.status||'active')+'</td><td>'+u.role+'</td></tr>';}).join('')+
+      (users.length?'<table><thead><tr><th>Name</th><th>Email</th><th>Status</th><th>Role</th><th>Actions</th></tr></thead><tbody>'+
+      users.map(function(u){return '<tr><td><strong>'+u.name+'</strong></td><td>'+u.email+'</td><td>'+badge(u.status||'active')+'</td><td>'+u.role+'</td><td><div class="row"><button class="btn btn-outline btn-sm" onclick="openEditSalesUserModal(\''+u.id+'\')">Edit</button><button class="btn btn-danger btn-sm" onclick="deleteSalesUser(\''+u.id+'\')">Delete</button></div></td></tr>';}).join('')+
       '</tbody></table>':'<div class="empty">No sales users yet. Click <strong>New sales user</strong> to create one.</div>')+
       '</div></div>';
   }).catch(function(err){
