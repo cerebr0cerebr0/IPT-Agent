@@ -41,12 +41,57 @@ function badge(v){v=v||'none';var cls='b-'+v,label=STAGE_LABEL[v]||({pending:'Pe
 function openMobileMenu(){var sb=document.querySelector('.sidebar'),bd=document.querySelector('.sidebar-backdrop');if(sb)sb.classList.add('open');if(bd)bd.classList.add('show')}function closeMobileMenu(){var sb=document.querySelector('.sidebar'),bd=document.querySelector('.sidebar-backdrop');if(sb)sb.classList.remove('open');if(bd)bd.classList.remove('show')}function mobileTopbar(){return '<div class="mobile-topbar"><button class="mobile-menu-btn" onclick="openMobileMenu()">☰ Menu</button><div class="mobile-brand">IMPROTECH TRAINING CENTER</div></div><div class="sidebar-backdrop" onclick="closeMobileMenu()"></div>'}
 function normalizeProfile(p){p.type=p.type||(p.role==='partner'?'school':'agent');p.role=p.role||(p.type==='agent'?'agent':'partner');p.status=p.status||'active';return p}
 
-function getProfiles(){
-  return db.collection('agents').get().then(function(s){
+
+
+
+// CORE FIRESTORE HELPERS - DO NOT REMOVE
+function safeGetDocs(collectionName){
+  return db.collection(collectionName).get().then(function(s){
     return s.docs.map(function(d){
       return Object.assign({id:d.id}, d.data());
     });
+  }).catch(function(err){
+    console.warn('Could not load '+collectionName, err);
+    return [];
   });
+}
+
+function getProfiles(){
+  return safeGetDocs('agents');
+}
+
+function getSalesUsers(){
+  return getProfiles().then(function(users){
+    return users.filter(function(u){ return u.role === 'sales'; });
+  });
+}
+
+function getClasses(){
+  return safeGetDocs('classes');
+}
+
+function getPartnerContracts(){
+  return safeGetDocs('partnerContracts');
+}
+
+function createClass(data){
+  return db.collection('classes').add(Object.assign({}, data, {
+    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+  }));
+}
+
+function createPartnerContract(data){
+  return db.collection('partnerContracts').add(Object.assign({}, data, {
+    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+  }));
+}
+
+function showModuleError(area,title,err){
+  console.error(title, err);
+  area.innerHTML =
+    '<div class="ph"><div><h1>'+title+'</h1><p>This module could not load.</p></div></div>'+
+    '<div class="card"><div class="alert alert-err"><strong>Error:</strong> '+(err && err.message ? err.message : err)+'</div>'+
+    '<p class="muted sm">Check Firestore rules, collection names, and browser console.</p></div>';
 }
 
 function getEnrollments(refId){
