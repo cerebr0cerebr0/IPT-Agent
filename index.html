@@ -332,6 +332,37 @@ function saveSalesUser(pwd){
 
 
 
+
+function conversionRate(part,total){
+  if(!total) return '0%';
+  return Math.round((Number(part||0)/Number(total||1))*100) + '%';
+}
+
+function analyticsBy(rows,keyFn){
+  var map={};
+  (rows||[]).forEach(function(e){
+    var k=keyFn(e) || 'Unknown';
+    if(!map[k]) map[k]={name:k,total:0,paid:0,enrolled:0,lost:0,revenue:0};
+    map[k].total++;
+    if(e.leadStatus==='paid'){
+      map[k].paid++;
+      map[k].revenue += Number(e.amountPaid || e.paymentAmount || 0);
+    }
+    if(e.leadStatus==='enrolled' || e.leadStatus==='paid' || e.status==='confirmed'){
+      map[k].enrolled++;
+    }
+    if(e.leadStatus==='lost' || e.status==='cancelled'){
+      map[k].lost++;
+    }
+  });
+  return Object.values(map).sort(function(a,b){return b.total-a.total;});
+}
+
+function sumCommission(rows,status){
+  return (rows||[]).filter(function(e){return !status || e.commissionStatus===status;})
+    .reduce(function(a,e){return a + Number(e.commissionAmount || 0);},0);
+}
+
 function adminAnalytics(area){
   Promise.all([getEnrollments(),getProfiles()]).then(function(res){
     var rows=res[0], profiles=res[1];
