@@ -194,6 +194,20 @@ function adminLeads(area){
 }
 
 function renderLeadFilters(rows){var programs=Array.from(new Set(rows.map(function(e){return e.programId}).filter(Boolean))),sources=Array.from(new Set(rows.map(function(e){return e.sourceType}).filter(Boolean)));return '<div class="card"><div class="filters"><div class="fg"><label>Stage</label><select onchange="S.leadFilter.stage=this.value;adminLeads($(\'main\'))"><option value="all">All</option>'+LEAD_STAGES.map(function(s){return'<option '+(S.leadFilter.stage===s?'selected':'')+' value="'+s+'">'+STAGE_LABEL[s]+'</option>'}).join('')+'</select></div><div class="fg"><label>Source</label><select onchange="S.leadFilter.source=this.value;adminLeads($(\'main\'))"><option value="all">All</option>'+sources.map(function(s){return'<option '+(S.leadFilter.source===s?'selected':'')+' value="'+s+'">'+s+'</option>'}).join('')+'</select></div><div class="fg"><label>Program</label><select onchange="S.leadFilter.program=this.value;adminLeads($(\'main\'))"><option value="all">All</option>'+programs.map(function(p){return'<option '+(S.leadFilter.program===p?'selected':'')+' value="'+p+'">'+progName(p)+'</option>'}).join('')+'</select></div><div class="fg"><label>Search</label><input value="'+(S.leadFilter.search||'')+'" oninput="S.leadFilter.search=this.value;adminLeads($(\'main\'))" placeholder="Name, email, phone…"></div></div></div>'}function filterLeads(rows){var f=S.leadFilter||{},q=(f.search||'').toLowerCase();return rows.filter(function(e){if(f.stage&&f.stage!=='all'&&e.leadStatus!==f.stage)return false;if(f.source&&f.source!=='all'&&e.sourceType!==f.source)return false;if(f.program&&f.program!=='all'&&e.programId!==f.program)return false;if(q&&!((e.studentName||'').toLowerCase().includes(q)||(e.studentEmail||'').toLowerCase().includes(q)||(e.studentPhone||'').toLowerCase().includes(q)))return false;return true})}
+
+function normalizePhoneForWhatsApp(phone){
+  return String(phone || '').replace(/[^0-9]/g,'');
+}
+
+function whatsappLeadUrl(lead){
+  var phone = normalizePhoneForWhatsApp(lead && lead.studentPhone);
+  var program = (lead && (lead.programName || progName(lead.programId))) || 'our program';
+  var name = (lead && lead.studentName) || '';
+  var msg = 'Hello ' + name + ', this is IMPROTECH Training Center. Thank you for your interest in ' + program + '. When are you available for a quick call?';
+  if(!phone) return '#';
+  return 'https://wa.me/' + phone + '?text=' + encodeURIComponent(msg);
+}
+
 function leadTable(rows,adminMode){return '<div class="card"><div class="card-ttl">Enrollment list <span class="muted sm">'+rows.length+' record(s)</span></div><div class="tw">'+(rows.length?'<table><thead><tr><th>Student</th><th>Program</th><th>Source</th><th>Assigned</th><th>Class</th><th>Stage</th><th>Follow-up</th><th>Date</th><th>Actions</th></tr></thead><tbody>'+rows.map(function(e){return'<tr><td class="td-name"><strong>'+e.studentName+'</strong><span>'+e.studentEmail+' · '+(e.studentPhone||'')+'</span></td><td>'+progName(e.programId)+'</td><td>'+badge(e.sourceType)+'<br><span class="xs muted">'+(e.sourceName||'Direct')+'</span></td><td>'+(e.assignedName||'<span class="muted">—</span>')+'</td><td>'+(e.className||'<span class="muted">—</span>')+'</td><td>'+badge(e.leadStatus)+'</td><td>'+(e.nextFollowUpDate||'—')+'</td><td>'+fmt(e.timestamp)+'</td><td><button class="btn btn-outline btn-sm" onclick="openLeadModal(\''+e.id+'\')">Manage</button><button class="btn btn-danger btn-sm" onclick="deleteEnrollment(\''+e.id+'\')">Delete</button><a class="btn btn-outline btn-sm" target="_blank" href="'+whatsappLeadUrl(e)+'">WhatsApp</a></td></tr>'}).join('')+'</tbody></table>':'<div class="empty">No leads found.</div>')+'</div></div>'}
 function openLeadModal(id){
   var e=(window._allLeads||window._partnerLeads||[]).find(function(x){return x.id===id});
