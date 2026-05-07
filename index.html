@@ -39,7 +39,19 @@ function $(id){return document.getElementById(id)}function el(){return $('app')}
 function genCode(type){var pref={agent:'AGT',school:'SCH',company:'COM',influencer:'INF'}[type||'agent']||'REF',c='ABCDEFGHJKLMNPQRSTUVWXYZ23456789',r=pref+'-';for(var i=0;i<5;i++)r+=c[Math.floor(Math.random()*c.length)];return r}function referralUrl(code){return location.origin+location.pathname+'?ref='+encodeURIComponent(code)}
 function badge(v){v=v||'none';var cls='b-'+v,label=STAGE_LABEL[v]||({pending:'Pending',confirmed:'Confirmed',cancelled:'Cancelled',active:'Active',suspended:'Suspended',paid:'Paid',due:'Due',none:'—',direct:'Direct',agent:'Agent',school:'School',company:'Company',influencer:'Influencer',link:'Link',qr:'QR'}[v]||v);return'<span class="bdg '+cls+'">'+label+'</span>'}function money(v){return 'GHS '+(Number(v||0)).toLocaleString()}
 function openMobileMenu(){var sb=document.querySelector('.sidebar'),bd=document.querySelector('.sidebar-backdrop');if(sb)sb.classList.add('open');if(bd)bd.classList.add('show')}function closeMobileMenu(){var sb=document.querySelector('.sidebar'),bd=document.querySelector('.sidebar-backdrop');if(sb)sb.classList.remove('open');if(bd)bd.classList.remove('show')}function mobileTopbar(){return '<div class="mobile-topbar"><button class="mobile-menu-btn" onclick="openMobileMenu()">☰ Menu</button><div class="mobile-brand">IMPROTECH</div></div><div class="sidebar-backdrop" onclick="closeMobileMenu()"></div>'}
-function normalizeProfile(p){p.type=p.type||(p.role==='partner'?'school':'agent');p.role=p.role||(p.type==='agent'?'agent':'partner');p.status=p.status||'active';return p}function normalizeEnrollment(e){
+function normalizeProfile(p){p.type=p.type||(p.role==='partner'?'school':'agent');p.role=p.role||(p.type==='agent'?'agent':'partner');p.status=p.status||'active';return p}
+function getEnrollments(refId){
+  return db.collection('enrollments').orderBy('timestamp','desc').get().then(function(s){
+    var all=s.docs.map(function(d){return normalizeEnrollment(Object.assign({id:d.id},d.data()));});
+    if(!refId)return all;
+    return all.filter(function(e){
+      return e.sourceId===refId || e.refId===refId || e.agentId===refId || 
+             (S.profile && (e.sourceCode===S.profile.code || e.refCode===S.profile.code || e.agentCode===S.profile.code));
+    });
+  });
+}
+
+function normalizeEnrollment(e){
   e.leadStatus=e.leadStatus || (e.status==='confirmed'?'enrolled':(e.status==='cancelled'?'lost':'new'));
   e.sourceType=e.sourceType || e.refType || (e.agentId?'agent':'direct');
   e.sourceId=e.sourceId || e.refId || e.agentId || null;
